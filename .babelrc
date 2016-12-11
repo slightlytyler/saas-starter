@@ -1,0 +1,21 @@
+{
+  "presets": [
+    [
+      "es2015",
+      { "modules": false }
+    ],
+    "stage-0",
+    "react"    
+  ],
+  "plugins": ["code-split-component/babel"],
+  "env": {
+    "development": {
+      "plugins": [  
+        [
+          "code-split-component/babel", 
+          { "disabled": true }
+        ]
+      ]
+    }
+  }
+}
