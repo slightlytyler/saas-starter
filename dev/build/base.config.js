@@ -1,7 +1,6 @@
 var path = require('path');
 var webpack = require('webpack');
 var HtmlWebpackPlugin = require('html-webpack-plugin');
-var CodeSplitWebpackPlugin = require('code-split-component/webpack');
 
 var __root = path.join(__dirname, '../../');
 var __dev = path.join(__root, 'dev');
@@ -11,14 +10,14 @@ var __src = path.join(__root, 'src');
 module.exports = {
   entry: {
     vendor: [
+      'code-split-component',
+      'lodash',
       'react', 
       'react-dom',
-      'redux', 
       'react-redux', 
       'react-router',
-      'code-split-component',
+      'redux'
     ],
-    main: path.join(__src, 'main.js'),
   },
   output: {
     filename: '[name].bundle.js',
@@ -46,6 +45,7 @@ module.exports = {
   resolve: {
     alias: {
       common: path.join(__src, 'common'),
+      modules: path.join(__src, 'modules'),
     },
   },
 };

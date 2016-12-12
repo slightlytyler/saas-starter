@@ -2,19 +2,23 @@
   "presets": [
     [
       "es2015",
-      { "modules": false }
+      { 
+        "loose": true,
+        "modules": false 
+      }
     ],
     "stage-0",
     "react"    
   ],
-  "plugins": ["code-split-component/babel"],
   "env": {
     "development": {
       "plugins": [  
-        [
-          "code-split-component/babel", 
-          { "disabled": true }
-        ]
+        "react-hot-loader/babel"
+      ]
+    },
+    "production": {
+      "plugins": [  
+        "code-split-component/babel"
       ]
     }
   }
