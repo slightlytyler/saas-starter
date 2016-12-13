@@ -36,9 +36,17 @@ export const baseConfig = {
   module: {
     loaders: [
       {
+        enforce: 'pre',
         test: /\.js$/,
-        exclude: /node_modules/,
+        loader: 'eslint-loader',
+        query: {
+          configFile: path.join(__dev, 'lint/dev.rc'),
+        },
+      },
+      {
+        test: /\.js$/,
         loader: 'babel-loader',
+        exclude: /node_modules/,
       },
     ],
   },

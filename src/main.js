@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { compose } from 'lodash/fp';
-import { applyMiddleware, createStore } from 'redux'
+import { applyMiddleware, createStore } from 'redux';
 import { AppContainer } from 'react-hot-loader';
 import reducer from './reducer';
 import Root from './Root';
@@ -19,11 +19,12 @@ ReactDOM.render(
       <Root store={store} />
     </AppContainer>
   ),
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 if (module.hot) {
   module.hot.accept('./Root', () => {
+    // eslint-disable-next-line global-require
     const HotRoot = require('./Root').default;
 
     ReactDOM.render(
@@ -32,7 +33,7 @@ if (module.hot) {
           <HotRoot store={store} />
         </AppContainer>
       ),
-      document.getElementById('root')
+      document.getElementById('root'),
     );
   });
 }

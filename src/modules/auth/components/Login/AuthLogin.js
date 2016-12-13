@@ -1,23 +1,25 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 import { compose, get, reduce } from 'lodash/fp';
+import { connect } from 'react-redux';
+import { login } from 'modules/auth/actions';
 
 const getFormValue = compose(
   reduce(
-    (acc, el) => el.name ? { ...acc, [el.name]: el.value } : acc,
+    (acc, el) => (el.name ? { ...acc, [el.name]: el.value } : acc),
     {},
   ),
-  get('elements')
+  get('elements'),
 );
 
 const handleSubmit = action => e => {
   e.preventDefault();
-  compose(action, getFormValue)(e.target);
+  return compose(action, getFormValue)(e.target);
 };
 
-export const AuthLogin = ({ login }) => (
+export const AuthLogin = props => (
   <div>
     <header>Login</header>
-    <form onSubmit={handleSubmit(login)}>
+    <form onSubmit={handleSubmit(props.login)}>
       <label htmlFor="username">Username</label>
       <input name="username" />
       <label htmlFor="password">Password</label>
@@ -27,10 +29,11 @@ export const AuthLogin = ({ login }) => (
   </div>
 );
 
-import { connect } from 'react-redux';
-import { login } from 'modules/auth/actions';
+AuthLogin.propTypes = {
+  login: PropTypes.func.isRequired,
+};
 
 export default connect(
   null,
-  { login }
+  { login },
 )(AuthLogin);

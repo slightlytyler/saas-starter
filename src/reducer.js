@@ -1,22 +1,20 @@
-import { set } from 'lodash';
-import { compose, get, has } from 'lodash/fp';
-import { combineReducers } from 'redux'
+import { compose } from 'lodash/fp';
+import { combineReducers } from 'redux';
 
-export const makeRootReducer = asyncReducers => combineReducers({
+const asyncReducers = {};
+
+export const makeRootReducer = () => combineReducers({
   test: () => ({}),
-  ...asyncReducers
+  ...asyncReducers,
 });
 
 const applyAsyncReducers = store => compose(
-  store.replaceReducer, 
-  makeRootReducer, 
-  get('asyncReducers')
-)(store);
+  store.replaceReducer,
+  makeRootReducer,
+)();
 
 export const injectReducer = (store, { key, reducer }) => {
-  const path = ['asyncReducers', key];
-  if (has(path, store)) return;
-  set(store, path, reducer);
+  asyncReducers[key] = reducer;
   applyAsyncReducers(store);
 };
 
