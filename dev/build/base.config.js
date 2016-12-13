@@ -1,13 +1,13 @@
-var path = require('path');
-var webpack = require('webpack');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+import path from 'path';
+import webpack from 'webpack';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 
-var __root = path.join(__dirname, '../../');
-var __dev = path.join(__root, 'dev');
-var __dist = path.join(__root, 'dist');
-var __src = path.join(__root, 'src');
+const __root = path.join(__dirname, '../../');
+const __dev = path.join(__root, 'dev');
+const __dist = path.join(__root, 'dist');
+const __src = path.join(__root, 'src');
 
-module.exports = {
+export const baseConfig = {
   entry: {
     vendor: [
       'code-split-component',
@@ -27,7 +27,7 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor' }),
-  	new HtmlWebpackPlugin({
+    new HtmlWebpackPlugin({
       template: path.join(__src, 'index.html'),
       filename: 'index.html',
       inject: 'body',
@@ -49,3 +49,11 @@ module.exports = {
     },
   },
 };
+
+export const createConfig = selector => selector({ 
+  __root,
+  __dev,
+  __dist,
+  __src,
+  baseConfig,
+});

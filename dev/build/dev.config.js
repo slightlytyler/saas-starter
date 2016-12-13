@@ -1,21 +1,20 @@
-var path = require('path');
-var webpack = require('webpack');
-var baseConfig = require('./base.config');
-
-var __root = path.join(__dirname, '../../');
-var __src = path.join(__root, 'src');
+import path from 'path';
+import webpack from 'webpack';
+import { createConfig } from './base.config';
 
 const port = 3000;
 
-module.exports = Object.assign({}, baseConfig, {
-  entry: Object.assign({}, baseConfig.entry, {
+export default createConfig(({ __src, baseConfig }) => ({
+  ...baseConfig,
+  entry: {
+    ...baseConfig.entry,
     main: [
       `webpack-dev-server/client?http://localhost:${port}`,
       'webpack/hot/only-dev-server',
       'react-hot-loader/patch',
       path.join(__src, 'main.js'),
     ],
-  }),
+  },
   devtool: 'source-map',
   devServer: {
     historyApiFallback: true,
@@ -34,8 +33,9 @@ module.exports = Object.assign({}, baseConfig, {
       chunkModules: false,
     },
   },
-  plugins: [].concat(baseConfig.plugins, [
+  plugins: [
+    ...baseConfig.plugins,
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
-  ]),
-});
+  ],
+}))
