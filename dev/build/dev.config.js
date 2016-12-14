@@ -15,7 +15,7 @@ export default createConfig(({ __src, baseConfig }) => ({
       path.join(__src, 'main.js'),
     ],
   },
-  devtool: 'source-map',
+  devtool: 'eval',
   devServer: {
     historyApiFallback: true,
     hot: true,
