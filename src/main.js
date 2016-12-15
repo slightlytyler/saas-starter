@@ -1,17 +1,24 @@
+import 'regenerator-runtime/runtime';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { compose } from 'lodash/fp';
 import { applyMiddleware, createStore } from 'redux';
+import createSagaMiddleware from 'redux-saga';
 import { AppContainer } from 'react-hot-loader';
+import goalsSagas from 'modules/goals/sagas';
 import reducer from './reducer';
 import Root from './Root';
 
-const middleware = applyMiddleware();
+const sagaMiddleware = createSagaMiddleware();
+
+const middleware = applyMiddleware(sagaMiddleware);
 
 const store = compose(
   middleware,
   window.devToolsExtension ? window.devToolsExtension() : f => f,
 )(createStore)(reducer);
+
+sagaMiddleware.run(goalsSagas);
 
 ReactDOM.render(
   (

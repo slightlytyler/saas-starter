@@ -2,22 +2,25 @@
   "presets": [
     [
       "es2015",
-      { 
+      {
         "loose": true,
-        "modules": false 
+        "modules": false
       }
     ],
     "stage-0",
-    "react"    
+    "react"
+  ],
+  "plugins": [
+    "transform-regenerator"
   ],
   "env": {
     "development": {
-      "plugins": [  
+      "plugins": [
         "react-hot-loader/babel"
       ]
     },
     "production": {
-      "plugins": [  
+      "plugins": [
         "code-split-component/babel"
       ]
     }

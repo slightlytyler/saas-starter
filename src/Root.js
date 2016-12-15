@@ -13,7 +13,7 @@ const Root = ({ store }) => (
             <li><Link to="/">Index</Link></li>
             <li><Link to="/auth/login">Login</Link></li>
             <li><Link to="/auth/sign-up">Sign Up</Link></li>
-            <li><Link to="/home">Home</Link></li>
+            <li><Link to="/goals">Goals</Link></li>
           </ul>
           <hr />
           <Match
@@ -36,14 +36,21 @@ const Root = ({ store }) => (
             )}
           />
           <Match
-            pattern="/home"
+            pattern="/goals"
             render={() => (
               <CodeSplit
-                chunkName="Home"
-                // eslint-disable-next-line global-require
-                modules={{ Home: require('./modules/home/components/Root') }}
+                chunkName="goals"
+                modules={{
+                  // eslint-disable-next-line global-require
+                  GoalsRoot: require('./modules/goals/components/Root'),
+                  // eslint-disable-next-line global-require
+                  goalsReducer: require('./modules/goals/reducer'),
+                }}
               >
-                {({ Home }) => Home && <Home />}
+                {({ GoalsRoot, goalsReducer }) => {
+                  if (goalsReducer) injectReducer(store, { key: 'goals', reducer: goalsReducer });
+                  return GoalsRoot && <GoalsRoot />;
+                }}
               </CodeSplit>
             )}
           />

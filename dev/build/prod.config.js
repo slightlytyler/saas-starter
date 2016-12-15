@@ -5,7 +5,10 @@ import { createConfig } from './base.config';
 export default createConfig(({ __src, baseConfig }) => ({
   entry: {
     ...baseConfig.entry,
-    main: path.join(__src, 'main.js'),
+    main: [
+      'whatwg-fetch',
+      path.join(__src, 'main.js'),
+    ],
   },
   plugins: [
     ...baseConfig.plugins,
