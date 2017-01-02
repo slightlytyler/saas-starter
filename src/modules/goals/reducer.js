@@ -14,16 +14,29 @@ const collectionKey = params => qs.stringify(params) || 'root';
 
 const collections = (state = {}, { type, payload }) => {
   switch (type) {
-    case actions.fetchCollection.types.INITIATED:
+    case actions.fetchCollection.types.INITIATED: {
+      const key = collectionKey(payload.params);
+
+      if (!state[key]) {
+        return {
+          ...state,
+          [key]: {
+            ids: [],
+            loading: true,
+            params: payload.params,
+            timestamp: new Date().toString(),
+          },
+        };
+      }
       return {
         ...state,
-        [collectionKey(payload.params)]: {
-          ids: [],
+        [key]: {
+          ...state[key],
           loading: true,
-          params: payload.params,
           timestamp: new Date().toString(),
         },
       };
+    }
 
     case actions.fetchCollection.types.SUCCEEDED:
       return {

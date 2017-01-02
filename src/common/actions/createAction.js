@@ -44,8 +44,8 @@ export default curry((namespace, { type, creator: creatorSelector }) => {
     const cancel = cancelSelector(types.CANCELLED);
 
     // eslint-disable-next-line no-inner-declarations
-    function action(data) {
-      return initiate(data);
+    function action(...args) {
+      return initiate(...args);
     }
 
     action.succeed = succeed;

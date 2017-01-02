@@ -12,9 +12,9 @@ export const baseConfig = {
     vendor: [
       'code-split-component',
       'lodash',
-      'react', 
+      'react',
       'react-dom',
-      'react-redux', 
+      'react-redux',
       'react-router',
       'redux'
     ],
@@ -54,11 +54,12 @@ export const baseConfig = {
     alias: {
       common: path.join(__src, 'common'),
       modules: path.join(__src, 'modules'),
+      src: path.join(__src),
     },
   },
 };
 
-export const createConfig = selector => selector({ 
+export const createConfig = selector => selector({
   __root,
   __dev,
   __dist,

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import { compose, get, has, size } from 'lodash/fp';
 import { connect } from 'react-redux';
 import qs from 'qs';
 import { fetchCollection } from 'modules/goals/actions';
@@ -20,10 +21,16 @@ export class GoalsCollectionFetcher extends Component {
   }
 
   render() {
-    if (!this.props.goalsCollection || this.props.goalsCollection.loading) {
+    const hasGoalsCollection = has('goalsCollection', this.props);
+    const hasGoalsItems = compose(size, get('goalsCollection.ids'))(this.props);
+    const isLoadingGoalsCollection = !hasGoalsItems && get('goalsCollection.loading', this.props);
+    if (!hasGoalsCollection || isLoadingGoalsCollection) {
       return <div>Loading...</div>;
     }
-    return this.props.children({ goalsCollection: this.props.goalsCollection });
+    return this.props.children({
+      fetchCollection: this.props.fetchCollection,
+      goalsCollection: this.props.goalsCollection,
+    });
   }
 }
 

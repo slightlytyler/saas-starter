@@ -1,33 +1,17 @@
-import path from 'path';
 import { compose } from 'lodash/fp';
 import { takeLatest } from 'redux-saga';
-import { put } from 'redux-saga/effects';
-import qs from 'qs';
+import { call, put } from 'redux-saga/effects';
+import { rest } from 'src/http';
 import * as actions from './actions';
 
-const scheme = 'https';
-
-const host = 'dacdobzxf3.execute-api.us-west-2.amazonaws.com';
-
-const basePath = 'dev';
-
-const createUrl = (pathname, params) => {
-  const url = `${scheme}://${path.join(host, basePath, pathname)}`;
-  if (params) return `${url}?${qs.stringify(params)}`;
-  return url;
-};
-
-export function* createRecord({ payload }) {
+export function* createRecord({ meta, payload }) {
   try {
-    const response = yield fetch(createUrl('/goals', payload.params), {
-      method: 'post',
-      headers: new Headers({
-        'Content-Type': 'application/json',
-      }),
-      body: JSON.stringify(payload),
+    const { body } = yield rest.post({
+      body: payload,
+      endpoint: '/goals',
     });
-    const body = yield response.json();
     yield compose(put, actions.createRecord.succeed)(body);
+    yield call(meta.callback);
   } catch (e) {
     yield compose(put, actions.createRecord.fail)(e.toString());
   }
@@ -35,8 +19,11 @@ export function* createRecord({ payload }) {
 
 export function* fetchCollection({ payload }) {
   try {
-    const response = yield fetch(createUrl('/goals', payload.params));
-    const body = yield response.json();
+    const response = yield rest.get({
+      endpoint: '/goals',
+      params: payload.params,
+    });
+    const { body } = response;
     yield compose(put, actions.fetchCollection.succeed)({
       ...body,
       params: payload.params,

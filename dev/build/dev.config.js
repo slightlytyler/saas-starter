@@ -12,7 +12,6 @@ export default createConfig(({ __src, baseConfig }) => ({
       `webpack-dev-server/client?http://localhost:${port}`,
       'webpack/hot/only-dev-server',
       'react-hot-loader/patch',
-      'whatwg-fetch',
       path.join(__src, 'main.js'),
     ],
   },

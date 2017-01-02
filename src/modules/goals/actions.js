@@ -6,9 +6,10 @@ const createAction = _createAction('goals');
 export const createRecord = createAction({
   type: 'CREATE_RECORD',
   creator: {
-    initiate: type => data => ({
+    initiate: type => (data, callback) => ({
       type,
       payload: data,
+      meta: { callback },
     }),
     succeed: type => data => ({
       type,
@@ -28,11 +29,12 @@ export const createRecord = createAction({
 export const fetchCollection = createAction({
   type: 'FETCH_COLLECTION',
   creator: {
-    initiate: type => data => ({
+    initiate: type => (data, callback) => ({
       type,
       payload: {
         params: get('params', data) || {},
       },
+      meta: { callback },
     }),
     succeed: type => data => ({
       type,

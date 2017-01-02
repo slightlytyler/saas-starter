@@ -5,9 +5,13 @@ import CollectionViewer from '../CollectionViewer';
 
 export const GoalsRoot = () => (
   <div>
-    <GoalsRecordCreator />
     <CollectionFetcher>
-      {({ goalsCollection }) => <CollectionViewer goalsCollection={goalsCollection} />}
+      {({ fetchCollection, goalsCollection }) => (
+        <div>
+          <GoalsRecordCreator onCreate={fetchCollection} />
+          <CollectionViewer goalsCollection={goalsCollection} />
+        </div>
+      )}
     </CollectionFetcher>
   </div>
 );
