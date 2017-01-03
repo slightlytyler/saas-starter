@@ -1,5 +1,5 @@
 {
-  "name": "advance",
+  "name": "advance-client",
   "version": "0.0.1",
   "description": "A toolset for building service oriented JavaScript applications with React, Redux, and AWS.",
   "main": "index.js",
@@ -10,6 +10,10 @@
   },
   "author": "Tyler Martinez",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:slightlytyler/advance-client.git"
+  },
   "dependencies": {
     "code-split-component": "^2.0.0-alpha.4",
     "lodash": "^4.17.2",
@@ -44,6 +48,7 @@
     "redux-saga": "^0.13.0",
     "serialize-javascript": "^1.3.0",
     "webpack": "^2.1.0-beta.27",
-    "webpack-dev-server": "^2.1.0-beta.12"
+    "webpack-dev-server": "^2.1.0-beta.12",
+    "yargs": "^6.6.0"
   }
 }

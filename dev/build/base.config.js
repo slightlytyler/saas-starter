@@ -1,11 +1,22 @@
 import path from 'path';
 import webpack from 'webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
+import yargs from 'yargs';
 
 const __root = path.join(__dirname, '../../');
 const __dev = path.join(__root, 'dev');
 const __dist = path.join(__root, 'dist');
 const __src = path.join(__root, 'src');
+
+const env = process.env.NODE_ENV || 'development';
+const globals = {
+  __NODE_ENV__: JSON.stringify(env),
+  __DEV__: env === 'development',
+  __PROD__: env === 'production',
+  __TEST__: env === 'test',
+  __DEBUG__: env === 'development' && !yargs.argv.no_debug,
+  __BASENAME__: JSON.stringify(process.env.BASENAME || ''),
+};
 
 export const baseConfig = {
   entry: {
@@ -26,6 +37,7 @@ export const baseConfig = {
     publicPath: '/',
   },
   plugins: [
+    new webpack.DefinePlugin(globals),
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor' }),
     new HtmlWebpackPlugin({
       template: path.join(__src, 'index.html'),
