@@ -8,10 +8,11 @@ const __dev = path.join(__root, 'dev');
 const __dist = path.join(__root, 'dist');
 const __src = path.join(__root, 'src');
 
-const env = process.env.NODE_ENV || 'development';
+const env = process.env.NODE_ENV || 'development_local';
 const globals = {
   __NODE_ENV__: JSON.stringify(env),
-  __DEV__: env === 'development',
+  __LOCAL_DEV__: env === 'development_local',
+  __REMOTE_DEV__: env === 'development_remote',
   __PROD__: env === 'production',
   __TEST__: env === 'test',
   __DEBUG__: env === 'development' && !yargs.argv.no_debug,
@@ -27,7 +28,7 @@ export const baseConfig = {
       'react-dom',
       'react-redux',
       'react-router',
-      'redux'
+      'redux',
     ],
   },
   output: {

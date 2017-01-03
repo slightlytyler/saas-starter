@@ -6,6 +6,7 @@
   "scripts": {
     "build": "babel-node --presets es2015 $(npm bin)/webpack --config dev/build/prod.config.js",
     "dev": "babel-node --presets es2015 $(npm bin)/webpack-dev-server --config dev/build/dev.config.js",
+    "dev:remote": "NODE_ENV=development_remote npm run dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Tyler Martinez",
