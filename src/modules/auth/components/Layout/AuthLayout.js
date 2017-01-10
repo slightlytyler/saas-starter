@@ -2,7 +2,7 @@ import logo from 'assets/images/logo.png';
 import SmallContainer from 'components/layout/SmallContainer';
 import Panel from 'components/Panel';
 import React, { PropTypes } from 'react';
-import { Page, Box } from 'react-layout-components';
+import { Box } from 'react-layout-components';
 import { Link } from 'react-router';
 
 const renderAlternateMessage = message => {
@@ -15,7 +15,7 @@ const renderAlternateMessage = message => {
 };
 
 const AuthLayout = ({ alternateMessage, children, title }) => (
-  <Page className="AuthLayout">
+  <div className="AuthLayout">
     <Box center fit>
       <SmallContainer marginBottom="10%">
         <Box alignItems="center" column fit>
@@ -26,11 +26,13 @@ const AuthLayout = ({ alternateMessage, children, title }) => (
             <section className="AuthLayout__header__secondary">{title}</section>
           </header>
           <Panel>{children}</Panel>
-          {renderAlternateMessage(alternateMessage)}
+          <Box center>
+            {renderAlternateMessage(alternateMessage)}
+          </Box>
         </Box>
       </SmallContainer>
     </Box>
-  </Page>
+  </div>
 );
 
 AuthLayout.propTypes = {

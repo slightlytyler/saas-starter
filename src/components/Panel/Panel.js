@@ -3,7 +3,7 @@ import { Paper } from 'material-ui';
 import React, { PropTypes } from 'react';
 
 const Panel = ({ children, className }) => (
-  <Paper className={cx('panel', className)} zDepth={1}>
+  <Paper className={cx('Panel', className)} zDepth={1}>
     {children}
   </Paper>
 );

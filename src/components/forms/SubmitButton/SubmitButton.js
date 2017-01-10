@@ -1,8 +1,12 @@
-import React, { PropTypes } from 'react';
+import cx from 'classnames';
 import { RaisedButton } from 'material-ui';
+import React, { PropTypes } from 'react';
 
-const SubmitButton = ({ label }) => (
+const SubmitButton = ({ className, label, ...props }) => (
   <RaisedButton
+    {...props}
+    className={cx('SubmitButton', className)}
+    fullWidth
     label={label}
     primary
     type="submit"
@@ -10,7 +14,12 @@ const SubmitButton = ({ label }) => (
 );
 
 SubmitButton.propTypes = {
+  className: PropTypes.string,
   label: PropTypes.string.isRequired,
+};
+
+SubmitButton.defaultProps = {
+  className: undefined,
 };
 
 export default SubmitButton;

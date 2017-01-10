@@ -1,6 +1,8 @@
+import autoprefixer from 'autoprefixer';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import yargs from 'yargs';
 
 const __root = path.join(__dirname, '../../');
@@ -39,12 +41,28 @@ export const baseConfig = {
     publicPath: '/',
   },
   plugins: [
+    new webpack.LoaderOptionsPlugin({
+      options: {
+        eslint: {
+          configFile: path.join(__dev, 'lint/dev.rc'),
+        },
+        postcss: [
+          autoprefixer({
+            browsers: ['last 2 version'],
+          }),
+        ],
+      },
+    }),
     new webpack.DefinePlugin(globals),
     new webpack.optimize.CommonsChunkPlugin({ name: 'vendor' }),
     new HtmlWebpackPlugin({
       template: path.join(__src, 'index.html'),
       filename: 'index.html',
       inject: 'body',
+    }),
+    new ExtractTextPlugin({
+      filename: "[name].css",
+      allChunks: true,
     }),
   ],
   module: {
@@ -53,14 +71,18 @@ export const baseConfig = {
         enforce: 'pre',
         test: /\.js$/,
         loader: 'eslint-loader',
-        query: {
-          configFile: path.join(__dev, 'lint/dev.rc'),
-        },
       },
       {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
+      },
+      {
+        test: /\.styl$/,
+        loader: ExtractTextPlugin.extract({
+          fallbackLoader: 'style-loader',
+          loader: 'css-loader!postcss-loader!stylus-relative-loader?resolve url',
+        }),
       },
       {
         test: /\.jpg|\.png$/,
