@@ -72,10 +72,12 @@ export const baseConfig = {
   resolve: {
     alias: {
       assets: __assets,
+      colors: path.join(__src, 'styles/base/colors.js'),
       common: path.join(__src, 'common'),
       components: path.join(__src, 'components'),
       modules: path.join(__src, 'modules'),
       src: path.join(__src),
+      styles: path.join(__src, 'styles'),
     },
   },
 };

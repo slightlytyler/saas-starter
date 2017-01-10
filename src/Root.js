@@ -1,13 +1,14 @@
+import { CodeSplitProvider, CodeSplit } from 'code-split-component';
+import { MuiThemeProvider, getMuiTheme } from 'material-ui/styles';
 import React, { PropTypes } from 'react';
 import { Provider as StoreProvider } from 'react-redux';
 import { BrowserRouter, Match } from 'react-router';
-import { CodeSplitProvider, CodeSplit } from 'code-split-component';
-import { MuiThemeProvider } from 'material-ui/styles';
+import ibmTheme from 'styles/mui/theme';
 import { injectReducer } from './reducer';
 
 const Root = ({ store }) => (
   <StoreProvider store={store}>
-    <MuiThemeProvider>
+    <MuiThemeProvider muiTheme={getMuiTheme(ibmTheme)}>
       <CodeSplitProvider>
         <BrowserRouter>
           <Match
