@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import React, { PropTypes } from 'react';
-import Container from 'react-layout-components';
+import { Container } from 'react-layout-components';
 
 const SmallContainer = ({ children, className }) => (
   <Container

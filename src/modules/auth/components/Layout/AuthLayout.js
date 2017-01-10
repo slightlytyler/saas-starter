@@ -18,7 +18,7 @@ const AuthLayout = ({ alternateMessage, children, title }) => (
   <Page className="AuthLayout">
     <Box center fit>
       <SmallContainer marginBottom="10%">
-        <Box alignItems="center" fit vertical>
+        <Box alignItems="center" column fit>
           <header className="AuthLayout__header">
             <section className="AuthLayout__header__primary">
               <img alt="" className="AuthLayout__header__primary__logo" src={logo} />

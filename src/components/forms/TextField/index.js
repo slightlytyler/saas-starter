@@ -1,17 +1,26 @@
-import React, { PropTypes } from 'react';
+import getEventValue from 'common/events/getEventValue';
+import { compose, identity, isNull, memoize, omit } from 'lodash/fp';
 import { TextField as MaterialTextField } from 'material-ui';
+import React, { PropTypes } from 'react';
 
-const TextField = props => (
+const handleChange = memoize(fn => compose(fn, getEventValue));
+
+const TextField = ({ onChange, value, ...props }) => (
   <MaterialTextField
-    {...props}
-    onChange={e => props.onChange && props.onChange(e.target.value)}
-    value={props.value === null ? '' : props.value}
+    {...omit('meta', props)}
+    onChange={handleChange(onChange)}
+    value={isNull(value) ? '' : value}
   />
 );
 
 TextField.propTypes = {
-  onChange: PropTypes.func.isRequired,
-  value: PropTypes.string.isRequired,
+  onChange: PropTypes.func,
+  value: PropTypes.string,
+};
+
+TextField.defaultProps = {
+  onChange: identity,
+  value: null,
 };
 
 export default TextField;

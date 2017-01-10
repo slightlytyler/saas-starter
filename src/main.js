@@ -6,9 +6,12 @@ import { compose } from 'lodash/fp';
 import { applyMiddleware, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { AppContainer } from 'react-hot-loader';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import goalsSagas from 'modules/goals/sagas';
 import reducer from './reducer';
 import Root from './Root';
+
+injectTapEventPlugin();
 
 const sagaMiddleware = createSagaMiddleware();
 

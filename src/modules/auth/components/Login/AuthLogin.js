@@ -23,11 +23,7 @@ const AuthLogin = () => (
   >
     <ActionsProvider creators={{ login }}>
       {({ actions }) => (
-        <Form
-          fullWidth
-          onSubmit={actions.login}
-          schema={schema}
-        >
+        <Form onSubmit={actions.login} schema={schema}>
           <Field
             floatingLabelText="Username"
             fullWidth
