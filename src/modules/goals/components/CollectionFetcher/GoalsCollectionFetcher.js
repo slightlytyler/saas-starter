@@ -16,6 +16,10 @@ export class GoalsCollectionFetcher extends Component {
     }),
   };
 
+  static defaultProps = {
+    goalsCollection: undefined,
+  };
+
   componentWillMount() {
     this.props.fetchCollection();
   }

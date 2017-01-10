@@ -24,7 +24,7 @@ export const GoalsRecordCreator = props => (
 
 GoalsRecordCreator.propTypes = {
   createRecord: PropTypes.func.isRequired,
-  onCreate: PropTypes.func,
+  onCreate: PropTypes.func.isRequired,
 };
 
 export default connect(

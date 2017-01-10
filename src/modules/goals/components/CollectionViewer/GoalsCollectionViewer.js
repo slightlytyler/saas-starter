@@ -18,4 +18,8 @@ GoalsCollectionViewer.propTypes = {
   }),
 };
 
+GoalsCollectionViewer.defaultProps = {
+  goalsCollection: undefined,
+};
+
 export default GoalsCollectionViewer;

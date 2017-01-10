@@ -13,6 +13,10 @@ GoalsRecordViewer.propTypes = {
   }),
 };
 
+GoalsRecordViewer.defaultProps = {
+  goalsRecord: undefined,
+};
+
 const findRecord = (state, goalsId) => state.goals.records[goalsId];
 
 export default connect(
