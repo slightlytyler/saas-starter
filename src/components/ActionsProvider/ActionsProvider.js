@@ -1,6 +1,6 @@
+import connect from 'common/redux/connect';
 import { compose, mapValues } from 'lodash/fp';
 import { PropTypes } from 'react';
-import { connect } from 'react-redux';
 
 const ActionProvider = ({ actions, children }) => children({ actions });
 
@@ -12,9 +12,7 @@ ActionProvider.propTypes = {
 
 const container = connect(
   null,
-  (dispatch, { creators }) => () => ({
-    actions: mapValues(creator => compose(dispatch, creator), creators),
-  }),
+  (dispatch, { creators }) => () => mapValues(creator => compose(dispatch, creator), creators),
 );
 
 export { ActionProvider as Component, container };
