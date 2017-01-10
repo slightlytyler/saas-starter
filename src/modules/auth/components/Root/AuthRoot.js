@@ -17,7 +17,7 @@ const AuthRoot = ({ pathname }) => (
       )}
     />
     <Match
-      pattern={`${pathname}/sign-up`}
+      pattern={`${pathname}/sign-up/:token`}
       render={() => (
         <CodeSplit
           chunkName="AuthSignUp"
@@ -25,6 +25,30 @@ const AuthRoot = ({ pathname }) => (
           modules={{ SignUp: require('../SignUp') }}
         >
           {({ SignUp }) => SignUp && <SignUp />}
+        </CodeSplit>
+      )}
+    />
+    <Match
+      pattern={`${pathname}/reset-password`}
+      render={() => (
+        <CodeSplit
+          chunkName="AuthResetPassword"
+          // eslint-disable-next-line global-require
+          modules={{ ResetPassword: require('../ResetPassword') }}
+        >
+          {({ ResetPassword }) => ResetPassword && <ResetPassword />}
+        </CodeSplit>
+      )}
+    />
+    <Match
+      pattern={`${pathname}/change-password/:token`}
+      render={() => (
+        <CodeSplit
+          chunkName="AuthChangePassword"
+          // eslint-disable-next-line global-require
+          modules={{ ChangePassword: require('../ChangePassword') }}
+        >
+          {({ ChangePassword }) => ChangePassword && <ChangePassword />}
         </CodeSplit>
       )}
     />

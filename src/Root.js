@@ -1,21 +1,15 @@
 import React, { PropTypes } from 'react';
 import { Provider as StoreProvider } from 'react-redux';
-import { BrowserRouter, Link, Match } from 'react-router';
+import { BrowserRouter, Match } from 'react-router';
 import { CodeSplitProvider, CodeSplit } from 'code-split-component';
+import { MuiThemeProvider } from 'material-ui/styles';
 import { injectReducer } from './reducer';
 
 const Root = ({ store }) => (
   <StoreProvider store={store}>
-    <CodeSplitProvider>
-      <BrowserRouter>
-        <div>
-          <ul>
-            <li><Link to="/">Index</Link></li>
-            <li><Link to="/auth/login">Login</Link></li>
-            <li><Link to="/auth/sign-up">Sign Up</Link></li>
-            <li><Link to="/goals">Goals</Link></li>
-          </ul>
-          <hr />
+    <MuiThemeProvider>
+      <CodeSplitProvider>
+        <BrowserRouter>
           <Match
             pattern="/auth"
             render={({ pathname }) => (
@@ -35,28 +29,9 @@ const Root = ({ store }) => (
               </CodeSplit>
             )}
           />
-          <Match
-            pattern="/goals"
-            render={() => (
-              <CodeSplit
-                chunkName="goals"
-                modules={{
-                  // eslint-disable-next-line global-require
-                  GoalsRoot: require('./modules/goals/components/Root'),
-                  // eslint-disable-next-line global-require
-                  goalsReducer: require('./modules/goals/reducer'),
-                }}
-              >
-                {({ GoalsRoot, goalsReducer }) => {
-                  if (goalsReducer) injectReducer(store, { key: 'goals', reducer: goalsReducer });
-                  return GoalsRoot && <GoalsRoot />;
-                }}
-              </CodeSplit>
-            )}
-          />
-        </div>
-      </BrowserRouter>
-    </CodeSplitProvider>
+        </BrowserRouter>
+      </CodeSplitProvider>
+    </MuiThemeProvider>
   </StoreProvider>
 );
 

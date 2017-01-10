@@ -7,6 +7,7 @@ const __root = path.join(__dirname, '../../');
 const __dev = path.join(__root, 'dev');
 const __dist = path.join(__root, 'dist');
 const __src = path.join(__root, 'src');
+const __assets = path.join(__src, 'assets');
 
 const env = process.env.NODE_ENV || 'development_local';
 const globals = {
@@ -61,11 +62,18 @@ export const baseConfig = {
         loader: 'babel-loader',
         exclude: /node_modules/,
       },
+      {
+        test: /\.jpg|\.png$/,
+        loader: 'url-loader',
+        include: __assets,
+      },
     ],
   },
   resolve: {
     alias: {
+      assets: __assets,
       common: path.join(__src, 'common'),
+      components: path.join(__src, 'components'),
       modules: path.join(__src, 'modules'),
       src: path.join(__src),
     },

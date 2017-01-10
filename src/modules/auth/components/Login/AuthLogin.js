@@ -1,39 +1,49 @@
-import React, { PropTypes } from 'react';
-import { compose, get, reduce } from 'lodash/fp';
-import { connect } from 'react-redux';
+import React from 'react';
+import yup from 'yup';
+import ActionsProvider from 'components/ActionsProvider';
+import Form from 'components/forms/Form';
+import Field from 'components/forms/Field';
+import PasswordField from 'components/forms/PasswordField';
+import SubmitButton from 'components/forms/SubmitButton';
 import { login } from 'modules/auth/actions';
+import Layout from '../Layout';
 
-const getFormValue = compose(
-  reduce(
-    (acc, el) => (el.name ? { ...acc, [el.name]: el.value } : acc),
-    {},
-  ),
-  get('elements'),
+const schema = yup.object({
+  username: yup.string().required('is required'),
+  password: yup.string().required('is required'),
+});
+
+const AuthLogin = () => (
+  <Layout
+    alternateMessage={{
+      prompt: 'Forgot your password?',
+      transitionTo: 'reset-password',
+    }}
+    title="Login"
+  >
+    <ActionsProvider creators={{ login }}>
+      {({ actions }) => (
+        <Form
+          fullWidth
+          onSubmit={actions.login}
+          schema={schema}
+        >
+          <Field
+            floatingLabelText="Username"
+            fullWidth
+            name="username"
+          />
+          <Field
+            floatingLabelText="Password"
+            fullWidth
+            name="password"
+            type={PasswordField}
+          />
+          <SubmitButton label="Login" />
+        </Form>
+      )}
+    </ActionsProvider>
+  </Layout>
 );
 
-const handleSubmit = action => e => {
-  e.preventDefault();
-  return compose(action, getFormValue)(e.target);
-};
-
-export const AuthLogin = props => (
-  <div>
-    <header>Login</header>
-    <form onSubmit={handleSubmit(props.login)}>
-      <label htmlFor="username">Username</label>
-      <input name="username" />
-      <label htmlFor="password">Password</label>
-      <input name="password" type="password" />
-      <button type="submit">Submit</button>
-    </form>
-  </div>
-);
-
-AuthLogin.propTypes = {
-  login: PropTypes.func.isRequired,
-};
-
-export default connect(
-  null,
-  { login },
-)(AuthLogin);
+export default AuthLogin;
