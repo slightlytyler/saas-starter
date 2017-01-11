@@ -11,7 +11,13 @@
     "react"
   ],
   "plugins": [
-    "transform-regenerator"
+    [
+      "transform-runtime",
+      {
+        "polyfill": false,
+        "regenerator": true
+      }
+    ]
   ],
   "env": {
     "development": {

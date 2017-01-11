@@ -37,7 +37,6 @@ export const baseConfig = {
       'react-router',
       'react-tap-event-plugin',
       'redux',
-      'regenerator-runtime',
       'whatwg-fetch',
       'yup',
     ],

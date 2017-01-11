@@ -1,4 +1,3 @@
-import 'regenerator-runtime/runtime';
 import 'styles/index.styl';
 import 'whatwg-fetch';
 import { compose } from 'lodash/fp';
