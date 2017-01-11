@@ -19,6 +19,6 @@ export default createConfig(({ __src, baseConfig }) => ({
     new CodeSplitWebpackPlugin(),
   ],
   performance: {
-    hints: true,
+    hints: "warning",
   },
 }));

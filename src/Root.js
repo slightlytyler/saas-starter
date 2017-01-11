@@ -5,6 +5,7 @@ import { Provider as StoreProvider } from 'react-redux';
 import { BrowserRouter, Match } from 'react-router';
 import ibmTheme from 'styles/mui/theme';
 import { injectReducer } from './reducer';
+import { injectSaga } from './sagas';
 
 const Root = ({ store }) => (
   <StoreProvider store={store}>
@@ -21,10 +22,13 @@ const Root = ({ store }) => (
                   AuthRoot: require('./modules/auth/components/Root'),
                   // eslint-disable-next-line global-require
                   authReducer: require('./modules/auth/reducer'),
+                  // eslint-disable-next-line global-require
+                  authSagas: require('./modules/auth/sagas'),
                 }}
               >
-                {({ AuthRoot, authReducer }) => {
+                {({ AuthRoot, authReducer, authSagas }) => {
                   if (authReducer) injectReducer(store, { key: 'auth', reducer: authReducer });
+                  if (authSagas) injectSaga({ key: 'auth', sagas: authSagas });
                   return AuthRoot && <AuthRoot pathname={pathname} />;
                 }}
               </CodeSplit>

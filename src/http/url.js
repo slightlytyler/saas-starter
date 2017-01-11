@@ -1,4 +1,4 @@
 import path from 'path';
-import { BASE_PATH, HOST, SCHEME } from 'src/config';
+import { API_BASE_PATH, API_HOST, API_SCHEME } from 'src/config';
 
-export default endpoint => `${SCHEME}://${path.join(HOST, BASE_PATH, endpoint)}`;
+export default endpoint => `${API_SCHEME}://${path.join(API_HOST, API_BASE_PATH, endpoint)}`;

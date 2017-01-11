@@ -14,11 +14,10 @@ const __src = path.join(__root, 'src');
 const __assets = path.join(__src, 'assets');
 const __static = path.join(__src, 'static');
 
-const env = process.env.NODE_ENV || 'development_local';
+const env = process.env.NODE_ENV || 'development';
 const globals = {
   __NODE_ENV__: JSON.stringify(env),
-  __LOCAL_DEV__: env === 'development_local',
-  __REMOTE_DEV__: env === 'development_remote',
+  __DEV__: env === 'development',
   __PROD__: env === 'production',
   __TEST__: env === 'test',
   __DEBUG__: env === 'development' && !yargs.argv.no_debug,
@@ -40,6 +39,8 @@ export const baseConfig = {
       'react-router',
       'react-tap-event-plugin',
       'redux',
+      'redux-fractal',
+      'redux-saga',
       'whatwg-fetch',
       'yup',
     ],

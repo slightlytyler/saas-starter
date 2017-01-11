@@ -2,7 +2,7 @@ import { curry, isFunction, isObject } from 'lodash/fp';
 
 const namespaceType = (namespace, type) => `@@${namespace}/${type}`;
 
-const creatorTypeError = new TypeError(
+const typeError = new TypeError(
   '[ERROR] `createAction` requires that the argument `creator` be '
   + 'either a function for synchronous actions, or an object with keys '
   + '`initiate`, `succeed`, `fail`, and `cancel`.',
@@ -32,16 +32,16 @@ export default curry((namespace, { type, creator: creatorSelector }) => {
     } = creatorSelector;
 
     const types = {
-      INITIATED: namespaceType(namespace, `${type}/initiated`),
-      SUCCEEDED: namespaceType(namespace, `${type}/succeeded`),
-      FAILED: namespaceType(namespace, `${type}/failed`),
-      CANCELLED: namespaceType(namespace, `${type}/cancelled`),
+      initiate: namespaceType(namespace, `${type}/initiate`),
+      succeed: namespaceType(namespace, `${type}/succeed`),
+      fail: namespaceType(namespace, `${type}/fail`),
+      cancel: namespaceType(namespace, `${type}/cancel`),
     };
 
-    const initiate = initiateSelector(types.INITIATED);
-    const succeed = succeedSelector(types.SUCCEEDED);
-    const fail = failSelector(types.FAILED);
-    const cancel = cancelSelector(types.CANCELLED);
+    const initiate = initiateSelector(types.initiate);
+    const succeed = succeedSelector(types.succeed);
+    const fail = failSelector(types.fail);
+    const cancel = cancelSelector(types.cancel);
 
     // eslint-disable-next-line no-inner-declarations
     function action(...args) {
@@ -56,5 +56,5 @@ export default curry((namespace, { type, creator: creatorSelector }) => {
     return action;
   }
 
-  throw creatorTypeError;
+  throw typeError;
 });

@@ -1,4 +1,5 @@
-import { compose } from 'lodash/fp';
+import { compose, get as lodashGet } from 'lodash/fp';
+import { API_TOKEN_KEY } from 'src/config';
 import queryString from './queryString';
 import fetch from './fetch';
 import url from './url';
@@ -22,3 +23,5 @@ export const post = ({ body, endpoint }) => compose(
   }),
   url,
 )(endpoint);
+
+export const selectToken = lodashGet(API_TOKEN_KEY);

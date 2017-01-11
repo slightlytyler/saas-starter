@@ -35,7 +35,7 @@ export function* fetchCollection({ payload }) {
 
 export default function* sagas() {
   yield [
-    takeLatest(actions.createRecord.types.INITIATED, createRecord),
-    takeLatest(actions.fetchCollection.types.INITIATED, fetchCollection),
+    takeLatest(actions.createRecord.types.initiate, createRecord),
+    takeLatest(actions.fetchCollection.types.initiate, fetchCollection),
   ];
 }

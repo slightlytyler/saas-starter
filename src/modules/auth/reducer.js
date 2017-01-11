@@ -1,9 +1,15 @@
 import * as actions from './actions';
 
-export default (state = {}, { type }) => {
+const initialState = { token: null };
+
+export default (state = initialState, { type, payload }) => {
   switch (type) {
-    case actions.login.type:
-      return { ...state, token: 'some_token' };
+    case actions.login.types.succeed:
+    case actions.signUp.types.succeed:
+      return { token: payload.token };
+
+    case actions.logout.type:
+      return initialState;
 
     default:
       return state;
