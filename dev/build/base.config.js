@@ -3,6 +3,7 @@ import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
+import WebpackShellPlugin from 'webpack-shell-plugin';
 import yargs from 'yargs';
 
 const __root = path.join(__dirname, '../../');
@@ -49,7 +50,7 @@ export const baseConfig = {
     new webpack.LoaderOptionsPlugin({
       options: {
         eslint: {
-          configFile: path.join(__dev, 'lint/dev.rc'),
+          configFile: path.join(__dev, 'js-lint/dev.rc'),
         },
         postcss: [
           autoprefixer({
@@ -71,6 +72,11 @@ export const baseConfig = {
       filename: "[name].css",
       allChunks: true,
     }),
+    new WebpackShellPlugin({
+      onBuildExit: [
+        `stylint ${path.join(__src, 'styles')} --config ${path.join(__dev, 'styl-lint/dev.rc')}`,
+      ],
+    }),
   ],
   module: {
     loaders: [
@@ -78,6 +84,7 @@ export const baseConfig = {
         enforce: 'pre',
         test: /\.js$/,
         loader: 'eslint-loader',
+        exclude: /node_modules/,
       },
       {
         test: /\.js$/,
