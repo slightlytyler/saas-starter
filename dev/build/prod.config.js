@@ -10,8 +10,15 @@ export default createConfig(({ __src, baseConfig }) => ({
       path.join(__src, 'main.js'),
     ],
   },
+  output: {
+    ...baseConfig.output,
+    filename: '[chunkhash].[name].bundle.js',
+  },
   plugins: [
     ...baseConfig.plugins,
     new CodeSplitWebpackPlugin(),
   ],
+  performance: {
+    hints: true,
+  },
 }));

@@ -15,6 +15,10 @@ export default createConfig(({ __src, baseConfig }) => ({
       path.join(__src, 'main.js'),
     ],
   },
+  output: {
+    ...baseConfig.output,
+    filename: '[hash]-[id].[name].bundle.js',
+  },
   devtool: 'eval',
   devServer: {
     historyApiFallback: true,
@@ -38,4 +42,7 @@ export default createConfig(({ __src, baseConfig }) => ({
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
   ],
+  performance: {
+    hints: false,
+  },
 }))
