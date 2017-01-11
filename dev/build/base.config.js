@@ -1,4 +1,5 @@
 import autoprefixer from 'autoprefixer';
+import CopyWebpackPlugin from 'copy-webpack-plugin';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
@@ -11,6 +12,7 @@ const __dev = path.join(__root, 'dev');
 const __dist = path.join(__root, 'dist');
 const __src = path.join(__root, 'src');
 const __assets = path.join(__src, 'assets');
+const __static = path.join(__src, 'static');
 
 const env = process.env.NODE_ENV || 'development_local';
 const globals = {
@@ -59,6 +61,11 @@ export const baseConfig = {
         ],
       },
     }),
+    new WebpackShellPlugin({
+      onBuildExit: [
+        `stylint ${path.join(__src, 'styles')} --config ${path.join(__dev, 'styl-lint/dev.rc')}`,
+      ],
+    }),
     new webpack.DefinePlugin(globals),
     new webpack.optimize.CommonsChunkPlugin({
       names: ['manifest', 'vendor'],
@@ -72,11 +79,9 @@ export const baseConfig = {
       filename: "[name].css",
       allChunks: true,
     }),
-    new WebpackShellPlugin({
-      onBuildExit: [
-        `stylint ${path.join(__src, 'styles')} --config ${path.join(__dev, 'styl-lint/dev.rc')}`,
-      ],
-    }),
+    new CopyWebpackPlugin(
+      [{ from: __static, ignore: '.DS_Store' }]
+    ),
   ],
   module: {
     loaders: [
