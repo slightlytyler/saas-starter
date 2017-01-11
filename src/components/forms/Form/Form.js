@@ -1,7 +1,8 @@
-import classnames from 'classnames';
+import cx from 'classnames';
 import cloneElement from 'common/react/cloneElement';
 import mapChildren from 'common/react/mapChildren';
-import { compose, identity, keys, pickBy } from 'lodash/fp';
+import StateProvider from 'components/StateProvider';
+import { compose, get, identity, keys, memoize, pickBy } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import Formal from 'react-formal';
 import CheckboxField from '../CheckboxField';
@@ -19,15 +20,27 @@ Formal.addInputTypes({
   text: TextField,
 });
 
-const appyleEvents = ({ element, events }) => cloneElement({ events }, element);
+const FieldType = (<Field />).type;
+
+const getErrorForField = ({ element, errors }) => get([element.props.name, '0', 'message'], errors);
+
+const applyFieldProps = ({ errors, events }) => element => cloneElement(
+  {
+    errorText: getErrorForField({ element, errors }),
+    events,
+  },
+  element,
+);
 
 const getEvents = compose(keys, pickBy(identity));
 
-const renderChildren = ({ children, events }) => mapChildren(
+const handleError = memoize(fn => errors => fn({ errors }));
+
+const renderChildren = ({ children, errors, events }) => mapChildren(
   element => {
-    if (element.type === Field) {
+    if (element.type === FieldType) {
       if (element.props.events) return element;
-      return appyleEvents(events)(element);
+      return applyFieldProps({ errors, events })(element);
     }
 
     return element;
@@ -36,15 +49,24 @@ const renderChildren = ({ children, events }) => mapChildren(
 );
 
 const Form = ({ children, className, validateOnBlur, validateOnChange, ...props }) => (
-  <Formal {...props} className={classnames('Form', className)}>
-    {renderChildren({
-      children,
-      events: getEvents({
-        onBlur: validateOnBlur,
-        onChange: validateOnChange,
-      }),
-    })}
-  </Formal>
+  <StateProvider initialState={{ errors: {} }}>
+    {({ setState, state }) => (
+      <Formal
+        {...props}
+        className={cx('Form', className)}
+        onError={handleError(setState)}
+      >
+        {renderChildren({
+          children,
+          errors: state.errors,
+          events: getEvents({
+            onBlur: validateOnBlur,
+            onChange: validateOnChange,
+          }),
+        })}
+      </Formal>
+    )}
+  </StateProvider>
 );
 
 Form.propTypes = {

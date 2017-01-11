@@ -15,10 +15,12 @@ const schema = yup.object({
 
 const AuthLogin = () => (
   <Layout
-    alternateMessage={{
-      prompt: 'Forgot your password?',
-      transitionTo: 'reset-password',
-    }}
+    alternateMessages={[
+      {
+        pathname: 'reset-password',
+        prompt: 'Forgot your password?',
+      },
+    ]}
     title="Login"
   >
     <ActionsProvider creators={{ login }}>
