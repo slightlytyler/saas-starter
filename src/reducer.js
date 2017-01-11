@@ -1,10 +1,12 @@
 import { compose } from 'lodash/fp';
 import { combineReducers } from 'redux';
+import { reducer as storageWrapper } from 'redux-storage';
+import authReducer from 'modules/auth/reducer';
 
 const asyncReducers = {};
 
 export const makeRootReducer = () => combineReducers({
-  test: () => ({}),
+  auth: authReducer,
   ...asyncReducers,
 });
 
@@ -18,4 +20,4 @@ export const injectReducer = (store, { key, reducer }) => {
   applyAsyncReducers(store);
 };
 
-export default makeRootReducer();
+export default compose(storageWrapper, makeRootReducer)();

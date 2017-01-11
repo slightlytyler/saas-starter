@@ -6,7 +6,7 @@ export default (state = initialState, { type, payload }) => {
   switch (type) {
     case actions.login.types.succeed:
     case actions.signUp.types.succeed:
-      return { token: payload.token };
+      return payload;
 
     case actions.logout.type:
       return initialState;
