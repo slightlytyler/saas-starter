@@ -1,3 +1,4 @@
+import { push } from 'connected-react-router';
 import { compose } from 'lodash/fp';
 import { takeLatest } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
@@ -14,6 +15,7 @@ export function* login({ payload }) {
       token: rest.selectToken(headers),
       user: body,
     });
+    yield compose(put, push)('/adapters');
   } catch (e) {
     yield compose(put, actions.login.fail)(e.toString());
   }

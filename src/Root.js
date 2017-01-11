@@ -1,16 +1,17 @@
 import { CodeSplitProvider, CodeSplit } from 'code-split-component';
+import { ConnectedRouter } from 'connected-react-router';
 import { MuiThemeProvider, getMuiTheme } from 'material-ui/styles';
 import React, { PropTypes } from 'react';
 import { Provider as StoreProvider } from 'react-redux';
-import { BrowserRouter, Match } from 'react-router';
+import { Match } from 'react-router';
 import ibmTheme from 'styles/mui/theme';
 import { injectSaga } from './sagas';
 
-const Root = ({ store }) => (
+const Root = ({ history, store }) => (
   <StoreProvider store={store}>
     <MuiThemeProvider muiTheme={getMuiTheme(ibmTheme)}>
       <CodeSplitProvider>
-        <BrowserRouter>
+        <ConnectedRouter history={history}>
           <div>
             <Match
               pattern="/auth"
@@ -46,13 +47,14 @@ const Root = ({ store }) => (
               )}
             />
           </div>
-        </BrowserRouter>
+        </ConnectedRouter>
       </CodeSplitProvider>
     </MuiThemeProvider>
   </StoreProvider>
 );
 
 Root.propTypes = {
+  history: PropTypes.object.isRequired,
   store: PropTypes.object.isRequired,
 };
 
