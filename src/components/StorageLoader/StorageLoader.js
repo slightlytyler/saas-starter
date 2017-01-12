@@ -1,20 +1,27 @@
-import React, { PropTypes } from 'react';
+import ActionsProvider from 'components/ActionsProvider';
 import Lifecycle from 'components/Lifecycle';
 import StateProvider from 'components/StateProvider';
+import { registerToken } from 'modules/auth/actions';
+import React, { PropTypes } from 'react';
 
 const StorageLoader = ({ children, store }) => (
-  <StateProvider initialState={{ loading: true }}>
-    {({ setState, state }) => (
-      <Lifecycle
-        componentWillMount={() => async () => {
-          await store.loadStorage();
-          setState({ loading: false });
-        }}
-      >
-        {children({ loading: state.loading })}
-      </Lifecycle>
+  <ActionsProvider creators={{ registerToken }}>
+    {({ actions }) => (
+      <StateProvider initialState={{ loading: true }}>
+        {({ setState, state }) => (
+          <Lifecycle
+            componentWillMount={() => async () => {
+              await store.loadStorage();
+              actions.registerToken();
+              setState({ loading: false });
+            }}
+          >
+            {children({ loading: state.loading })}
+          </Lifecycle>
+        )}
+      </StateProvider>
     )}
-  </StateProvider>
+  </ActionsProvider>
 );
 
 StorageLoader.propTypes = {

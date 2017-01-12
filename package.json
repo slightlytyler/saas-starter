@@ -33,6 +33,7 @@
     "redux-storage": "^4.1.2",
     "redux-storage-decorator-filter": "^1.1.8",
     "redux-storage-engine-localstorage": "^1.1.4",
+    "reselect": "^2.5.4",
     "whatwg-fetch": "^2.0.1",
     "yup": "^0.21.2"
   },

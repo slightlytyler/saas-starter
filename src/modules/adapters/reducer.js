@@ -3,7 +3,7 @@ import { combineReducers } from 'redux';
 import qs from 'qs';
 import * as actions from './actions';
 
-const collectionKey = params => qs.stringify(params) || 'root';
+const collectionKey = query => qs.stringify(query) || 'root';
 
 // const collectionsItem = (state = {}, { type, payload }) => {
 //   switch (type) {
@@ -15,7 +15,7 @@ const collectionKey = params => qs.stringify(params) || 'root';
 const collections = (state = {}, { type, payload }) => {
   switch (type) {
     case actions.fetchCollection.types.initiate: {
-      const key = collectionKey(payload.params);
+      const key = collectionKey(payload.query);
 
       if (!state[key]) {
         return {
@@ -23,7 +23,7 @@ const collections = (state = {}, { type, payload }) => {
           [key]: {
             ids: [],
             loading: true,
-            params: payload.params,
+            query: payload.query,
             timestamp: new Date().toString(),
           },
         };
@@ -41,8 +41,8 @@ const collections = (state = {}, { type, payload }) => {
     case actions.fetchCollection.types.succeed:
       return {
         ...state,
-        [collectionKey(payload.params)]: {
-          ...state[collectionKey(payload.params)],
+        [collectionKey(payload.query)]: {
+          ...state[collectionKey(payload.query)],
           ids: map(get('id'), payload.records),
           loading: false,
           pagination: payload.pagination,

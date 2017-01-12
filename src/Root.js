@@ -42,11 +42,16 @@ const Root = ({ history, store }) => (
                           adaptersReducer: require('modules/adapters/reducer'),
                           // eslint-disable-next-line global-require
                           AdaptersRoot: require('modules/adapters/components/Root'),
+                          // eslint-disable-next-line global-require
+                          adaptersSaga: require('modules/adapters/sagas'),
                         }}
                       >
-                        {({ adaptersReducer, AdaptersRoot }) => {
+                        {({ adaptersReducer, AdaptersRoot, adaptersSaga }) => {
                           if (adaptersReducer) {
                             store.injectReducer({ key: 'adapters', reducer: adaptersReducer });
+                          }
+                          if (adaptersSaga) {
+                            store.injectSaga({ key: 'adapters', saga: adaptersSaga });
                           }
                           return AdaptersRoot && <AdaptersRoot pathname={pathname} />;
                         }}

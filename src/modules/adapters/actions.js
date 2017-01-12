@@ -30,12 +30,11 @@ export const createRecord = createAction({
 export const fetchCollection = createAction({
   type: 'FETCH_COLLECTION',
   creator: {
-    initiate: type => (data, callback) => ({
+    initiate: type => data => ({
       type,
       payload: {
-        params: get('params', data) || {},
+        query: get('query', data) || {},
       },
-      meta: { callback },
     }),
     succeed: type => data => ({
       type,
