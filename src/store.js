@@ -1,4 +1,4 @@
-import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { connectRouter as _connectRouter, routerMiddleware } from 'connected-react-router';
 import { compose, identity } from 'lodash/fp';
 import { applyMiddleware, createStore } from 'redux';
 import {
@@ -30,16 +30,18 @@ const storageMiddleware = createStorageMiddleware(
 );
 
 export default ({ history }) => {
+  const connectRouter = _connectRouter(history);
   const store = compose(
-    applyMiddleware(routerMiddleware(history), sagaMiddleware, storageMiddleware),
+    applyMiddleware(
+      routerMiddleware(history),
+      sagaMiddleware,
+      storageMiddleware,
+    ),
     devTools,
-  )(createStore)(connectRouter(history)(reducer));
+  )(createStore)(connectRouter(reducer));
+  store.replaceReducer = compose(store.replaceReducer, connectRouter);
 
-  store.dispatch({ type: '@@app/STORAGE_WILL_LOAD' });
-
-  createStorageLoader(storageEngine)(store).then(() => store.dispatch({
-    type: '@@app/STORAGE_DID_LOAD',
-  }));
+  store.loadStorage = () => createStorageLoader(storageEngine)(store);
 
   return store;
 };
