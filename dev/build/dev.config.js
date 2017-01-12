@@ -19,7 +19,7 @@ export default createConfig(({ __src, baseConfig }) => ({
     ...baseConfig.output,
     filename: '[hash]-[id].[name].bundle.js',
   },
-  devtool: 'eval',
+  devtool: 'cheap-module-eval-source-map',
   devServer: {
     historyApiFallback: true,
     hot: true,
