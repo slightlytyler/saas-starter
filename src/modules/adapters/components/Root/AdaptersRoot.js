@@ -7,7 +7,7 @@ const AdaptersRoot = ({ pathname }) => (
     <Match
       exactly
       pattern={pathname}
-      render={() => (
+      render={({ location: { query } }) => (
         <CodeSplit
           chunkName="AdaptersCollection"
           modules={{
@@ -20,7 +20,7 @@ const AdaptersRoot = ({ pathname }) => (
           {({ CollectionFetcher, CollectionViewer }) => {
             if (!CollectionFetcher) return <div>Loading...</div>;
             return (
-              <CollectionFetcher>
+              <CollectionFetcher query={query}>
                 {({ collection }) => {
                   if (!CollectionViewer) return <div>Loading...</div>;
                   return <CollectionViewer collection={collection} />;
@@ -33,7 +33,7 @@ const AdaptersRoot = ({ pathname }) => (
     />
     <Match
       pattern={`${pathname}/:adapterId`}
-      render={() => (
+      render={({ params: { adapterId } }) => (
         <div>
           <Match
             pattern={`${pathname}/new`}
@@ -64,7 +64,7 @@ const AdaptersRoot = ({ pathname }) => (
                 {({ RecordFetcher }) => {
                   if (!RecordFetcher) return <div>Loading...</div>;
                   return (
-                    <RecordFetcher>
+                    <RecordFetcher id={adapterId}>
                       {({ record }) => (
                         <div>
                           <Match

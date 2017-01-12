@@ -2,12 +2,11 @@ import React, { PropTypes } from 'react';
 import Lifecycle from 'components/Lifecycle';
 import StateProvider from 'components/StateProvider';
 
-
 const StorageLoader = ({ children, store }) => (
   <StateProvider initialState={{ loading: true }}>
     {({ setState, state }) => (
       <Lifecycle
-        componentDidMount={() => async () => {
+        componentWillMount={() => async () => {
           await store.loadStorage();
           setState({ loading: false });
         }}
