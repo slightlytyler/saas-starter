@@ -1,14 +1,15 @@
-import { connectRouter as _connectRouter, routerMiddleware } from 'connected-react-router';
-import { compose, identity } from 'lodash/fp';
-import { applyMiddleware, createStore } from 'redux';
+import { connectRouter, routerMiddleware } from 'connected-react-router';
+import { assign, compose, identity } from 'lodash/fp';
+import { applyMiddleware, combineReducers, createStore } from 'redux';
 import {
   createLoader as createStorageLoader,
   createMiddleware as createStorageMiddleware,
+  reducer as storageWrapper,
 } from 'redux-storage';
 import filterStorageEngine from 'redux-storage-decorator-filter';
 import createStorageEngine from 'redux-storage-engine-localstorage';
 import { LOCAL_STORAGE_KEY } from 'src/config';
-import reducer from './reducer';
+import reducers from './reducers';
 import { middleware as sagaMiddleware } from './sagas';
 
 const devTools = (
@@ -30,7 +31,7 @@ const storageMiddleware = createStorageMiddleware(
 );
 
 export default ({ history }) => {
-  const connectRouter = _connectRouter(history);
+  const makeRootReducer = compose(connectRouter(history), storageWrapper, combineReducers);
   const store = compose(
     applyMiddleware(
       routerMiddleware(history),
@@ -38,9 +39,18 @@ export default ({ history }) => {
       storageMiddleware,
     ),
     devTools,
-  )(createStore)(connectRouter(reducer));
-  store.replaceReducer = compose(store.replaceReducer, connectRouter);
-
+  )(createStore)(makeRootReducer(reducers));
+  store.asyncReducers = {};
+  store.addAsyncReducer = ({ key, reducer }) => Object.assign(
+    store.asyncReducers,
+    { [key]: reducer },
+  );
+  store.injectReducer = compose(
+    store.replaceReducer,
+    makeRootReducer,
+    assign(reducers),
+    store.addAsyncReducer,
+  );
   store.loadStorage = () => createStorageLoader(storageEngine)(store);
 
   return store;

@@ -14,7 +14,7 @@ const collectionKey = params => qs.stringify(params) || 'root';
 
 const collections = (state = {}, { type, payload }) => {
   switch (type) {
-    case actions.fetchCollection.types.INITIATED: {
+    case actions.fetchCollection.types.initiate: {
       const key = collectionKey(payload.params);
 
       if (!state[key]) {
@@ -38,7 +38,7 @@ const collections = (state = {}, { type, payload }) => {
       };
     }
 
-    case actions.fetchCollection.types.SUCCEEDED:
+    case actions.fetchCollection.types.succeed:
       return {
         ...state,
         [collectionKey(payload.params)]: {
@@ -64,13 +64,13 @@ const collections = (state = {}, { type, payload }) => {
 
 const records = (state = {}, { type, payload }) => {
   switch (type) {
-    case actions.createRecord.types.SUCCEEDED:
+    case actions.createRecord.types.succeed:
       return {
         ...state,
         [payload.id]: payload,
       };
 
-    case actions.fetchCollection.types.SUCCEEDED:
+    case actions.fetchCollection.types.succeed:
       return {
         ...state,
         ...reduce(

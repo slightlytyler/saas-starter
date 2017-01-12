@@ -26,9 +26,9 @@ const Root = ({ history, store }) => (
                         chunkName="auth"
                         modules={{
                           // eslint-disable-next-line global-require
-                          AuthRoot: require('./modules/auth/components/Root'),
+                          AuthRoot: require('modules/auth/components/Root'),
                           // eslint-disable-next-line global-require
-                          authSagas: require('./modules/auth/sagas'),
+                          authSagas: require('modules/auth/sagas'),
                         }}
                       >
                         {({ AuthRoot, authSagas }) => {
@@ -45,10 +45,17 @@ const Root = ({ history, store }) => (
                         chunkName="adapters"
                         modules={{
                           // eslint-disable-next-line global-require
-                          AdaptersRoot: require('./modules/adapters/components/Root'),
+                          adaptersReducer: require('modules/adapters/reducer'),
+                          // eslint-disable-next-line global-require
+                          AdaptersRoot: require('modules/adapters/components/Root'),
                         }}
                       >
-                        {({ AdaptersRoot }) => AdaptersRoot && <AdaptersRoot pathname={pathname} />}
+                        {({ adaptersReducer, AdaptersRoot }) => {
+                          if (adaptersReducer) {
+                            store.injectReducer({ key: 'adapters', reducer: adaptersReducer });
+                          }
+                          return AdaptersRoot && <AdaptersRoot pathname={pathname} />;
+                        }}
                       </CodeSplit>
                     )}
                   />
