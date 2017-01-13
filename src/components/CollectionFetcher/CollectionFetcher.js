@@ -25,8 +25,8 @@ CollectionFetcher.propTypes = {
   }).isRequired,
   children: PropTypes.func.isRequired,
   collection: PropTypes.shape({
-    ids: PropTypes.arrayOf(PropTypes.string).isRequired,
-    loading: PropTypes.bool.isRequired,
+    ids: PropTypes.arrayOf(PropTypes.string),
+    loading: PropTypes.bool,
   }),
   query: PropTypes.object,
   // eslint-disable-next-line react/no-unused-prop-types

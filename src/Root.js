@@ -8,9 +8,11 @@ import { Provider as StoreProvider } from 'react-redux';
 import { Match } from 'react-router';
 import ibmTheme from 'styles/mui/theme';
 
+const muiTheme = getMuiTheme(ibmTheme);
+
 const Root = ({ history, store }) => (
   <StoreProvider store={store}>
-    <MuiThemeProvider muiTheme={getMuiTheme(ibmTheme)}>
+    <MuiThemeProvider muiTheme={muiTheme}>
       <CodeSplitProvider>
         <StorageLoader store={store}>
           {({ loading }) => {
