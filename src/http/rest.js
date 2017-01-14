@@ -15,14 +15,19 @@ export const registerToken = t => { token = t; };
 
 export const selectToken = lodashGet(API_TOKEN_KEY);
 
-const authHeaders = () => (token ? { [API_TOKEN_KEY]: token } : {});
+const authHeader = () => (token ? { [API_TOKEN_KEY]: token } : {});
+
+const baseHeaders = () => ({
+  ...authHeader(),
+  'Content-Type': 'application/json',
+});
 
 export const get = ({ endpoint, headers, query }) => compose(
   fetch({
     ...defaultOptions,
     headers: new Headers({
+      ...baseHeaders(),
       ...headers,
-      ...authHeaders(),
     }),
   }),
   url,
@@ -34,8 +39,8 @@ export const post = ({ body, endpoint, headers }) => compose(
     ...defaultOptions,
     body: JSON.stringify(body),
     headers: new Headers({
+      ...baseHeaders(),
       ...headers,
-      ...authHeaders(),
     }),
     method: 'POST',
   }),

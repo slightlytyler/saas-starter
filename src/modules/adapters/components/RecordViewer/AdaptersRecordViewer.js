@@ -1,7 +1,18 @@
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-const AdaptersRecordViewer = () => (
-  <div>AdaptersRecordViewer</div>
-);
+const AdaptersRecordViewer = ({ record }) => {
+  if (record.loading) return <div>Loading...</div>;
+  return (
+    <div>{record.body.id}</div>
+  );
+};
+
+AdaptersRecordViewer.propTypes = {
+  record: PropTypes.object,
+};
+
+AdaptersRecordViewer.defaultProps = {
+  record: null,
+};
 
 export default AdaptersRecordViewer;
