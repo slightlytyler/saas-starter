@@ -1,28 +1,52 @@
-import { assign, compose, omit, reduce } from 'lodash/fp';
+import { assign, compose, get, map, reduce } from 'lodash/fp';
 
-const createRecordDuple = record => ({ [record.id]: record });
+const createRecordIndex = ({ body, deleted = false, error = null, loading }) => ({
+  [body.id]: {
+    body,
+    deleted,
+    error,
+    loading,
+    timestamp: new Date().toString(),
+  },
+});
 
-const applyRecordToState = (state, record) => compose(assign(state), createRecordDuple)(record);
+const applyRecordToState = state => compose(assign(state), createRecordIndex);
 
-const applyCollectionToState = (state, records) => compose(
+const createDataProp = record => ({ body: record });
+
+const reduceIndexes = reduce((acc, index) => ({ ...acc, ...index }), {});
+
+const applyCollectionToState = state => compose(
   assign(state),
-  reduce(applyRecordToState, {}),
-)(records);
+  reduceIndexes,
+  map(createRecordIndex),
+);
 
-const detachRecordFromState = (state, { id }) => omit(id, state);
+const selectRecords = get('records');
 
 const createRecordsReducer = actions => (state = {}, { type, payload }) => {
   switch (type) {
     case actions.createRecord.types.succeed:
     case actions.fetchRecord.types.succeed:
     case actions.updateRecord.types.succeed:
-      return applyRecordToState(state, payload);
+      return compose(
+        applyRecordToState(state),
+        createDataProp,
+      )(payload);
 
     case actions.deleteRecord.types.succeed:
-      return detachRecordFromState(state, payload);
+      return compose(
+        applyRecordToState(state),
+        assign({ deleted: true }),
+        createDataProp,
+      )(payload);
 
     case actions.fetchCollection.types.succeed:
-      return applyCollectionToState(state, payload.records);
+      return compose(
+        applyCollectionToState(state),
+        map(createDataProp),
+        selectRecords,
+      )(payload);
 
     default:
       return state;

@@ -5,8 +5,9 @@ const selectRecordId = get('id');
 
 const selectRecordsIds = map(selectRecordId);
 
-const createCollectionDuple = ({ loading, pagination, query, records }) => ({
+const createCollectionIndex = ({ error = null, loading, pagination, query, records }) => ({
   [queryKey(query)]: {
+    error,
     ids: records ? selectRecordsIds(records) : undefined,
     loading,
     pagination,
@@ -24,7 +25,7 @@ const collectionDefaults = {
 };
 const applyDefaultsToCollection = assign(collectionDefaults);
 
-const applyCollectionToState = state => compose(assign(state), createCollectionDuple);
+const applyCollectionToState = state => compose(assign(state), createCollectionIndex);
 
 const createCollectionsReducer = actions => (state = {}, { type, payload }) => {
   switch (type) {
@@ -32,14 +33,14 @@ const createCollectionsReducer = actions => (state = {}, { type, payload }) => {
       return compose(
         applyCollectionToState(state),
         applyDefaultsToCollection,
-        assign(payload),
-      )({ loading: true });
+        assign({ loading: true }),
+      )(payload);
 
     case actions.fetchCollection.types.succeed:
       return compose(
         applyCollectionToState(state),
-        assign(payload),
-      )({ loading: false });
+        assign({ loading: false }),
+      )(payload);
 
     default:
       return state;
