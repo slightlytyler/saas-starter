@@ -4,49 +4,48 @@ import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
 import { createStructuredSelector } from 'reselect';
 
-const CollectionFetcher = ({ actions, children, collection, query }) => (
+const RecordFetcher = ({ actions, children, id, record }) => (
   <Lifecycle
-    componentDidMount={() => () => actions.fetchCollection({ query })}
+    componentDidMount={() => () => actions.fetchRecord({ id })}
     componentWillReceiveProps={props => nextProps => {
-      if (props.query !== nextProps.query) {
-        actions.fetchCollection({ query: nextProps.query });
+      if (props.id !== nextProps.id) {
+        actions.fetchRecord({ id: nextProps.id });
       }
     }}
   >
-    {children({ collection })}
+    {children({ record })}
   </Lifecycle>
 );
 
-CollectionFetcher.propTypes = {
+RecordFetcher.propTypes = {
   // eslint-disable-next-line react/no-unused-prop-types
   action: PropTypes.func.isRequired,
   actions: PropTypes.shape({
-    fetchCollection: PropTypes.func.isRequired,
+    fetchRecord: PropTypes.func.isRequired,
   }).isRequired,
   children: PropTypes.func.isRequired,
-  collection: PropTypes.object,
-  query: PropTypes.object.isRequired,
+  id: PropTypes.string.isRequired,
+  record: PropTypes.object,
   // eslint-disable-next-line react/no-unused-prop-types
   selector: PropTypes.func.isRequired,
 };
 
-CollectionFetcher.defaultProps = {
-  collection: {
-    ids: [],
+RecordFetcher.defaultProps = {
+  record: {
+    body: {},
     loading: true,
-    placeholder: true,
   },
 };
 
 const container = connect(
   createStructuredSelector({
-    collection: (state, { query, selector }) => selector(state, query),
+    record: (state, { id, selector }) => selector(state, id),
   }),
   (dispatch, { action }) => () => bindActionCreators({
-    fetchCollection: action,
+    fetchRecord: action,
   }, dispatch),
 );
 
-export { CollectionFetcher as component, container };
+export { RecordFetcher as component, container };
 
-export default container(CollectionFetcher);
+export default container(RecordFetcher);

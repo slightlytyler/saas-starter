@@ -1,3 +1,4 @@
+import selectQuery from 'common/selectors/selectQuery';
 import React, { PropTypes } from 'react';
 import { Match, Miss } from 'react-router';
 import { CodeSplit } from 'code-split-component';
@@ -7,7 +8,7 @@ const AdaptersRoot = ({ pathname }) => (
     <Match
       exactly
       pattern={pathname}
-      render={({ location: { query } }) => (
+      render={({ location }) => (
         <CodeSplit
           chunkName="AdaptersCollection"
           modules={{
@@ -20,7 +21,7 @@ const AdaptersRoot = ({ pathname }) => (
           {({ CollectionFetcher, CollectionViewer }) => {
             if (!CollectionFetcher) return <div>Loading...</div>;
             return (
-              <CollectionFetcher query={query}>
+              <CollectionFetcher query={selectQuery(location)}>
                 {({ collection }) => {
                   if (!CollectionViewer) return <div>Loading...</div>;
                   return <CollectionViewer collection={collection} />;

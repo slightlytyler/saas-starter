@@ -1,10 +1,16 @@
+import RecordFetcher from 'components/RecordFetcher';
+import { fetchRecord } from 'modules/adapters/actions';
+import { selectRecordById } from 'modules/adapters/selectors';
 import React, { PropTypes } from 'react';
 
 const AdaptersRecordFetcher = ({ children, id }) => (
-  <div>
-    AdaptersRecordFetcher : {id}
-    {children({})}
-  </div>
+  <RecordFetcher
+    action={fetchRecord}
+    id={id}
+    selector={selectRecordById}
+  >
+    {children}
+  </RecordFetcher>
 );
 
 AdaptersRecordFetcher.propTypes = {

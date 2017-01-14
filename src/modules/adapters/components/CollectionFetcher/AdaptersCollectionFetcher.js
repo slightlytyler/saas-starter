@@ -9,17 +9,13 @@ const AdaptersCollectionFetcher = ({ children, query }) => (
     query={query}
     selector={selectCollectionByQuery}
   >
-    {({ collection }) => children({ collection })}
+    {children}
   </CollectionFetcher>
 );
 
 AdaptersCollectionFetcher.propTypes = {
   children: PropTypes.func.isRequired,
-  query: PropTypes.object,
-};
-
-AdaptersCollectionFetcher.defaultProps = {
-  query: {},
+  query: PropTypes.object.isRequired,
 };
 
 export default AdaptersCollectionFetcher;
