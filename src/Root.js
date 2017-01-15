@@ -69,6 +69,54 @@ const Root = ({ history, store }) => (
                             </CodeSplit>
                           )}
                         />
+                        <MatchWhenAuthenticated
+                          pattern="/routes"
+                          render={({ pathname }) => (
+                            <CodeSplit
+                              chunkName="routes"
+                              modules={{
+                                // eslint-disable-next-line global-require
+                                RoutesRoot: require('modules/routes/components/Root'),
+                              }}
+                            >
+                              {({ RoutesRoot }) => (
+                                RoutesRoot && <RoutesRoot pathname={pathname} />
+                              )}
+                            </CodeSplit>
+                          )}
+                        />
+                        <MatchWhenAuthenticated
+                          pattern="/users"
+                          render={({ pathname }) => (
+                            <CodeSplit
+                              chunkName="users"
+                              modules={{
+                                // eslint-disable-next-line global-require
+                                UsersRoot: require('modules/users/components/Root'),
+                              }}
+                            >
+                              {({ UsersRoot }) => (
+                                UsersRoot && <UsersRoot pathname={pathname} />
+                              )}
+                            </CodeSplit>
+                          )}
+                        />
+                        <MatchWhenAuthenticated
+                          pattern="/vendors"
+                          render={({ pathname }) => (
+                            <CodeSplit
+                              chunkName="vendors"
+                              modules={{
+                                // eslint-disable-next-line global-require
+                                VendorsRoot: require('modules/vendors/components/Root'),
+                              }}
+                            >
+                              {({ VendorsRoot }) => (
+                                VendorsRoot && <VendorsRoot pathname={pathname} />
+                              )}
+                            </CodeSplit>
+                          )}
+                        />
                       </AppLayout>
                     )}
                   />

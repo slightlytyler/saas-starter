@@ -43,15 +43,16 @@ const AppLayoutSidebarMainNav = () => (
               value="adapters"
             />
             <ListItem
-              leftIcon={<FontIcon className="material-icons">device_hub</FontIcon>}
+              leftIcon={<FontIcon className="material-icons">store</FontIcon>}
               onTouchTap={actions.transitionToVendors}
               primaryText="Vendors"
               value="vendors"
             />
             <ListItem
-              leftIcon={<FontIcon className="material-icons">store</FontIcon>}
+              leftIcon={<FontIcon className="material-icons">device_hub</FontIcon>}
               onTouchTap={actions.transitionToRoutes}
-              primaryText="routes"
+              primaryText="Routes"
+              value="routes"
             />
           </SelectableList>
         )}

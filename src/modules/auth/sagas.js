@@ -29,6 +29,7 @@ export function* login({ payload }) {
 
 export function* logout() {
   yield compose(put, actions.deregisterToken)();
+  yield compose(put, push)('/auth/login');
 }
 
 export function* registerToken() {
