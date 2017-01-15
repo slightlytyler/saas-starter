@@ -1,12 +1,20 @@
 import cx from 'classnames';
-import { Table } from 'material-ui';
+import AutoSizer from 'components/AutoSizer';
+import { Paper, Table } from 'material-ui';
 import React, { PropTypes } from 'react';
 
 const DataTable = ({ className, ...props }) => (
-  <Table
-    {...props}
-    className={cx('DataTable', className)}
-  />
+  <AutoSizer>
+    {({ height }) => (
+      <Paper zDepth={0}>
+        <Table
+          {...props}
+          className={cx('DataTable', className)}
+          height={`${height - 57}px`}
+        />
+      </Paper>
+    )}
+  </AutoSizer>
 );
 
 DataTable.propTypes = {

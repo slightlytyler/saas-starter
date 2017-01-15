@@ -1,11 +1,6 @@
-.DataTable
-  td.icon, th.icon
-    width: 6em
+.DataTableHeaderColumn, .DataTableRowColumn
+  &.actions
+    width: 90px
 
-  td.actions, th.actions
-    display: flex
-    justify-content: flex-end
-    align-items: center
-
-    & > not(:last-child)
-      margin-right: 1em
+  &.icon
+    width: 96px
