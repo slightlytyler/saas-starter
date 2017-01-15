@@ -1,11 +1,12 @@
 import { CodeSplitProvider, CodeSplit } from 'code-split-component';
+import AppLayout from 'components/AppLayout';
 import StorageLoader from 'components/StorageLoader';
 import { ConnectedRouter } from 'connected-react-router';
 import { MuiThemeProvider, getMuiTheme } from 'material-ui/styles';
 import MatchWhenAuthenticated from 'modules/auth/components/MatchWhenAuthenticated';
 import React, { PropTypes } from 'react';
 import { Provider as StoreProvider } from 'react-redux';
-import { Match } from 'react-router';
+import { Match, Miss, Redirect } from 'react-router';
 import ibmTheme from 'styles/mui/theme';
 
 const muiTheme = getMuiTheme(ibmTheme);
@@ -20,6 +21,11 @@ const Root = ({ history, store }) => (
             return (
               <ConnectedRouter history={history}>
                 <div>
+                  <MatchWhenAuthenticated
+                    exactly
+                    pattern="/"
+                    render={() => (<Redirect to="/adapters" />)}
+                  />
                   <Match
                     pattern="/auth"
                     render={({ pathname }) => (
@@ -34,30 +40,36 @@ const Root = ({ history, store }) => (
                       </CodeSplit>
                     )}
                   />
-                  <MatchWhenAuthenticated
-                    pattern="/adapters"
-                    render={({ pathname }) => (
-                      <CodeSplit
-                        chunkName="adapters"
-                        modules={{
-                          // eslint-disable-next-line global-require
-                          adaptersReducer: require('modules/adapters/reducer'),
-                          // eslint-disable-next-line global-require
-                          AdaptersRoot: require('modules/adapters/components/Root'),
-                          // eslint-disable-next-line global-require
-                          adaptersSaga: require('modules/adapters/sagas'),
-                        }}
-                      >
-                        {({ adaptersReducer, AdaptersRoot, adaptersSaga }) => {
-                          if (adaptersReducer) {
-                            store.injectReducer({ key: 'adapters', reducer: adaptersReducer });
-                          }
-                          if (adaptersSaga) {
-                            store.injectSaga({ key: 'adapters', saga: adaptersSaga });
-                          }
-                          return AdaptersRoot && <AdaptersRoot pathname={pathname} />;
-                        }}
-                      </CodeSplit>
+                  <Miss
+                    render={() => (
+                      <AppLayout>
+                        <MatchWhenAuthenticated
+                          pattern="/adapters"
+                          render={({ pathname }) => (
+                            <CodeSplit
+                              chunkName="adapters"
+                              modules={{
+                                // eslint-disable-next-line global-require
+                                adaptersReducer: require('modules/adapters/reducer'),
+                                // eslint-disable-next-line global-require
+                                AdaptersRoot: require('modules/adapters/components/Root'),
+                                // eslint-disable-next-line global-require
+                                adaptersSaga: require('modules/adapters/sagas'),
+                              }}
+                            >
+                              {({ adaptersReducer, AdaptersRoot, adaptersSaga }) => {
+                                if (adaptersReducer) {
+                                  store.injectReducer({ key: 'adapters', reducer: adaptersReducer });
+                                }
+                                if (adaptersSaga) {
+                                  store.injectSaga({ key: 'adapters', saga: adaptersSaga });
+                                }
+                                return AdaptersRoot && <AdaptersRoot pathname={pathname} />;
+                              }}
+                            </CodeSplit>
+                          )}
+                        />
+                      </AppLayout>
                     )}
                   />
                 </div>

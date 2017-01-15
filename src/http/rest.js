@@ -9,9 +9,11 @@ const defaultOptions = {
   mode: 'cors',
 };
 
-let token;
+let token = null;
 
 export const registerToken = t => { token = t; };
+
+export const deregisterToken = () => { token = null; };
 
 export const selectToken = lodashGet(API_TOKEN_KEY);
 

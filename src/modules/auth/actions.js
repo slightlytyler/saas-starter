@@ -3,6 +3,11 @@ import { name } from './config';
 
 const createAction = _createAction(name);
 
+export const deregisterToken = createAction({
+  type: 'DEREGISTER_TOKEN',
+  creator: type => () => ({ type }),
+});
+
 export const login = createAction({
   type: 'LOGIN',
   creator: {
@@ -27,10 +32,7 @@ export const login = createAction({
 
 export const logout = createAction({
   type: 'LOGOUT',
-  creator: type => data => ({
-    type,
-    payload: data,
-  }),
+  creator: type => () => ({ type }),
 });
 
 export const registerToken = createAction({

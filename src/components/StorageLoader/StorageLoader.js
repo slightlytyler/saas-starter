@@ -2,6 +2,7 @@ import ActionsProvider from 'components/ActionsProvider';
 import Lifecycle from 'components/Lifecycle';
 import StateProvider from 'components/StateProvider';
 import { registerToken } from 'modules/auth/actions';
+import { selectIsAuthenticated } from 'modules/auth/selectors';
 import React, { PropTypes } from 'react';
 
 const StorageLoader = ({ children, store }) => (
@@ -12,7 +13,9 @@ const StorageLoader = ({ children, store }) => (
           <Lifecycle
             componentWillMount={() => async () => {
               await store.loadStorage();
-              actions.registerToken();
+              if (selectIsAuthenticated(store.getState())) {
+                actions.registerToken();
+              }
               setState({ loading: false });
             }}
           >

@@ -9,6 +9,11 @@ export const selectToken = createSelector(
   get('token'),
 );
 
+export const selectIsAuthenticated = createSelector(
+  selectToken,
+  Boolean,
+);
+
 export const selectUser = createSelector(
   selectSubstate,
   get('user'),

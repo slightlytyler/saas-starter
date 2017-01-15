@@ -6,6 +6,10 @@ import { rest } from 'src/http';
 import * as actions from './actions';
 import { selectToken } from './selectors';
 
+export function* deregisterToken() {
+  yield call(rest.deregisterToken);
+}
+
 export function* login({ payload }) {
   try {
     const { body, headers } = yield call(rest.post, {
@@ -16,11 +20,15 @@ export function* login({ payload }) {
       token: rest.selectToken(headers),
       user: body,
     });
-    yield compose(put, actions.registerToken);
+    yield compose(put, actions.registerToken)();
     yield compose(put, push)('/adapters');
   } catch (e) {
     yield compose(put, actions.login.fail)(e.toString());
   }
+}
+
+export function* logout() {
+  yield compose(put, actions.deregisterToken)();
 }
 
 export function* registerToken() {

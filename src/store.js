@@ -27,7 +27,7 @@ export default ({ history }) => {
     [],
     [
       '@@auth/LOGIN/succeed',
-      '@@auth/LOGOUT/succeed',
+      '@@auth/LOGOUT',
       '@@auth/SIGN_UP/succeed',
     ],
   );
