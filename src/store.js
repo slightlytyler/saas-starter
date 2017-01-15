@@ -57,7 +57,7 @@ export default ({ history }) => {
     assign(reducers),
     store.addAsyncReducer,
   );
-  store.injectSaga = sagaMiddleware.run;
+  store.injectSagas = sagaMiddleware.run;
 
   return store;
 };
