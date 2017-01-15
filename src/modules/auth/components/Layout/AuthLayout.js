@@ -1,5 +1,5 @@
-import logo from 'assets/images/logo.png';
 import SmallContainer from 'components/layout/SmallContainer';
+import Logo from 'components/Logo';
 import Panel from 'components/Panel';
 import { map, size } from 'lodash/fp';
 import React, { PropTypes } from 'react';
@@ -25,7 +25,7 @@ const AuthLayout = ({ alternateMessages, children, title }) => (
         <Box alignItems="center" column fit>
           <header className="AuthLayout__header">
             <section className="AuthLayout__header__primary">
-              <img alt="" className="AuthLayout__header__primary__logo" src={logo} />
+              <Logo className="AuthLayout__header__primary__logo" />
             </section>
             <section className="AuthLayout__header__secondary">{title}</section>
           </header>

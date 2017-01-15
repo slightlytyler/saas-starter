@@ -1,8 +1,4 @@
 .AppLayoutHeader
-  position: 'fixed'
-  top: 0
-  left: 0
-
   &__logo
     width: 10em
     height: 100%
@@ -10,3 +6,30 @@
 
     .image
       width: 100%
+
+.AppLayoutContent
+  flex: 1
+
+.AppLayoutFooter
+  height: 3em
+  background-color: $grey-70
+
+  .link
+    color: $grey-20
+
+  .text
+    color: $grey-40
+    font-weight: 100
+    font-size: 0.75em
+
+.AppLayoutSidebar
+  width: 15em
+  height: 100%
+  background-color: $grey-10
+
+  &__header
+    padding: 16px
+    background-color: $blue-50
+
+  &__wrapper
+    height: 100%

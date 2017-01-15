@@ -1,9 +1,10 @@
 import React, { PropTypes } from 'react';
+import { Box } from 'react-layout-components';
 
 const AppLayoutContent = ({ children }) => (
-  <div className="AppLayoutContent">
+  <Box className="AppLayoutContent">
     {children}
-  </div>
+  </Box>
 );
 
 AppLayoutContent.propTypes = {
