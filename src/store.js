@@ -57,17 +57,7 @@ export default ({ history }) => {
     assign(reducers),
     store.addAsyncReducer,
   );
-  store.asyncSagas = {};
-  store.addAsyncSaga = ({ key, saga }) => Object.assign(
-    store.asyncSagas,
-    { [key]: saga },
-  );
-  store.injectSaga = compose(
-    sagaMiddleware.run,
-    makeRootSaga,
-    assign(sagas),
-    store.addAsyncSaga,
-  );
+  store.injectSaga = sagaMiddleware.run;
 
   return store;
 };

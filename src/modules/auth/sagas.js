@@ -39,7 +39,9 @@ export function* registerToken() {
 
 export default function* sagas() {
   yield [
+    takeEvery(actions.deregisterToken.type, deregisterToken),
     takeLatest(actions.login.types.initiate, login),
+    takeLatest(actions.logout.type, logout),
     takeEvery(actions.registerToken.type, registerToken),
   ];
 }
