@@ -17,37 +17,34 @@ const renderRows = map(renderRow);
 
 const transitionToCreator = () => push('/adapters/new');
 
-const AdaptersTable = ({ ids, loading }) => {
-  if (!size(ids) && loading) return <div>Loading...</div>;
-  return (
-    <DataTable loading={loading}>
-      <DataTableHeader>
-        <DataTableHeaderColumn icon>
-          Enabled
-        </DataTableHeaderColumn>
-        <DataTableHeaderColumn icon>
-          Global
-        </DataTableHeaderColumn>
-        <DataTableHeaderColumn>
-          Name
-        </DataTableHeaderColumn>
-        <DataTableHeaderColumn>
-          Status
-        </DataTableHeaderColumn>
-        <DataTableHeaderColumn actions>
-          <ActionsProvider creators={{ transitionToCreator }}>
-            {({ actions }) => (
-              <CreateButton onClick={actions.transitionToCreator} />
-            )}
-          </ActionsProvider>
-        </DataTableHeaderColumn>
-      </DataTableHeader>
-      <DataTableBody>
-        {renderRows(ids)}
-      </DataTableBody>
-    </DataTable>
-  );
-};
+const AdaptersTable = ({ ids, loading }) => (
+  <DataTable loading={!size(ids) && loading}>
+    <DataTableHeader>
+      <DataTableHeaderColumn icon>
+        Enabled
+      </DataTableHeaderColumn>
+      <DataTableHeaderColumn icon>
+        Global
+      </DataTableHeaderColumn>
+      <DataTableHeaderColumn>
+        Name
+      </DataTableHeaderColumn>
+      <DataTableHeaderColumn>
+        Status
+      </DataTableHeaderColumn>
+      <DataTableHeaderColumn actions>
+        <ActionsProvider creators={{ transitionToCreator }}>
+          {({ actions }) => (
+            <CreateButton onClick={actions.transitionToCreator} />
+          )}
+        </ActionsProvider>
+      </DataTableHeaderColumn>
+    </DataTableHeader>
+    <DataTableBody>
+      {renderRows(ids)}
+    </DataTableBody>
+  </DataTable>
+);
 
 AdaptersTable.propTypes = {
   ids: PropTypes.arrayOf(PropTypes.string).isRequired,
