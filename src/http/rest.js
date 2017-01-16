@@ -71,6 +71,18 @@ const methods = {
     }),
     url,
   )(endpoint),
+  put: ({ body, endpoint, headers }) => compose(
+    fetch({
+      ...defaultOptions,
+      body: JSON.stringify(body),
+      headers: new Headers({
+        ...baseHeaders(),
+        ...headers,
+      }),
+      method: 'PUT',
+    }),
+    url,
+  )(endpoint),
 };
 
 export default { ...methods, registerToken, deregisterToken, selectToken };
