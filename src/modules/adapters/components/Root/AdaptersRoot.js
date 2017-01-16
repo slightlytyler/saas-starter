@@ -1,10 +1,11 @@
 import selectQuery from 'common/selectors/selectQuery';
+import FitContainer from 'components/FitContainer';
 import React, { PropTypes } from 'react';
 import { Match, Miss } from 'react-router';
 import { CodeSplit } from 'code-split-component';
 
 const AdaptersRoot = ({ pathname }) => (
-  <div>
+  <FitContainer>
     <Match
       exactly
       pattern={pathname}
@@ -39,7 +40,7 @@ const AdaptersRoot = ({ pathname }) => (
     <Match
       pattern={`${pathname}/:adapterId`}
       render={({ params: { adapterId } }) => (
-        <div>
+        <FitContainer>
           <Match
             pattern={`${pathname}/new`}
             render={() => (
@@ -116,10 +117,10 @@ const AdaptersRoot = ({ pathname }) => (
               </CodeSplit>
             )}
           />
-        </div>
+        </FitContainer>
       )}
     />
-  </div>
+  </FitContainer>
 );
 
 AdaptersRoot.propTypes = {

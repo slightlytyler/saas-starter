@@ -6,7 +6,6 @@ import { compose, get, identity, keys, memoize, pickBy } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import Formal from 'react-formal';
 import CheckboxField from '../CheckboxField';
-import Field from '../Field';
 import NumberField from '../NumberField';
 import PasswordField from '../PasswordField';
 import TextField from '../TextField';
@@ -19,8 +18,6 @@ Formal.addInputTypes({
   string: TextField,
   text: TextField,
 });
-
-const FieldType = (<Field />).type;
 
 const getErrorForField = ({ element, errors }) => get([element.props.name, '0', 'message'], errors);
 
@@ -38,7 +35,7 @@ const handleError = memoize(fn => errors => fn({ errors }));
 
 const renderChildren = ({ children, errors, events }) => mapChildren(
   element => {
-    if (element.type === FieldType) {
+    if (element.type.componentName === 'Field') {
       if (element.props.events) return element;
       return applyFieldProps({ errors, events })(element);
     }

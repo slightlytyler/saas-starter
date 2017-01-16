@@ -1,6 +1,7 @@
 import Field from 'components/forms/Field';
 import Form from 'components/forms/Form';
 import SubmitButton from 'components/forms/SubmitButton';
+import Panel from 'components/Panel';
 import React, { PropTypes } from 'react';
 import yup from 'yup';
 
@@ -10,11 +11,13 @@ const formSchema = yup.object({
 });
 
 const AdaptersForm = ({ onSubmit }) => (
-  <Form onSubmit={onSubmit} schema={formSchema}>
-    <Field name="name" />
-    <Field name="description" />
-    <SubmitButton label="Create Adapter" />
-  </Form>
+  <Panel>
+    <Form onSubmit={onSubmit} schema={formSchema}>
+      <Field fullWidth name="name" />
+      <Field fullWidth name="description" />
+      <SubmitButton label="Create Adapter" />
+    </Form>
+  </Panel>
 );
 
 AdaptersForm.propTypes = {
