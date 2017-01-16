@@ -60,7 +60,7 @@ const Root = ({ history, store }) => (
                               store.injectReducer({ key: 'adapters', reducer: adaptersReducer });
                             }
                             if (adaptersSagas) {
-                              store.injectSagas(adaptersSagas);
+                              store.injectSagas({ key: 'adapters', sagas: adaptersSagas });
                             }
                             return AdaptersRoot && <AdaptersRoot pathname={pathname} />;
                           }}

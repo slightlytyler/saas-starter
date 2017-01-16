@@ -1,6 +1,7 @@
 import createElementResizeDetector from 'element-resize-detector';
 import { bind, compose, invoke, mapValues, pick } from 'lodash/fp';
 import { Component, PropTypes } from 'react';
+import shallowCompare from 'react-addons-shallow-compare';
 import { findDOMNode } from 'react-dom';
 
 const erd = createElementResizeDetector();
@@ -20,6 +21,8 @@ export default class AutoSizer extends Component {
     this.setDimensions(this.parentNode);
     erd.listenTo(this.parentNode, this.setDimensions);
   };
+
+  shouldComponentUpdate = (nextProps, nextState) => shallowCompare(this, nextProps, nextState);
 
   componentWillUnmount = () => erd.removeListener(this.parentNode, this.setDimensions);
 

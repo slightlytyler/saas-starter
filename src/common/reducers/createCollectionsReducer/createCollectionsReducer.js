@@ -1,37 +1,58 @@
 import queryKey from 'common/data/queryKey';
-import { assign, compose, get, map } from 'lodash/fp';
+import { get, has, map } from 'lodash/fp';
 
 const selectRecordId = get('id');
+
 const selectRecordsIds = map(selectRecordId);
-const createCollectionIndex = ({ error = null, loading = false, pagination, query, records }) => ({
-  [queryKey(query)]: {
-    error,
-    ids: records ? selectRecordsIds(records) : undefined,
-    loading,
-    pagination,
-    query,
-    timestamp: new Date().toString(),
-  },
-});
+
+const hasCollectionForQuery = (state, query) => has(queryKey(query), state);
+
 const collectionDefaults = {
-  records: [],
+  ids: [],
   pagination: {
     totalElements: 0,
     totalPages: 0,
   },
 };
-const applyDefaultsToCollection = assign(collectionDefaults);
-const applyCollectionToState = state => compose(assign(state), createCollectionIndex);
+
+const createCollection = (state, query) => ({
+  ...state,
+  [queryKey(query)]: {
+    ...collectionDefaults,
+    loading: true,
+    query,
+    timestamp: new Date().toString(),
+  },
+});
+
+const updateCollection = (state, query, collection) => {
+  const key = queryKey(queryKey);
+  return {
+    ...state,
+    [key]: {
+      ...state[key],
+      ...collection,
+      timestamp: new Date().toString(),
+    },
+  };
+};
+
 const createCollectionsReducer = actions => (state = {}, { type, payload }) => {
   switch (type) {
-    case actions.fetchCollection.types.initiate:
-      return compose(
-        applyCollectionToState(state),
-        applyDefaultsToCollection,
-        assign({ loading: true }),
-      )(payload);
+    case actions.fetchCollection.types.initiate: {
+      if (hasCollectionForQuery(state, payload.query)) {
+        return updateCollection(state, payload.query, { loading: true });
+      }
+      return createCollection(state, payload.query);
+    }
+
     case actions.fetchCollection.types.succeed:
-      return applyCollectionToState(state)(payload);
+      return updateCollection(state, payload.query, {
+        ids: selectRecordsIds(payload.records),
+        loading: false,
+        pagination: payload.pagination,
+      });
+
     default:
       return state;
   }

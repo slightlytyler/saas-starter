@@ -12,7 +12,7 @@ import filterStorageEngine from 'redux-storage-decorator-filter';
 import createStorageEngine from 'redux-storage-engine-localstorage';
 import { LOCAL_STORAGE_KEY } from 'src/config';
 import reducers from './reducers';
-import sagas from './sagas';
+import initialSagas from './sagas';
 
 export default ({ history }) => {
   const devTools = (
@@ -44,7 +44,7 @@ export default ({ history }) => {
     devTools,
   )(createStore)(makeRootReducer(reducers));
   // eslint-disable-next-line lodash-fp/no-unused-result
-  compose(sagaMiddleware.run, makeRootSaga)(sagas);
+  compose(sagaMiddleware.run, makeRootSaga)(initialSagas);
   store.loadStorage = () => createStorageLoader(storageEngine)(store);
   store.asyncReducers = {};
   store.addAsyncReducer = ({ key, reducer }) => Object.assign(
@@ -57,7 +57,17 @@ export default ({ history }) => {
     assign(reducers),
     store.addAsyncReducer,
   );
-  store.injectSagas = sagaMiddleware.run;
+  store.asyncSagas = {};
+  store.addAsyncSagas = ({ key, sagas }) => Object.assign(
+    store.asyncSagas,
+    { [key]: sagas },
+  );
+  store.injectSagas = ({ key, sagas }) => {
+    if (!store.asyncSagas[key]) {
+      store.addAsyncSagas({ key, sagas });
+      sagaMiddleware.run(sagas);
+    }
+  };
 
   return store;
 };
