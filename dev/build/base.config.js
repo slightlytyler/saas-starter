@@ -97,7 +97,7 @@ export const baseConfig = {
       },
       {
         test: /\.jpg|\.png$/,
-        loader: 'url-loader',
+        loader: 'url-loader?limit=10000',
         include: __assets,
       },
     ],

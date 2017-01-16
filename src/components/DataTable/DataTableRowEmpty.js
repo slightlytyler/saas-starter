@@ -3,7 +3,7 @@ import TableRow from './DataTableRow';
 import TableRowColumn from './DataTableRowColumn';
 
 const DataTableRowEmpty = () => (
-  <TableRow className="empty">
+  <TableRow className="empty" hoverable={false}>
     <TableRowColumn>
       <div className="placeholder" />
     </TableRowColumn>
