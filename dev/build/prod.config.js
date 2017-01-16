@@ -1,5 +1,6 @@
 import path from 'path';
 import CodeSplitWebpackPlugin from 'code-split-component/webpack';
+import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import { createConfig } from './base.config';
 
 export default createConfig(({ __src, baseConfig }) => ({
@@ -17,7 +18,23 @@ export default createConfig(({ __src, baseConfig }) => ({
   plugins: [
     ...baseConfig.plugins,
     new CodeSplitWebpackPlugin(),
+    new ExtractTextPlugin({
+      filename: "[name].css",
+      allChunks: true,
+    }),
   ],
+  module: {
+    loaders: [
+      ...baseConfig.module.loaders,
+      {
+        test: /\.styl$/,
+        loader: ExtractTextPlugin.extract({
+          fallbackLoader: 'style-loader',
+          loader: 'css-loader!postcss-loader!stylus-relative-loader?resolve url',
+        }),
+      },
+    ],
+  },
   performance: {
     hints: "warning",
   },

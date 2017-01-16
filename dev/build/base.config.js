@@ -1,6 +1,5 @@
 import autoprefixer from 'autoprefixer';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
@@ -79,10 +78,6 @@ export const baseConfig = {
       filename: 'index.html',
       inject: 'body',
     }),
-    new ExtractTextPlugin({
-      filename: "[name].css",
-      allChunks: true,
-    }),
     new CopyWebpackPlugin(
       [{ from: __static, ignore: '.DS_Store' }]
     ),
@@ -99,13 +94,6 @@ export const baseConfig = {
         test: /\.js$/,
         loader: 'babel-loader',
         exclude: /node_modules/,
-      },
-      {
-        test: /\.styl$/,
-        loader: ExtractTextPlugin.extract({
-          fallbackLoader: 'style-loader',
-          loader: 'css-loader!postcss-loader!stylus-relative-loader?resolve url',
-        }),
       },
       {
         test: /\.jpg|\.png$/,

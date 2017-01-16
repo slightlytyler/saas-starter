@@ -42,6 +42,15 @@ export default createConfig(({ __src, baseConfig }) => ({
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
   ],
+  module: {
+    loaders: [
+      ...baseConfig.module.loaders,
+      {
+        test: /\.styl$/,
+        loader: 'style-loader!css-loader!postcss-loader!stylus-relative-loader?resolve url',
+      },
+    ],
+  },
   performance: {
     hints: false,
   },
