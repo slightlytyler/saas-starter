@@ -6,6 +6,7 @@ const DataTableRow = ({ className, ...props }) => (
   <TableRow
     {...props}
     className={cx('DataTableRow', className)}
+    hoverable
   />
 );
 

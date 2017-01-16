@@ -24,27 +24,41 @@ const baseHeaders = () => ({
   'Content-Type': 'application/json',
 });
 
-export const get = ({ endpoint, headers, query }) => compose(
-  fetch({
-    ...defaultOptions,
-    headers: new Headers({
-      ...baseHeaders(),
-      ...headers,
+const methods = {
+  delete: ({ endpoint, headers }) => compose(
+    fetch({
+      ...defaultOptions,
+      headers: new Headers({
+        ...baseHeaders(),
+        ...headers,
+      }),
+      method: 'DELETE',
     }),
-  }),
-  url,
-  queryString(query),
-)(endpoint);
+    url,
+  )(endpoint),
+  get: ({ endpoint, headers, query }) => compose(
+    fetch({
+      ...defaultOptions,
+      headers: new Headers({
+        ...baseHeaders(),
+        ...headers,
+      }),
+    }),
+    url,
+    queryString(query),
+  )(endpoint),
+  post: ({ body, endpoint, headers }) => compose(
+    fetch({
+      ...defaultOptions,
+      body: JSON.stringify(body),
+      headers: new Headers({
+        ...baseHeaders(),
+        ...headers,
+      }),
+      method: 'POST',
+    }),
+    url,
+  )(endpoint),
+};
 
-export const post = ({ body, endpoint, headers }) => compose(
-  fetch({
-    ...defaultOptions,
-    body: JSON.stringify(body),
-    headers: new Headers({
-      ...baseHeaders(),
-      ...headers,
-    }),
-    method: 'POST',
-  }),
-  url,
-)(endpoint);
+export default { ...methods, registerToken, deregisterToken, selectToken };

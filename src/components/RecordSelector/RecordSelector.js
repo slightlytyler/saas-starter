@@ -2,7 +2,7 @@ import { PropTypes } from 'react';
 import connect from 'common/redux/connect';
 import { createStructuredSelector } from 'reselect';
 
-const RecordSelector = ({ children, record }) => children({ record });
+const RecordSelector = ({ children, record }) => (record.deleted ? false : children({ record }));
 
 RecordSelector.propTypes = {
   children: PropTypes.func.isRequired,

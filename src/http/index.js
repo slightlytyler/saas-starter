@@ -1,1 +1,1 @@
-export * as rest from './rest';
+export rest from './rest';
