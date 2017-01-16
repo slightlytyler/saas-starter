@@ -62,6 +62,7 @@ export function* updateRecord({ payload }) {
       endpoint: `/adapters/${payload.id}`,
     });
     yield compose(put, actions.updateRecord.succeed)(body);
+    yield compose(put, push)('/adapters');
   } catch (e) {
     yield compose(put, actions.updateRecord.fail)(e.toString());
   }

@@ -1,8 +1,9 @@
-import { PropTypes } from 'react';
 import connect from 'common/redux/connect';
+import { get } from 'lodash/fp';
+import { PropTypes } from 'react';
 import { createStructuredSelector } from 'reselect';
 
-const RecordSelector = ({ children, record }) => (record.deleted ? false : children({ record }));
+const RecordSelector = ({ children, record }) => (get('deleted', record) ? false : children({ record }));
 
 RecordSelector.propTypes = {
   children: PropTypes.func.isRequired,
@@ -14,11 +15,7 @@ RecordSelector.propTypes = {
 };
 
 RecordSelector.defaultProps = {
-  record: {
-    body: {},
-    loading: true,
-    placeholder: true,
-  },
+  record: null,
 };
 
 const container = connect(

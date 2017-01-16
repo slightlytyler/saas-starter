@@ -22,7 +22,7 @@ const AdaptersRoot = ({ pathname }) => (
           }}
         >
           {({ CollectionFetcher, CollectionSelector, CollectionViewer }) => {
-            if (!CollectionFetcher) return <div>Loading...</div>;
+            if (!(CollectionFetcher || CollectionSelector)) return <div>Loading...</div>;
             return (
               <CollectionFetcher query={selectQuery(location)}>
                 <CollectionSelector query={selectQuery(location)}>
@@ -65,52 +65,56 @@ const AdaptersRoot = ({ pathname }) => (
                 modules={{
                   // eslint-disable-next-line global-require
                   RecordFetcher: require('../RecordFetcher'),
+                  // eslint-disable-next-line global-require
+                  RecordSelector: require('../RecordSelector'),
                 }}
               >
-                {({ RecordFetcher }) => {
-                  if (!RecordFetcher) return <div>Loading...</div>;
+                {({ RecordFetcher, RecordSelector }) => {
+                  if (!(RecordFetcher || RecordSelector)) return <div>Loading...</div>;
                   return (
                     <RecordFetcher id={adapterId}>
-                      {({ record }) => (
-                        <div>
-                          <Match
-                            exactly
-                            pattern={`${pathname}/:adapterId`}
-                            render={() => (
-                              <CodeSplit
-                                chunkName="AdaptersRecordViewer"
-                                modules={{
-                                  // eslint-disable-next-line global-require
-                                  RecordViewer: require('../RecordViewer'),
-                                }}
-                              >
-                                {({ RecordViewer }) => {
-                                  if (!RecordViewer) return <div>Loading...</div>;
-                                  return <RecordViewer record={record} />;
-                                }}
-                              </CodeSplit>
-                            )}
-                          />
-                          <Match
-                            exactly
-                            pattern={`${pathname}/:adapterId/edit`}
-                            render={() => (
-                              <CodeSplit
-                                chunkName="AdaptersRecordEditor"
-                                modules={{
-                                  // eslint-disable-next-line global-require
-                                  RecordEditor: require('../RecordEditor'),
-                                }}
-                              >
-                                {({ RecordEditor }) => {
-                                  if (!RecordEditor) return <div>Loading...</div>;
-                                  return <RecordEditor record={record} />;
-                                }}
-                              </CodeSplit>
-                            )}
-                          />
-                        </div>
-                      )}
+                      <RecordSelector id={adapterId}>
+                        {({ record }) => (
+                          <div>
+                            <Match
+                              exactly
+                              pattern={`${pathname}/:adapterId`}
+                              render={() => (
+                                <CodeSplit
+                                  chunkName="AdaptersRecordViewer"
+                                  modules={{
+                                    // eslint-disable-next-line global-require
+                                    RecordViewer: require('../RecordViewer'),
+                                  }}
+                                >
+                                  {({ RecordViewer }) => {
+                                    if (!RecordViewer) return <div>Loading...</div>;
+                                    return <RecordViewer record={record} />;
+                                  }}
+                                </CodeSplit>
+                              )}
+                            />
+                            <Match
+                              exactly
+                              pattern={`${pathname}/:adapterId/edit`}
+                              render={() => (
+                                <CodeSplit
+                                  chunkName="AdaptersRecordEditor"
+                                  modules={{
+                                    // eslint-disable-next-line global-require
+                                    RecordEditor: require('../RecordEditor'),
+                                  }}
+                                >
+                                  {({ RecordEditor }) => {
+                                    if (!RecordEditor) return <div>Loading...</div>;
+                                    return <RecordEditor record={record} />;
+                                  }}
+                                </CodeSplit>
+                              )}
+                            />
+                          </div>
+                        )}
+                      </RecordSelector>
                     </RecordFetcher>
                   );
                 }}

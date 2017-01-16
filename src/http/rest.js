@@ -47,6 +47,18 @@ const methods = {
     url,
     queryString(query),
   )(endpoint),
+  patch: ({ body, endpoint, headers }) => compose(
+    fetch({
+      ...defaultOptions,
+      body: JSON.stringify(body),
+      headers: new Headers({
+        ...baseHeaders(),
+        ...headers,
+      }),
+      method: 'PATCH',
+    }),
+    url,
+  )(endpoint),
   post: ({ body, endpoint, headers }) => compose(
     fetch({
       ...defaultOptions,
