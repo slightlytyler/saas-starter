@@ -2,9 +2,8 @@ import connect from 'common/redux/connect';
 import Lifecycle from 'components/Lifecycle';
 import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
-import { createStructuredSelector } from 'reselect';
 
-const RecordFetcher = ({ actions, children, id, record }) => (
+const RecordFetcher = ({ actions, children, id }) => (
   <Lifecycle
     componentDidMount={() => () => actions.fetchRecord({ id })}
     componentWillReceiveProps={props => nextProps => {
@@ -13,7 +12,7 @@ const RecordFetcher = ({ actions, children, id, record }) => (
       }
     }}
   >
-    {children({ record })}
+    {children}
   </Lifecycle>
 );
 
@@ -25,22 +24,10 @@ RecordFetcher.propTypes = {
   }).isRequired,
   children: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
-  record: PropTypes.object,
-  // eslint-disable-next-line react/no-unused-prop-types
-  selector: PropTypes.func.isRequired,
-};
-
-RecordFetcher.defaultProps = {
-  record: {
-    body: {},
-    loading: true,
-  },
 };
 
 const container = connect(
-  createStructuredSelector({
-    record: (state, { id, selector }) => selector(state, id),
-  }),
+  null,
   (dispatch, { action }) => () => bindActionCreators({
     fetchRecord: action,
   }, dispatch),

@@ -2,7 +2,7 @@ import Bool from 'components/Bool';
 import { DataTableRow, DataTableRowColumn } from 'components/DataTable';
 import React, { PropTypes } from 'react';
 import ActionsMenu from './AdaptersTableRowActionsMenu';
-import RecordFetcher from '../RecordFetcher';
+import RecordSelector from '../RecordSelector';
 
 const renderStatus = status => (
   status === 'Creating image'
@@ -11,7 +11,7 @@ const renderStatus = status => (
 );
 
 const AdaptersTableRow = ({ id }) => (
-  <RecordFetcher id={id}>
+  <RecordSelector id={id}>
     {({ record }) => (
       <DataTableRow>
         <DataTableRowColumn icon>
@@ -27,7 +27,7 @@ const AdaptersTableRow = ({ id }) => (
         </DataTableRowColumn>
       </DataTableRow>
     )}
-  </RecordFetcher>
+  </RecordSelector>
 );
 
 AdaptersTableRow.propTypes = {
