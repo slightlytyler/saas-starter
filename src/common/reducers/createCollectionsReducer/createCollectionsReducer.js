@@ -7,25 +7,7 @@ const selectRecordsIds = map(selectRecordId);
 
 const hasCollectionForQuery = (state, query) => has(queryKey(query), state);
 
-const collectionDefaults = {
-  ids: [],
-  pagination: {
-    totalElements: 0,
-    totalPages: 0,
-  },
-};
-
-const createCollection = (state, query) => ({
-  ...state,
-  [queryKey(query)]: {
-    ...collectionDefaults,
-    loading: true,
-    query,
-    timestamp: new Date().toString(),
-  },
-});
-
-const updateCollection = (state, query, collection) => {
+const applyCollectionToState = (state, query, collection) => {
   const key = queryKey(queryKey);
   return {
     ...state,
@@ -41,17 +23,32 @@ const createCollectionsReducer = actions => (state = {}, { type, payload }) => {
   switch (type) {
     case actions.fetchCollection.types.initiate: {
       if (hasCollectionForQuery(state, payload.query)) {
-        return updateCollection(state, payload.query, { loading: true });
+        return applyCollectionToState(state, payload.query, { loading: true });
       }
-      return createCollection(state, payload.query);
+      return applyCollectionToState(
+        state,
+        payload.query,
+        {
+          ids: [],
+          loading: true,
+          pagination: {
+            totalElements: 0,
+            totalPages: 0,
+          },
+        },
+      );
     }
 
     case actions.fetchCollection.types.succeed:
-      return updateCollection(state, payload.query, {
-        ids: selectRecordsIds(payload.records),
-        loading: false,
-        pagination: payload.pagination,
-      });
+      return applyCollectionToState(
+        state,
+        payload.query,
+        {
+          ids: selectRecordsIds(payload.records),
+          loading: false,
+          pagination: payload.pagination,
+        },
+      );
 
     default:
       return state;
