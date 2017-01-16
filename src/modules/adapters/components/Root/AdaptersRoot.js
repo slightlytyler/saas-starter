@@ -15,17 +15,21 @@ const AdaptersRoot = ({ pathname }) => (
             // eslint-disable-next-line global-require
             CollectionFetcher: require('../CollectionFetcher'),
             // eslint-disable-next-line global-require
+            CollectionSelector: require('../CollectionSelector'),
+            // eslint-disable-next-line global-require
             CollectionViewer: require('../CollectionViewer'),
           }}
         >
-          {({ CollectionFetcher, CollectionViewer }) => {
+          {({ CollectionFetcher, CollectionSelector, CollectionViewer }) => {
             if (!CollectionFetcher) return <div>Loading...</div>;
             return (
               <CollectionFetcher query={selectQuery(location)}>
-                {({ collection }) => {
-                  if (!CollectionViewer) return <div>Loading...</div>;
-                  return <CollectionViewer collection={collection} />;
-                }}
+                <CollectionSelector query={selectQuery(location)}>
+                  {({ collection }) => {
+                    if (!CollectionViewer) return <div>Loading...</div>;
+                    return <CollectionViewer collection={collection} />;
+                  }}
+                </CollectionSelector>
               </CollectionFetcher>
             );
           }}

@@ -2,9 +2,8 @@ import connect from 'common/redux/connect';
 import Lifecycle from 'components/Lifecycle';
 import React, { PropTypes } from 'react';
 import { bindActionCreators } from 'redux';
-import { createStructuredSelector } from 'reselect';
 
-const CollectionFetcher = ({ actions, children, collection, query }) => (
+const CollectionFetcher = ({ actions, children, query }) => (
   <Lifecycle
     componentDidMount={() => () => actions.fetchCollection({ query })}
     componentWillReceiveProps={props => nextProps => {
@@ -13,7 +12,7 @@ const CollectionFetcher = ({ actions, children, collection, query }) => (
       }
     }}
   >
-    {children({ collection })}
+    {children}
   </Lifecycle>
 );
 
@@ -23,25 +22,12 @@ CollectionFetcher.propTypes = {
   actions: PropTypes.shape({
     fetchCollection: PropTypes.func.isRequired,
   }).isRequired,
-  children: PropTypes.func.isRequired,
-  collection: PropTypes.object,
+  children: PropTypes.node.isRequired,
   query: PropTypes.object.isRequired,
-  // eslint-disable-next-line react/no-unused-prop-types
-  selector: PropTypes.func.isRequired,
-};
-
-CollectionFetcher.defaultProps = {
-  collection: {
-    ids: [],
-    loading: true,
-    placeholder: true,
-  },
 };
 
 const container = connect(
-  createStructuredSelector({
-    collection: (state, { query, selector }) => selector(state, query),
-  }),
+  null,
   (dispatch, { action }) => () => bindActionCreators({
     fetchCollection: action,
   }, dispatch),

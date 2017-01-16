@@ -14,7 +14,7 @@ const AdaptersCollectionFetcher = ({ children, query }) => (
 );
 
 AdaptersCollectionFetcher.propTypes = {
-  children: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
   query: PropTypes.object.isRequired,
 };
 

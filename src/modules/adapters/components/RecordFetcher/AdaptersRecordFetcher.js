@@ -9,7 +9,7 @@ const AdaptersRecordFetcher = ({ children, id }) => (
 );
 
 AdaptersRecordFetcher.propTypes = {
-  children: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
   id: PropTypes.string.isRequired,
 };
 

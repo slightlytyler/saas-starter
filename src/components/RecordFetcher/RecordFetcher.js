@@ -22,7 +22,7 @@ RecordFetcher.propTypes = {
   actions: PropTypes.shape({
     fetchRecord: PropTypes.func.isRequired,
   }).isRequired,
-  children: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
   id: PropTypes.string.isRequired,
 };
 
