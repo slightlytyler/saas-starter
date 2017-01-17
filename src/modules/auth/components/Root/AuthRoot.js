@@ -1,11 +1,11 @@
 import React, { PropTypes } from 'react';
-import { Match } from 'react-router';
+import { Route, Switch } from 'react-router';
 import { CodeSplit } from 'code-split-component';
 
 const AuthRoot = ({ pathname }) => (
-  <div>
-    <Match
-      pattern={`${pathname}/login`}
+  <Switch>
+    <Route
+      path={`${pathname}/login`}
       render={() => (
         <CodeSplit
           chunkName="AuthLogin"
@@ -16,8 +16,8 @@ const AuthRoot = ({ pathname }) => (
         </CodeSplit>
       )}
     />
-    <Match
-      pattern={`${pathname}/sign-up/:token`}
+    <Route
+      path={`${pathname}/sign-up/:token`}
       render={() => (
         <CodeSplit
           chunkName="AuthSignUp"
@@ -28,8 +28,8 @@ const AuthRoot = ({ pathname }) => (
         </CodeSplit>
       )}
     />
-    <Match
-      pattern={`${pathname}/reset-password`}
+    <Route
+      path={`${pathname}/reset-password`}
       render={() => (
         <CodeSplit
           chunkName="AuthResetPassword"
@@ -40,8 +40,8 @@ const AuthRoot = ({ pathname }) => (
         </CodeSplit>
       )}
     />
-    <Match
-      pattern={`${pathname}/change-password/:token`}
+    <Route
+      path={`${pathname}/change-password/:token`}
       render={() => (
         <CodeSplit
           chunkName="AuthChangePassword"
@@ -52,7 +52,7 @@ const AuthRoot = ({ pathname }) => (
         </CodeSplit>
       )}
     />
-  </div>
+  </Switch>
 );
 
 AuthRoot.propTypes = {

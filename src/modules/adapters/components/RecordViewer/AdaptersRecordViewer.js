@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 
 const AdaptersRecordViewer = ({ record }) => {
-  if (record.loading) return <div>Loading...</div>;
+  if (!record || record.loading) return <div>Loading...</div>;
   return (
     <div>{record.body.id}</div>
   );
