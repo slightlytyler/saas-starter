@@ -51,12 +51,17 @@ export default ({ history }) => {
     store.asyncReducers,
     { [key]: reducer },
   );
-  store.injectReducer = compose(
-    store.replaceReducer,
-    makeRootReducer,
-    assign(reducers),
-    store.addAsyncReducer,
-  );
+  store.injectReducer = ({ key, reducer }) => {
+    if (!store.asyncReducers[key]) {
+      return compose(
+        store.replaceReducer,
+        makeRootReducer,
+        assign(reducers),
+        store.addAsyncReducer,
+      )({ key, reducer });
+    }
+    return null;
+  };
   store.asyncSagas = {};
   store.addAsyncSagas = ({ key, sagas }) => Object.assign(
     store.asyncSagas,
@@ -65,8 +70,9 @@ export default ({ history }) => {
   store.injectSagas = ({ key, sagas }) => {
     if (!store.asyncSagas[key]) {
       store.addAsyncSagas({ key, sagas });
-      sagaMiddleware.run(sagas);
+      return sagaMiddleware.run(sagas);
     }
+    return null;
   };
 
   return store;
