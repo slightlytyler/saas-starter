@@ -21,7 +21,7 @@ DataTableRowColumn.propTypes = {
 
 DataTableRowColumn.defaultProps = {
   actions: false,
-  className: null,
+  className: undefined,
   icon: false,
 };
 

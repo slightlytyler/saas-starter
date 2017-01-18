@@ -22,7 +22,7 @@ DataTableHeader.propTypes = {
 };
 
 DataTableHeader.defaultProps = {
-  className: null,
+  className: undefined,
 };
 
 DataTableHeader.muiName = TableHeader.muiName;

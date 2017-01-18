@@ -14,7 +14,7 @@ DataTableBody.propTypes = {
 };
 
 DataTableBody.defaultProps = {
-  className: null,
+  className: undefined,
 };
 
 DataTableBody.muiName = TableBody.muiName;

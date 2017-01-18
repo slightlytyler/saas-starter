@@ -16,7 +16,7 @@ DataTableRow.propTypes = {
 };
 
 DataTableRow.defaultProps = {
-  className: null,
+  className: undefined,
   hoverable: true,
 };
 

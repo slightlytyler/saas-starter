@@ -1,10 +1,5 @@
 import CreateButton from 'components/CreateButton';
-import {
-  DataTable,
-  DataTableHeader,
-  DataTableHeaderColumn,
-  DataTableBody,
-} from 'components/DataTable';
+import DataTable from 'components/DataTable';
 import { push } from 'connected-react-router';
 import withActions from 'containers/withActions';
 import { map } from 'lodash/fp';
@@ -19,26 +14,26 @@ const transitionToCreator = () => push('/adapters/new');
 
 const AdaptersTable = ({ ids, loading, onCreate }) => (
   <DataTable loading={!ids || loading}>
-    <DataTableHeader>
-      <DataTableHeaderColumn icon>
+    <DataTable.Header>
+      <DataTable.HeaderColumn icon>
         Enabled
-      </DataTableHeaderColumn>
-      <DataTableHeaderColumn icon>
+      </DataTable.HeaderColumn>
+      <DataTable.HeaderColumn icon>
         Global
-      </DataTableHeaderColumn>
-      <DataTableHeaderColumn>
+      </DataTable.HeaderColumn>
+      <DataTable.HeaderColumn>
         Name
-      </DataTableHeaderColumn>
-      <DataTableHeaderColumn>
+      </DataTable.HeaderColumn>
+      <DataTable.HeaderColumn>
         Status
-      </DataTableHeaderColumn>
-      <DataTableHeaderColumn actions>
+      </DataTable.HeaderColumn>
+      <DataTable.HeaderColumn actions>
         <CreateButton onTouchTap={onCreate} />
-      </DataTableHeaderColumn>
-    </DataTableHeader>
-    <DataTableBody>
+      </DataTable.HeaderColumn>
+    </DataTable.Header>
+    <DataTable.Body>
       {renderRows(ids)}
-    </DataTableBody>
+    </DataTable.Body>
   </DataTable>
 );
 

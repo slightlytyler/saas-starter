@@ -1,5 +1,5 @@
 import Bool from 'components/Bool';
-import { DataTableRow, DataTableRowColumn } from 'components/DataTable';
+import DataTable from 'components/DataTable';
 import React, { PropTypes } from 'react';
 import ActionsMenu from './AdaptersTableRowActionsMenu';
 import withRecord from '../../containers/withRecord';
@@ -13,19 +13,23 @@ const renderStatus = status => (
 const AdaptersTableRow = ({ record }) => {
   if (record.deleted) return false;
   return (
-    <DataTableRow>
-      <DataTableRowColumn icon>
+    <DataTable.Row>
+      <DataTable.RowColumn icon>
         <Bool value={record.body.enabled} />
-      </DataTableRowColumn>
-      <DataTableRowColumn icon>
+      </DataTable.RowColumn>
+      <DataTable.RowColumn icon>
         <Bool value={record.body.global} />
-      </DataTableRowColumn>
-      <DataTableRowColumn>{record.body.name}</DataTableRowColumn>
-      <DataTableRowColumn>{renderStatus(record.body.status)}</DataTableRowColumn>
-      <DataTableRowColumn actions>
+      </DataTable.RowColumn>
+      <DataTable.RowColumn>
+        {record.body.name}
+      </DataTable.RowColumn>
+      <DataTable.RowColumn>
+        {renderStatus(record.body.status)}
+      </DataTable.RowColumn>
+      <DataTable.RowColumn actions>
         <ActionsMenu id={record.body.id} />
-      </DataTableRowColumn>
-    </DataTableRow>
+      </DataTable.RowColumn>
+    </DataTable.Row>
   );
 };
 
