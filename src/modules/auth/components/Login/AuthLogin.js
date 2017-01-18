@@ -1,7 +1,4 @@
-import Form from 'components/forms/Form';
-import Field from 'components/forms/Field';
-import PasswordField from 'components/forms/PasswordField';
-import SubmitButton from 'components/forms/SubmitButton';
+import Form, { PasswordField } from 'components/Form';
 import withActions from 'containers/withActions';
 import { login } from 'modules/auth/actions';
 import React, { PropTypes } from 'react';
@@ -24,18 +21,18 @@ const AuthLogin = ({ onSubmit }) => (
     title="Login"
   >
     <Form onSubmit={onSubmit} schema={schema}>
-      <Field
+      <Form.Field
         floatingLabelText="Username"
         fullWidth
         name="username"
       />
-      <Field
+      <Form.Field
         floatingLabelText="Password"
         fullWidth
         name="password"
         type={PasswordField}
       />
-      <SubmitButton label="Login" />
+      <Form.SubmitButton label="Login" />
     </Form>
   </Layout>
 );

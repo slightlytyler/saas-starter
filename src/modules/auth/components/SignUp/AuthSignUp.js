@@ -1,39 +1,36 @@
-import React, { PropTypes } from 'react';
-import { compose, get, reduce } from 'lodash/fp';
-import { connect } from 'react-redux';
+import Form, { PasswordField } from 'components/Form';
+import withActions from 'containers/withActions';
 import { signUp } from 'modules/auth/actions';
+import React, { PropTypes } from 'react';
+import yup from 'yup';
+import Layout from '../Layout';
 
-const getFormValue = compose(
-  reduce(
-    (acc, el) => (el.name ? { ...acc, [el.name]: el.value } : acc),
-    {},
-  ),
-  get('elements'),
-);
+const schema = yup.object({
+  username: yup.string().required('is required'),
+  password: yup.string().required('is required'),
+});
 
-const handleSubmit = action => e => {
-  e.preventDefault();
-  return compose(action, getFormValue)(e.target);
-};
-
-export const AuthSignUp = props => (
-  <div>
-    <header>Sign Up</header>
-    <form onSubmit={handleSubmit(props.signUp)}>
-      <label htmlFor="username">Username</label>
-      <input name="username" />
-      <label htmlFor="password">Password</label>
-      <input name="password" type="password" />
-      <button type="submit">Submit</button>
-    </form>
-  </div>
+const AuthSignUp = ({ onSubmit }) => (
+  <Layout title="SignUp">
+    <Form onSubmit={onSubmit} schema={schema}>
+      <Form.Field
+        floatingLabelText="Username"
+        fullWidth
+        name="username"
+      />
+      <Form.Field
+        floatingLabelText="Password"
+        fullWidth
+        name="password"
+        type={PasswordField}
+      />
+      <Form.SubmitButton label="SignUp" />
+    </Form>
+  </Layout>
 );
 
 AuthSignUp.propTypes = {
-  signUp: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
-export default connect(
-  null,
-  { signUp },
-)(AuthSignUp);
+export default withActions({ onSubmit: signUp })(AuthSignUp);

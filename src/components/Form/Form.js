@@ -5,19 +5,6 @@ import StateProvider from 'components/StateProvider';
 import { compose, get, identity, keys, memoize, pickBy } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import Formal from 'react-formal';
-import CheckboxField from '../CheckboxField';
-import NumberField from '../NumberField';
-import PasswordField from '../PasswordField';
-import TextField from '../TextField';
-
-Formal.addInputTypes({
-  boolean: CheckboxField,
-  checkbox: CheckboxField,
-  number: NumberField,
-  password: PasswordField,
-  string: TextField,
-  text: TextField,
-});
 
 const getErrorForField = ({ element, errors }) => get([element.props.name, '0', 'message'], errors);
 

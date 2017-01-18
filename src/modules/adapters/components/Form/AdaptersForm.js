@@ -1,6 +1,4 @@
-import Field from 'components/forms/Field';
-import Form from 'components/forms/Form';
-import SubmitButton from 'components/forms/SubmitButton';
+import Form from 'components/Form';
 import Panel from 'components/Panel';
 import React, { PropTypes } from 'react';
 import yup from 'yup';
@@ -15,9 +13,9 @@ const AdaptersForm = ({ defaultValue, loading, onSubmit }) => {
   return (
     <Panel>
       <Form defaultValue={defaultValue} onSubmit={onSubmit} schema={formSchema}>
-        <Field fullWidth name="name" />
-        <Field fullWidth name="description" />
-        <SubmitButton label="Create Adapter" />
+        <Form.Field fullWidth name="name" />
+        <Form.Field fullWidth name="description" />
+        <Form.SubmitButton label="Create Adapter" />
       </Form>
     </Panel>
   );
