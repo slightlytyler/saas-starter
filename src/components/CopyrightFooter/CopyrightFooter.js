@@ -7,8 +7,8 @@ const copyRightYears = currentYear === startYear ? currentYear : `${startYear}, 
 
 const CopyrightFooter = () => (
   <Box center className="CopyrightFooter">
-    <span className="text">
-      ©IBM Corporation {copyRightYears}. View our <span className="link">Data Policy</span> and <span className="link">Terms</span>.
+    <span className="CopyrightFooter__text">
+      ©IBM Corporation {copyRightYears}. View our <span className="CopyrightFooter__link">Data Policy</span> and <span className="CopyrightFooter__link">Terms</span>.
     </span>
   </Box>
 );

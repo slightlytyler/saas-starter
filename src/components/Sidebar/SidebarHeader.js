@@ -6,16 +6,16 @@ import withActions from 'containers/withActions';
 
 const transitionToHome = () => push('/');
 
-const AppLayoutSidebarHeader = ({ onTouchTap }) => (
-  <Box center className="AppLayoutSidebarHeader" onTouchTap={onTouchTap}>
-    <Logo className="AppLayoutSidebar__logo" inverted />
+const SidebarHeader = ({ onTouchTap }) => (
+  <Box center className="SidebarHeader" onTouchTap={onTouchTap}>
+    <Logo inverted />
   </Box>
 );
 
-AppLayoutSidebarHeader.propTypes = {
+SidebarHeader.propTypes = {
   onTouchTap: PropTypes.func.isRequired,
 };
 
 export default withActions({
   onTouchTap: transitionToHome,
-})(AppLayoutSidebarHeader);
+})(SidebarHeader);

@@ -21,13 +21,13 @@ const renderItem = ({ icon, onTouchTap, value }) => (
   />
 );
 
-const AppLayoutSidebarPrimaryNav = ({ items, location }) => (
+const SidebarPrimaryNav = ({ items, location }) => (
   <SelectableList style={{ width: '100%' }} value={getValueFromLocation(location)}>
     {map(renderItem, items)}
   </SelectableList>
 );
 
-AppLayoutSidebarPrimaryNav.propTypes = {
+SidebarPrimaryNav.propTypes = {
   items: PropTypes.array.isRequired,
   location: PropTypes.object.isRequired,
 };
@@ -66,6 +66,6 @@ const container = compose(
   })),
 );
 
-export { AppLayoutSidebarPrimaryNav as component, container };
+export { SidebarPrimaryNav as component, container };
 
-export default container(AppLayoutSidebarPrimaryNav);
+export default container(SidebarPrimaryNav);

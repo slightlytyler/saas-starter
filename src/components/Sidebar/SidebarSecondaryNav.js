@@ -15,13 +15,13 @@ const renderItem = ({ icon, onTouchTap, value }) => (
   />
 );
 
-const AppLayoutSidebarSecondaryNav = ({ items }) => (
+const SidebarSecondaryNav = ({ items }) => (
   <List style={{ width: '100%' }}>
     {map(renderItem, items)}
   </List>
 );
 
-AppLayoutSidebarSecondaryNav.propTypes = {
+SidebarSecondaryNav.propTypes = {
   items: PropTypes.arrayOf(
     PropTypes.shape({
       icon: PropTypes.string.isRequired,
@@ -44,6 +44,6 @@ const container = compose(
   })),
 );
 
-export { AppLayoutSidebarSecondaryNav as component, container };
+export { SidebarSecondaryNav as component, container };
 
-export default container(AppLayoutSidebarSecondaryNav);
+export default container(SidebarSecondaryNav);

@@ -1,7 +1,7 @@
 import React, { PropTypes } from 'react';
 import { Box, Page } from 'react-layout-components';
 import CopyrightFooter from '../CopyrightFooter';
-import Sidebar from './AppLayoutSidebar';
+import Sidebar from '../Sidebar';
 
 const AppLayout = ({ children }) => (
   <Page>
