@@ -1,8 +1,9 @@
+import { getMuiTheme } from 'material-ui/styles';
 import spacing from 'material-ui/styles/spacing';
 import { fade } from 'material-ui/utils/colorManipulator';
 import colors from 'colors';
 
-export default {
+const config = {
   spacing,
   fontFamily: 'Roboto, sans-serif',
   palette: {
@@ -23,3 +24,5 @@ export default {
     shadowColor: colors.blue100,
   },
 };
+
+export default getMuiTheme(config);

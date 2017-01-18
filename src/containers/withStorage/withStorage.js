@@ -2,17 +2,10 @@ import withActions from 'containers/withActions';
 import { compose } from 'lodash/fp';
 import { registerToken } from 'modules/auth/actions';
 import { selectIsAuthenticated } from 'modules/auth/selectors';
-import { PropTypes } from 'react';
-import { lifecycle, withState } from 'recompose';
+import React from 'react';
+import { branch, lifecycle, renderComponent, withState } from 'recompose';
 
-const StorageLoader = ({ children, loading }) => children({ loading });
-
-StorageLoader.propTypes = {
-  children: PropTypes.func.isRequired,
-  loading: PropTypes.bool.isRequired,
-};
-
-const container = compose(
+const withStorage = compose(
   withActions({ registerToken }),
   withState('loading', 'setLoading', true),
   lifecycle({
@@ -24,8 +17,10 @@ const container = compose(
       this.props.setLoading(false);
     },
   }),
+  branch(
+    props => props.loading,
+    renderComponent(() => <div>Loading...</div>),
+  ),
 );
 
-export { StorageLoader as component, container };
-
-export default container(StorageLoader);
+export default withStorage;
