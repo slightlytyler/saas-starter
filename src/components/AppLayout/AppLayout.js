@@ -1,6 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Box, Page } from 'react-layout-components';
-import Footer from './AppLayoutFooter';
+import CopyrightFooter from '../CopyrightFooter';
 import Sidebar from './AppLayoutSidebar';
 
 const AppLayout = ({ children }) => (
@@ -11,7 +11,7 @@ const AppLayout = ({ children }) => (
         <Box column flex="1" style={{ padding: '16px' }}>
           {children}
         </Box>
-        <Footer />
+        <CopyrightFooter />
       </Box>
     </Box>
   </Page>
