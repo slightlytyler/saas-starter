@@ -5,7 +5,7 @@ import React, { PropTypes } from 'react';
 const SubmitButton = ({ className, label, ...props }) => (
   <RaisedButton
     {...props}
-    className={cx('SubmitButton', className)}
+    className={cx('FormSubmitButton', className)}
     fullWidth
     label={label}
     primary
