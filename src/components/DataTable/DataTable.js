@@ -1,6 +1,7 @@
 import cx from 'classnames';
 import findChild from 'common/react/findChild';
-import AutoSizer from 'components/AutoSizer';
+import omitProps from 'containers/omitProps';
+import withParentDimensions from 'containers/withParentDimensions';
 import { compose, keys, map } from 'lodash/fp';
 import { Paper, Table } from 'material-ui';
 import React, { PropTypes } from 'react';
@@ -25,33 +26,33 @@ const renderEmptyState = children => ([
   renderEmptyBody(),
 ]);
 
-const DataTable = ({ children, className, loading, ...props }) => (
-  <AutoSizer>
-    {({ height }) => (
-      <Paper zDepth={0}>
-        <Table
-          {...props}
-          className={cx('DataTable', className)}
-          height={`${height - 57}px`}
-        >
-          {loading ? renderEmptyState(children) : children}
-        </Table>
-      </Paper>
-    )}
-  </AutoSizer>
+const DataTable = ({ children, className, height, loading, ...props }) => (
+  <Paper zDepth={0}>
+    <Table
+      {...props}
+      className={cx('DataTable', className)}
+      height={`${height - 57}px`}
+    >
+      {loading ? renderEmptyState(children) : children}
+    </Table>
+  </Paper>
 );
 
 DataTable.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
+  height: PropTypes.number.isRequired,
   loading: PropTypes.bool,
 };
 
 DataTable.defaultProps = {
-  className: null,
+  className: undefined,
   loading: false,
 };
 
 DataTable.muiName = Table.muiName;
 
-export default DataTable;
+export default compose(
+  withParentDimensions,
+  omitProps('width'),
+)(DataTable);
