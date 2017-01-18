@@ -1,14 +1,11 @@
 import { FloatingActionButton, FontIcon } from 'material-ui';
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { toClass } from 'recompose';
 
-const CreateButton = ({ onTouchTap }) => (
-  <FloatingActionButton mini onTouchTap={onTouchTap}>
+const CreateButton = props => (
+  <FloatingActionButton mini {...props}>
     <FontIcon className="material-icons">add</FontIcon>
   </FloatingActionButton>
 );
 
-CreateButton.propTypes = {
-  onTouchTap: PropTypes.func.isRequired,
-};
-
-export default CreateButton;
+export default toClass(CreateButton);

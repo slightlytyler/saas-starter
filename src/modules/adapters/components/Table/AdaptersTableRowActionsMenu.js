@@ -17,17 +17,14 @@ export default compose(
       {
         action: props.transitionToViewer,
         id: 'view',
-        label: 'View',
       },
       {
         action: props.transitionToEditor,
         id: 'edit',
-        label: 'Edit',
       },
       {
         action: props.deleteRecord,
         id: 'delete',
-        label: 'Delete',
         style: { color: colors.red50 },
       },
     ],
