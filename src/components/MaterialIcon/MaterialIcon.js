@@ -17,4 +17,6 @@ MaterialIcon.defaultProps = {
   className: undefined,
 };
 
+MaterialIcon.muiName = FontIcon.muiName;
+
 export default MaterialIcon;

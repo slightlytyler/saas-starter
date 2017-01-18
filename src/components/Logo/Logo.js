@@ -17,7 +17,7 @@ Logo.propTypes = {
 };
 
 Logo.defaultProps = {
-  className: null,
+  className: undefined,
   inverted: false,
 };
 
