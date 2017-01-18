@@ -1,10 +1,10 @@
 import cx from 'classnames';
 import cloneElement from 'common/react/cloneElement';
 import mapChildren from 'common/react/mapChildren';
-import StateProvider from 'components/StateProvider';
 import { compose, get, identity, keys, memoize, pickBy } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import Formal from 'react-formal';
+import { withState } from 'recompose';
 
 const getErrorForField = ({ element, errors }) => get([element.props.name, '0', 'message'], errors);
 
@@ -18,7 +18,7 @@ const applyFieldProps = ({ errors, events }) => element => cloneElement(
 
 const getEvents = compose(keys, pickBy(identity));
 
-const handleError = memoize(fn => errors => fn({ errors }));
+const handleError = memoize(fn => errors => fn(errors));
 
 const renderChildren = ({ children, errors, events }) => mapChildren(
   element => {
@@ -32,30 +32,36 @@ const renderChildren = ({ children, errors, events }) => mapChildren(
   children,
 );
 
-const Form = ({ children, className, validateOnBlur, validateOnChange, ...props }) => (
-  <StateProvider initialState={{ errors: {} }}>
-    {({ setState, state }) => (
-      <Formal
-        {...props}
-        className={cx('Form', className)}
-        onError={handleError(setState)}
-      >
-        {renderChildren({
-          children,
-          errors: state.errors,
-          events: getEvents({
-            onBlur: validateOnBlur,
-            onChange: validateOnChange,
-          }),
-        })}
-      </Formal>
-    )}
-  </StateProvider>
+const Form = ({
+  children,
+  className,
+  errors,
+  setErrors,
+  validateOnBlur,
+  validateOnChange,
+  ...props
+}) => (
+  <Formal
+    {...props}
+    className={cx('Form', className)}
+    onError={handleError(setErrors)}
+  >
+    {renderChildren({
+      children,
+      errors,
+      events: getEvents({
+        onBlur: validateOnBlur,
+        onChange: validateOnChange,
+      }),
+    })}
+  </Formal>
 );
 
 Form.propTypes = {
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
+  errors: PropTypes.object.isRequired,
+  setErrors: PropTypes.func.isRequired,
   validateOnBlur: PropTypes.bool,
   validateOnChange: PropTypes.bool,
 };
@@ -66,4 +72,4 @@ Form.defaultProps = {
   validateOnChange: false,
 };
 
-export default Form;
+export default withState('errors', 'setErrors', {})(Form);

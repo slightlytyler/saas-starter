@@ -28,7 +28,7 @@ AdaptersForm.propTypes = {
 };
 
 AdaptersForm.defaultProps = {
-  defaultValue: null,
+  defaultValue: undefined,
   loading: false,
 };
 
