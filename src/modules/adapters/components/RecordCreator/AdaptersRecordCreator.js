@@ -6,5 +6,5 @@ import { createRecord } from '../../actions';
 
 export default compose(
   withActions({ createRecord }),
-  mapProps(({ actions }) => ({ onSubmit: actions.createRecord })),
+  mapProps(props => ({ onSubmit: props.createRecord })),
 )(Form);

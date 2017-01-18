@@ -1,11 +1,11 @@
-import React from 'react';
-import yup from 'yup';
-import ActionsProvider from 'components/ActionsProvider';
 import Form from 'components/forms/Form';
 import Field from 'components/forms/Field';
 import PasswordField from 'components/forms/PasswordField';
 import SubmitButton from 'components/forms/SubmitButton';
+import withActions from 'containers/withActions';
 import { login } from 'modules/auth/actions';
+import React, { PropTypes } from 'react';
+import yup from 'yup';
 import Layout from '../Layout';
 
 const schema = yup.object({
@@ -13,7 +13,7 @@ const schema = yup.object({
   password: yup.string().required('is required'),
 });
 
-const AuthLogin = () => (
+const AuthLogin = ({ onSubmit }) => (
   <Layout
     alternateMessages={[
       {
@@ -23,25 +23,25 @@ const AuthLogin = () => (
     ]}
     title="Login"
   >
-    <ActionsProvider creators={{ login }}>
-      {({ actions }) => (
-        <Form onSubmit={actions.login} schema={schema}>
-          <Field
-            floatingLabelText="Username"
-            fullWidth
-            name="username"
-          />
-          <Field
-            floatingLabelText="Password"
-            fullWidth
-            name="password"
-            type={PasswordField}
-          />
-          <SubmitButton label="Login" />
-        </Form>
-      )}
-    </ActionsProvider>
+    <Form onSubmit={onSubmit} schema={schema}>
+      <Field
+        floatingLabelText="Username"
+        fullWidth
+        name="username"
+      />
+      <Field
+        floatingLabelText="Password"
+        fullWidth
+        name="password"
+        type={PasswordField}
+      />
+      <SubmitButton label="Login" />
+    </Form>
   </Layout>
 );
 
-export default AuthLogin;
+AuthLogin.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};
+
+export default withActions({ onSubmit: login })(AuthLogin);

@@ -1,15 +1,8 @@
-import { get, isPlainObject } from 'lodash/fp';
+import { isPlainObject } from 'lodash/fp';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 const defaultMapDispatchToProps = () => ({});
-
-const defaultMergeProps = (stateProps, dispatchProps, ownProps) => Object.assign(
-  {},
-  ownProps,
-  stateProps,
-  { actions: Object.assign({}, dispatchProps, get('actions', ownProps)) },
-);
 
 const selectMapStateToProps = mapStateToProps => {
   if (isPlainObject(mapStateToProps)) {
@@ -21,7 +14,7 @@ const selectMapStateToProps = mapStateToProps => {
 const customConnect = ({
   mapStateToProps,
   mapDispatchToProps = defaultMapDispatchToProps,
-  mergeProps = defaultMergeProps,
+  mergeProps,
 }) => connect(
   selectMapStateToProps(mapStateToProps),
   mapDispatchToProps,

@@ -2,7 +2,7 @@ import { Divider, Paper } from 'material-ui';
 import React from 'react';
 import { Box, Flex } from 'react-layout-components';
 import Header from './AppLayoutSidebarHeader';
-import MainNav from './AppLayoutSidebarMainNav';
+import PrimaryNav from './AppLayoutSidebarPrimaryNav';
 import SecondaryNav from './AppLayoutSidebarSecondaryNav';
 
 const AppLayoutSidebar = () => (
@@ -11,7 +11,7 @@ const AppLayoutSidebar = () => (
       <Flex column fit>
         <Header />
         <Flex>
-          <MainNav />
+          <PrimaryNav />
         </Flex>
         <Divider />
         <SecondaryNav />

@@ -10,9 +10,9 @@ export default compose(
   withRecordFetcher,
   withRecord,
   withActions({ updateRecord }),
-  mapProps(({ actions, record }) => ({
-    defaultValue: get('body', record),
-    loading: !record,
-    onSubmit: actions.updateRecord,
+  mapProps(props => ({
+    defaultValue: get('body', props.record),
+    loading: !props.record,
+    onSubmit: props.updateRecord,
   })),
 )(Form);

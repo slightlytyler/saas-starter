@@ -1,4 +1,3 @@
-import ActionsProvider from 'components/ActionsProvider';
 import CreateButton from 'components/CreateButton';
 import {
   DataTable,
@@ -7,6 +6,7 @@ import {
   DataTableBody,
 } from 'components/DataTable';
 import { push } from 'connected-react-router';
+import withActions from 'containers/withActions';
 import { map } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import Row from './AdaptersTableRow';
@@ -17,7 +17,7 @@ const renderRows = map(renderRow);
 
 const transitionToCreator = () => push('/adapters/new');
 
-const AdaptersTable = ({ ids, loading }) => (
+const AdaptersTable = ({ ids, loading, onCreate }) => (
   <DataTable loading={!ids || loading}>
     <DataTableHeader>
       <DataTableHeaderColumn icon>
@@ -33,11 +33,7 @@ const AdaptersTable = ({ ids, loading }) => (
         Status
       </DataTableHeaderColumn>
       <DataTableHeaderColumn actions>
-        <ActionsProvider creators={{ transitionToCreator }}>
-          {({ actions }) => (
-            <CreateButton onClick={actions.transitionToCreator} />
-          )}
-        </ActionsProvider>
+        <CreateButton onTouchTap={onCreate} />
       </DataTableHeaderColumn>
     </DataTableHeader>
     <DataTableBody>
@@ -49,6 +45,7 @@ const AdaptersTable = ({ ids, loading }) => (
 AdaptersTable.propTypes = {
   ids: PropTypes.arrayOf(PropTypes.string),
   loading: PropTypes.bool,
+  onCreate: PropTypes.func.isRequired,
 };
 
 AdaptersTable.defaultProps = {
@@ -56,4 +53,8 @@ AdaptersTable.defaultProps = {
   loading: false,
 };
 
-export default AdaptersTable;
+const container = withActions({ onCreate: transitionToCreator });
+
+export { AdaptersTable as component, container };
+
+export default container(AdaptersTable);

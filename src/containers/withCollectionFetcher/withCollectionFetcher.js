@@ -8,11 +8,11 @@ const withRecordFetcher = action => compose(
   }),
   lifecycle({
     componentDidMount() {
-      this.props.actions.fetchCollection({ query: this.props.query });
+      this.props.fetchCollection({ query: this.props.query });
     },
     componentWillReceiveProps(nextProps) {
       if (this.props.query !== nextProps.query) {
-        this.props.actions.fetchCollection({ query: nextProps.query });
+        this.props.fetchCollection({ query: nextProps.query });
       }
     },
   }),

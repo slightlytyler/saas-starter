@@ -1,35 +1,31 @@
-import ActionsProvider from 'components/ActionsProvider';
-import Lifecycle from 'components/Lifecycle';
-import StateProvider from 'components/StateProvider';
+import withActions from 'containers/withActions';
+import { compose } from 'lodash/fp';
 import { registerToken } from 'modules/auth/actions';
 import { selectIsAuthenticated } from 'modules/auth/selectors';
-import React, { PropTypes } from 'react';
+import { PropTypes } from 'react';
+import { lifecycle, withState } from 'recompose';
 
-const StorageLoader = ({ children, store }) => (
-  <ActionsProvider creators={{ registerToken }}>
-    {({ actions }) => (
-      <StateProvider initialState={{ loading: true }}>
-        {({ setState, state }) => (
-          <Lifecycle
-            componentWillMount={() => async () => {
-              await store.loadStorage();
-              if (selectIsAuthenticated(store.getState())) {
-                actions.registerToken();
-              }
-              setState({ loading: false });
-            }}
-          >
-            {children({ loading: state.loading })}
-          </Lifecycle>
-        )}
-      </StateProvider>
-    )}
-  </ActionsProvider>
-);
+const StorageLoader = ({ children, loading }) => children({ loading });
 
 StorageLoader.propTypes = {
   children: PropTypes.func.isRequired,
-  store: PropTypes.object.isRequired,
+  loading: PropTypes.bool.isRequired,
 };
 
-export default StorageLoader;
+const container = compose(
+  withActions({ registerToken }),
+  withState('loading', 'setLoading', true),
+  lifecycle({
+    async componentWillMount() {
+      await this.props.store.loadStorage();
+      if (selectIsAuthenticated(this.props.store.getState())) {
+        this.props.registerToken();
+      }
+      this.props.setLoading(false);
+    },
+  }),
+);
+
+export { StorageLoader as component, container };
+
+export default container(StorageLoader);
