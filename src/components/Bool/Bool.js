@@ -1,15 +1,15 @@
 import colors from 'colors';
-import { FontIcon } from 'material-ui';
 import React, { PropTypes } from 'react';
+import MaterialIcon from '../MaterialIcon';
 
 const selectColor = value => (value ? colors.green50 : colors.red50);
 
 const selectIcon = value => (value ? 'done' : 'clear');
 
 const Bool = ({ value }) => (
-  <FontIcon className="material-icons" color={selectColor(value)}>
+  <MaterialIcon color={selectColor(value)}>
     {selectIcon(value)}
-  </FontIcon>
+  </MaterialIcon>
 );
 
 Bool.propTypes = {
