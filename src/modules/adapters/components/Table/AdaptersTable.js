@@ -7,7 +7,7 @@ import {
   DataTableBody,
 } from 'components/DataTable';
 import { push } from 'connected-react-router';
-import { map, size } from 'lodash/fp';
+import { map } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import Row from './AdaptersTableRow';
 
@@ -18,7 +18,7 @@ const renderRows = map(renderRow);
 const transitionToCreator = () => push('/adapters/new');
 
 const AdaptersTable = ({ ids, loading }) => (
-  <DataTable loading={!size(ids) && loading}>
+  <DataTable loading={!ids || loading}>
     <DataTableHeader>
       <DataTableHeaderColumn icon>
         Enabled
@@ -47,8 +47,13 @@ const AdaptersTable = ({ ids, loading }) => (
 );
 
 AdaptersTable.propTypes = {
-  ids: PropTypes.arrayOf(PropTypes.string).isRequired,
-  loading: PropTypes.bool.isRequired,
+  ids: PropTypes.arrayOf(PropTypes.string),
+  loading: PropTypes.bool,
+};
+
+AdaptersTable.defaultProps = {
+  ids: null,
+  loading: false,
 };
 
 export default AdaptersTable;

@@ -10,10 +10,11 @@ ActionProvider.propTypes = {
   creators: PropTypes.object.isRequired,
 };
 
-const container = connect(
-  null,
-  (dispatch, { creators }) => () => mapValues(creator => compose(dispatch, creator), creators),
-);
+const container = connect({
+  mapDispatchToProps: (dispatch, { creators }) => () => (
+    mapValues(creator => compose(dispatch, creator), creators)
+  ),
+});
 
 export { ActionProvider as Component, container };
 export default container(ActionProvider);

@@ -2,7 +2,6 @@ import Field from 'components/forms/Field';
 import Form from 'components/forms/Form';
 import SubmitButton from 'components/forms/SubmitButton';
 import Panel from 'components/Panel';
-import { isNull } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import yup from 'yup';
 
@@ -11,10 +10,8 @@ const formSchema = yup.object({
   description: yup.string(),
 });
 
-const defaultValueIsPending = isNull;
-
-const AdaptersForm = ({ defaultValue, onSubmit }) => {
-  if (defaultValueIsPending(defaultValue)) return <div>Loading</div>;
+const AdaptersForm = ({ defaultValue, loading, onSubmit }) => {
+  if (loading) return <div>Loading</div>;
   return (
     <Panel>
       <Form defaultValue={defaultValue} onSubmit={onSubmit} schema={formSchema}>
@@ -28,11 +25,13 @@ const AdaptersForm = ({ defaultValue, onSubmit }) => {
 
 AdaptersForm.propTypes = {
   defaultValue: PropTypes.object,
+  loading: PropTypes.bool,
   onSubmit: PropTypes.func.isRequired,
 };
 
 AdaptersForm.defaultProps = {
-  defaultValue: undefined,
+  defaultValue: null,
+  loading: false,
 };
 
 export default AdaptersForm;

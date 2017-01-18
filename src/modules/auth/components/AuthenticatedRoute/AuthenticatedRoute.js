@@ -15,9 +15,9 @@ AuthenticatedRoute.propTypes = {
   render: PropTypes.func.isRequired,
 };
 
-const container = connect(
-  { isAuthenticated: selectIsAuthenticated },
-);
+const container = connect({
+  mapStateToProps: { isAuthenticated: selectIsAuthenticated },
+});
 
 export { AuthenticatedRoute as component, container };
 

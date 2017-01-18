@@ -108,6 +108,7 @@ export const baseConfig = {
       colors: path.join(__src, 'styles/base/colors.js'),
       common: path.join(__src, 'common'),
       components: path.join(__src, 'components'),
+      containers: path.join(__src, 'containers'),
       modules: path.join(__src, 'modules'),
       src: path.join(__src),
       styles: path.join(__src, 'styles'),

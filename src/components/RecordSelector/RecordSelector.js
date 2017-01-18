@@ -18,11 +18,11 @@ RecordSelector.defaultProps = {
   record: null,
 };
 
-const container = connect(
-  createStructuredSelector({
+const container = connect({
+  mapStateToProps: createStructuredSelector({
     record: (state, { id, selector }) => selector(state, id),
   }),
-);
+});
 
 export { RecordSelector as component, container };
 

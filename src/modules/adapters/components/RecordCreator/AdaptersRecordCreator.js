@@ -1,12 +1,10 @@
-import ActionsProvider from 'components/ActionsProvider';
-import React from 'react';
+import withActions from 'containers/withActions';
+import { compose } from 'lodash/fp';
+import { mapProps } from 'recompose';
 import Form from '../Form';
 import { createRecord } from '../../actions';
 
-const AdaptersRecordCreator = () => (
-  <ActionsProvider creators={{ createRecord }}>
-    {({ actions }) => <Form onSubmit={actions.createRecord} />}
-  </ActionsProvider>
-);
-
-export default AdaptersRecordCreator;
+export default compose(
+  withActions({ createRecord }),
+  mapProps(({ actions }) => ({ onSubmit: actions.createRecord })),
+)(Form);

@@ -1,23 +1,18 @@
-import ActionsProvider from 'components/ActionsProvider';
-import { get } from 'lodash/fp';
-import React, { PropTypes } from 'react';
+import withActions from 'containers/withActions';
+import { compose, get } from 'lodash/fp';
+import { mapProps } from 'recompose';
 import Form from '../Form';
 import { updateRecord } from '../../actions';
+import withRecord from '../../containers/withRecord';
+import withRecordFetcher from '../../containers/withRecordFetcher';
 
-const AdaptersRecordEditor = ({ record }) => (
-  <ActionsProvider creators={{ updateRecord }}>
-    {({ actions }) => (
-      <Form defaultValue={get('body', record)} onSubmit={actions.updateRecord} />
-    )}
-  </ActionsProvider>
-);
-
-AdaptersRecordEditor.propTypes = {
-  record: PropTypes.object,
-};
-
-AdaptersRecordEditor.defaultProps = {
-  record: null,
-};
-
-export default AdaptersRecordEditor;
+export default compose(
+  withRecordFetcher,
+  withRecord,
+  withActions({ updateRecord }),
+  mapProps(({ actions, record }) => ({
+    defaultValue: get('body', record),
+    loading: !record,
+    onSubmit: actions.updateRecord,
+  })),
+)(Form);

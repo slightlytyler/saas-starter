@@ -2,7 +2,7 @@ import Bool from 'components/Bool';
 import { DataTableRow, DataTableRowColumn } from 'components/DataTable';
 import React, { PropTypes } from 'react';
 import ActionsMenu from './AdaptersTableRowActionsMenu';
-import RecordSelector from '../RecordSelector';
+import withRecord from '../../containers/withRecord';
 
 const renderStatus = status => (
   status === 'Creating image'
@@ -10,28 +10,27 @@ const renderStatus = status => (
     : status
 );
 
-const AdaptersTableRow = ({ id }) => (
-  <RecordSelector id={id}>
-    {({ record }) => (
-      <DataTableRow>
-        <DataTableRowColumn icon>
-          <Bool value={record.body.enabled} />
-        </DataTableRowColumn>
-        <DataTableRowColumn icon>
-          <Bool value={record.body.global} />
-        </DataTableRowColumn>
-        <DataTableRowColumn>{record.body.name}</DataTableRowColumn>
-        <DataTableRowColumn>{renderStatus(record.body.status)}</DataTableRowColumn>
-        <DataTableRowColumn actions>
-          <ActionsMenu id={id} />
-        </DataTableRowColumn>
-      </DataTableRow>
-    )}
-  </RecordSelector>
-);
-
-AdaptersTableRow.propTypes = {
-  id: PropTypes.string.isRequired,
+const AdaptersTableRow = ({ record }) => {
+  if (record.deleted) return false;
+  return (
+    <DataTableRow>
+      <DataTableRowColumn icon>
+        <Bool value={record.body.enabled} />
+      </DataTableRowColumn>
+      <DataTableRowColumn icon>
+        <Bool value={record.body.global} />
+      </DataTableRowColumn>
+      <DataTableRowColumn>{record.body.name}</DataTableRowColumn>
+      <DataTableRowColumn>{renderStatus(record.body.status)}</DataTableRowColumn>
+      <DataTableRowColumn actions>
+        <ActionsMenu id={record.body.id} />
+      </DataTableRowColumn>
+    </DataTableRow>
+  );
 };
 
-export default AdaptersTableRow;
+AdaptersTableRow.propTypes = {
+  record: PropTypes.object.isRequired,
+};
+
+export default withRecord(AdaptersTableRow);

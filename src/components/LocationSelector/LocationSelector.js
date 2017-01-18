@@ -3,7 +3,9 @@ import selectLocation from 'common/selectors/selectLocation';
 
 const LocationSelector = ({ location, children }) => children({ location });
 
-const container = connect({ location: selectLocation });
+const container = connect({
+  mapStateToProps: { location: selectLocation },
+});
 
 export { LocationSelector as component, container };
 

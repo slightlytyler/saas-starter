@@ -26,12 +26,11 @@ RecordFetcher.propTypes = {
   id: PropTypes.string.isRequired,
 };
 
-const container = connect(
-  null,
-  (dispatch, { action }) => () => bindActionCreators({
+const container = connect({
+  mapDispatchToProps: (dispatch, { action }) => () => bindActionCreators({
     fetchRecord: action,
   }, dispatch),
-);
+});
 
 export { RecordFetcher as component, container };
 
