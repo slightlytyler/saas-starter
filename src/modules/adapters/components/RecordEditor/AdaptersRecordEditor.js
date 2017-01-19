@@ -4,11 +4,9 @@ import { mapProps } from 'recompose';
 import Form from '../Form';
 import { updateRecord } from '../../actions';
 import withRecord from '../../containers/withRecord';
-import withRecordFetcher from '../../containers/withRecordFetcher';
 
 export default compose(
-  withRecordFetcher,
-  withRecord,
+  withRecord(),
   withActions({ updateRecord }),
   mapProps(props => ({
     defaultValue: get('body', props.record),

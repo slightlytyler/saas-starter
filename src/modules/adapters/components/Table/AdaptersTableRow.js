@@ -37,4 +37,4 @@ AdaptersTableRow.propTypes = {
   record: PropTypes.object.isRequired,
 };
 
-export default withRecord(AdaptersTableRow);
+export default withRecord({ fetch: false })(AdaptersTableRow);
