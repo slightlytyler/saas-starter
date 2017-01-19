@@ -2,7 +2,7 @@ import CreateButton from 'components/CreateButton';
 import DataTable from 'components/DataTable';
 import { push } from 'connected-react-router';
 import withActions from 'containers/withActions';
-import { map } from 'lodash/fp';
+import { map, size } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import Row from './AdaptersTableRow';
 
@@ -13,7 +13,7 @@ const renderRows = map(renderRow);
 const transitionToCreator = () => push('/adapters/new');
 
 const AdaptersTable = ({ ids, loading, onCreate }) => (
-  <DataTable loading={!ids || loading}>
+  <DataTable loading={loading && !size(ids)}>
     <DataTable.Header>
       <DataTable.HeaderColumn icon>
         Enabled
