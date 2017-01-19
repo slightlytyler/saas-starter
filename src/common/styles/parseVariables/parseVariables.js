@@ -1,6 +1,6 @@
 import { camelCase, compact, compose, reduce, split } from 'lodash/fp';
 
-export default compose(
+const parseVariables = compose(
   reduce(
     (acc, color) => {
       const [key, value] = split(' = ', color);
@@ -11,3 +11,5 @@ export default compose(
   compact,
   split('\n'),
 );
+
+export default parseVariables;

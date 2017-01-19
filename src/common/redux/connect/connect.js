@@ -1,5 +1,5 @@
 import { isPlainObject } from 'lodash/fp';
-import { connect } from 'react-redux';
+import { connect as baseConnect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 
 const defaultMapDispatchToProps = () => ({});
@@ -11,14 +11,14 @@ const selectMapStateToProps = mapStateToProps => {
   return mapStateToProps;
 };
 
-const customConnect = ({
+const connect = ({
   mapStateToProps,
   mapDispatchToProps = defaultMapDispatchToProps,
   mergeProps,
-}) => connect(
+}) => baseConnect(
   selectMapStateToProps(mapStateToProps),
   mapDispatchToProps,
   mergeProps,
 );
 
-export default customConnect;
+export default connect;

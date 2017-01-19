@@ -1,5 +1,5 @@
-import authSaga from 'modules/auth/sagas';
+import auth from 'modules/auth/sagas';
 
 export default {
-  auth: authSaga,
+  auth,
 };

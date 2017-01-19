@@ -1,4 +1,6 @@
-import React from 'react';
 import { curry } from 'lodash/fp';
+import React from 'react';
 
-export default curry((props, element) => React.cloneElement(element, props));
+const cloneElement = curry((props, element) => React.cloneElement(element, props));
+
+export default cloneElement;

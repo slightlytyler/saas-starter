@@ -1,5 +1,5 @@
-import authReducer from 'modules/auth/reducer';
+import auth from 'modules/auth/reducer';
 
 export default {
-  auth: authReducer,
+  auth,
 };

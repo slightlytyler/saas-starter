@@ -51,4 +51,5 @@ const createRecordsReducer = actions => (state = {}, { type, payload }) => {
       return state;
   }
 };
+
 export default createRecordsReducer;

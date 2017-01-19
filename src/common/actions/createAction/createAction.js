@@ -8,7 +8,7 @@ const typeError = new TypeError(
   + '`initiate`, `succeed`, `fail`, and `cancel`.',
 );
 
-export default curry((namespace, { type, creator: creatorSelector }) => {
+const createAction = curry((namespace, { type, creator: creatorSelector }) => {
   if (isFunction(creatorSelector)) {
     const namespacedType = namespaceType(namespace, type);
     const creator = creatorSelector(namespacedType);
@@ -58,3 +58,5 @@ export default curry((namespace, { type, creator: creatorSelector }) => {
 
   throw typeError;
 });
+
+export default createAction;

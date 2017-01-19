@@ -1,4 +1,6 @@
-import React from 'react';
 import { curry } from 'lodash/fp';
+import React from 'react';
 
-export default curry((iteratee, children) => React.Children.map(children, iteratee));
+const mapChildren = curry((iteratee, children) => React.Children.map(children, iteratee));
+
+export default mapChildren;

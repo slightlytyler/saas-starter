@@ -1,4 +1,4 @@
-import selectQuery from 'common/selectors/selectQuery';
+import selectQueryFromMatch from 'common/selectors/selectQueryFromMatch';
 import React, { PropTypes } from 'react';
 import { Route, Switch } from 'react-router';
 import { CodeSplit } from 'code-split-component';
@@ -18,7 +18,7 @@ const AdaptersRoot = ({ pathname }) => (
         >
           {({ CollectionViewer }) => {
             if (!CollectionViewer) return <div>Loading...</div>;
-            return <CollectionViewer query={selectQuery(match)} />;
+            return <CollectionViewer query={selectQueryFromMatch(match)} />;
           }}
         </CodeSplit>
       )}

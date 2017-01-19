@@ -54,4 +54,5 @@ const createCollectionsReducer = actions => (state = {}, { type, payload }) => {
       return state;
   }
 };
+
 export default createCollectionsReducer;

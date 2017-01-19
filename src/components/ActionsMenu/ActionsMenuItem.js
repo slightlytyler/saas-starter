@@ -1,6 +1,7 @@
 import { capitalize } from 'lodash/fp';
 import { MenuItem } from 'material-ui';
 import React, { PropTypes } from 'react';
+import { toClass } from 'recompose';
 
 const ActionsMenuItem = ({ action, id, label, style }) => (
   <MenuItem
@@ -23,4 +24,4 @@ ActionsMenuItem.defaultProps = {
   style: undefined,
 };
 
-export default ActionsMenuItem;
+export default toClass(ActionsMenuItem);

@@ -1,8 +1,7 @@
-import getEventValue from 'common/events/getEventValue';
-import { compose, identity, isNull, memoize, omit } from 'lodash/fp';
+import { compose, get, identity, isNull, memoize, omit } from 'lodash/fp';
 import { defaultProps, mapProps } from 'recompose';
 
-const handleChange = memoize(fn => compose(fn, getEventValue));
+const handleChange = memoize(fn => compose(fn, get('target.value')));
 
 const asField = (valueKey, handlerKey, nullValue) => compose(
   defaultProps({
