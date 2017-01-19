@@ -1,56 +1,44 @@
+import CodeSplitRoute from 'components/CodeSplitRoute';
 import React, { PropTypes } from 'react';
-import { Route, Switch } from 'react-router';
-import { CodeSplit } from 'code-split-component';
+import { Switch } from 'react-router';
 
 const AuthRoot = ({ pathname }) => (
   <Switch>
-    <Route
+    <CodeSplitRoute
+      chunkName="AuthLogin"
+      modules={{
+        // eslint-disable-next-line global-require
+        Login: require('../Login'),
+      }}
       path={`${pathname}/login`}
-      render={() => (
-        <CodeSplit
-          chunkName="AuthLogin"
-          // eslint-disable-next-line global-require
-          modules={{ Login: require('../Login') }}
-        >
-          {({ Login }) => Login && <Login />}
-        </CodeSplit>
-      )}
+      render={({ Login }) => Login && <Login />}
     />
-    <Route
+    <CodeSplitRoute
+      chunkName="AuthSignUp"
+      modules={{
+        // eslint-disable-next-line global-require
+        SignUp: require('../SignUp'),
+      }}
       path={`${pathname}/sign-up/:token`}
-      render={() => (
-        <CodeSplit
-          chunkName="AuthSignUp"
-          // eslint-disable-next-line global-require
-          modules={{ SignUp: require('../SignUp') }}
-        >
-          {({ SignUp }) => SignUp && <SignUp />}
-        </CodeSplit>
-      )}
+      render={({ SignUp }) => SignUp && <SignUp />}
     />
-    <Route
+    <CodeSplitRoute
+      chunkName="AuthResetPassword"
+      modules={{
+        // eslint-disable-next-line global-require
+        ResetPassword: require('../ResetPassword'),
+      }}
       path={`${pathname}/reset-password`}
-      render={() => (
-        <CodeSplit
-          chunkName="AuthResetPassword"
-          // eslint-disable-next-line global-require
-          modules={{ ResetPassword: require('../ResetPassword') }}
-        >
-          {({ ResetPassword }) => ResetPassword && <ResetPassword />}
-        </CodeSplit>
-      )}
+      render={({ ResetPassword }) => ResetPassword && <ResetPassword />}
     />
-    <Route
+    <CodeSplitRoute
+      chunkName="AuthChangePassword"
+      modules={{
+        // eslint-disable-next-line global-require
+        ChangePassword: require('../ChangePassword'),
+      }}
       path={`${pathname}/change-password/:token`}
-      render={() => (
-        <CodeSplit
-          chunkName="AuthChangePassword"
-          // eslint-disable-next-line global-require
-          modules={{ ChangePassword: require('../ChangePassword') }}
-        >
-          {({ ChangePassword }) => ChangePassword && <ChangePassword />}
-        </CodeSplit>
-      )}
+      render={({ ChangePassword }) => ChangePassword && <ChangePassword />}
     />
   </Switch>
 );
