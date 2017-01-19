@@ -1,3 +1,5 @@
+import awaitModules from 'common/components/awaitModules';
+import createElementFromProp from 'common/components/createElementFromProp';
 import CodeSplitRoute from 'components/CodeSplitRoute';
 import React, { PropTypes } from 'react';
 import { Switch } from 'react-router';
@@ -11,7 +13,7 @@ const AuthRoot = ({ pathname }) => (
         Login: require('../Login'),
       }}
       path={`${pathname}/login`}
-      render={({ Login }) => Login && <Login />}
+      render={awaitModules('Login', createElementFromProp('Login'))}
     />
     <CodeSplitRoute
       chunkName="AuthSignUp"
@@ -20,7 +22,7 @@ const AuthRoot = ({ pathname }) => (
         SignUp: require('../SignUp'),
       }}
       path={`${pathname}/sign-up/:token`}
-      render={({ SignUp }) => SignUp && <SignUp />}
+      render={awaitModules('SignUp', createElementFromProp('SignUp'))}
     />
     <CodeSplitRoute
       chunkName="AuthResetPassword"
@@ -29,7 +31,7 @@ const AuthRoot = ({ pathname }) => (
         ResetPassword: require('../ResetPassword'),
       }}
       path={`${pathname}/reset-password`}
-      render={({ ResetPassword }) => ResetPassword && <ResetPassword />}
+      render={awaitModules('ResetPassword', createElementFromProp('ResetPassword'))}
     />
     <CodeSplitRoute
       chunkName="AuthChangePassword"
@@ -38,7 +40,7 @@ const AuthRoot = ({ pathname }) => (
         ChangePassword: require('../ChangePassword'),
       }}
       path={`${pathname}/change-password/:token`}
-      render={({ ChangePassword }) => ChangePassword && <ChangePassword />}
+      render={awaitModules('ChangePassword', createElementFromProp('ChangePassword'))}
     />
   </Switch>
 );
