@@ -1,9 +1,12 @@
+import awaitModules from 'common/components/awaitModules';
+import createElementFromProp from 'common/components/createElementFromProp';
+import selectParamByKeyFromMatch from 'common/selectors/selectParamByKeyFromMatch';
 import selectQueryFromMatch from 'common/selectors/selectQueryFromMatch';
 import CodeSplitRoute from 'components/CodeSplitRoute';
 import React, { PropTypes } from 'react';
 import { Switch } from 'react-router';
 
-const AdaptersRoot = ({ pathname }) => (
+const AdaptersRoot = ({ path }) => (
   <Switch>
     <CodeSplitRoute
       chunkName="AdaptersCollection"
@@ -12,11 +15,14 @@ const AdaptersRoot = ({ pathname }) => (
         // eslint-disable-next-line global-require
         CollectionViewer: require('../CollectionViewer'),
       }}
-      path={pathname}
-      render={({ CollectionViewer, match }) => {
-        if (!CollectionViewer) return <div>Loading...</div>;
-        return <CollectionViewer query={selectQueryFromMatch(match)} />;
-      }}
+      path={path}
+      render={awaitModules(
+        'CollectionViewer',
+        createElementFromProp(
+          'CollectionViewer',
+          ({ match }) => ({ query: selectQueryFromMatch(match) }),
+        ),
+      )}
     />
     <CodeSplitRoute
       chunkName="AdaptersRecordCreator"
@@ -24,11 +30,8 @@ const AdaptersRoot = ({ pathname }) => (
         // eslint-disable-next-line global-require
         RecordCreator: require('../RecordCreator'),
       }}
-      path={`${pathname}/new`}
-      render={({ RecordCreator }) => {
-        if (!RecordCreator) return <div>Loading...</div>;
-        return <RecordCreator />;
-      }}
+      path={`${path}/new`}
+      render={awaitModules('RecordCreator', createElementFromProp('RecordCreator'))}
     />
     <CodeSplitRoute
       chunkName="AdaptersRecordViewer"
@@ -37,11 +40,14 @@ const AdaptersRoot = ({ pathname }) => (
         // eslint-disable-next-line global-require
         RecordViewer: require('../RecordViewer'),
       }}
-      path={`${pathname}/:adapterId`}
-      render={({ match, RecordViewer }) => {
-        if (!RecordViewer) return <div>Loading...</div>;
-        return <RecordViewer id={match.params.adapterId} />;
-      }}
+      path={`${path}/:adapterId`}
+      render={awaitModules(
+        'RecordViewer',
+        createElementFromProp(
+          'RecordViewer',
+          ({ match }) => ({ id: selectParamByKeyFromMatch(match, 'adapterId') }),
+        ),
+      )}
     />
     <CodeSplitRoute
       chunkName="AdaptersRecordEditor"
@@ -49,17 +55,20 @@ const AdaptersRoot = ({ pathname }) => (
         // eslint-disable-next-line global-require
         RecordEditor: require('../RecordEditor'),
       }}
-      path={`${pathname}/:adapterId/edit`}
-      render={({ match, RecordEditor }) => {
-        if (!RecordEditor) return <div>Loading...</div>;
-        return <RecordEditor id={match.params.adapterId} />;
-      }}
+      path={`${path}/:adapterId/edit`}
+      render={awaitModules(
+        'RecordEditor',
+        createElementFromProp(
+          'RecordEditor',
+          ({ match }) => ({ id: selectParamByKeyFromMatch(match, 'adapterId') }),
+        ),
+      )}
     />
   </Switch>
 );
 
 AdaptersRoot.propTypes = {
-  pathname: PropTypes.string.isRequired,
+  path: PropTypes.string.isRequired,
 };
 
 export default AdaptersRoot;

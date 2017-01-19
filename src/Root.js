@@ -1,3 +1,5 @@
+import awaitModules from 'common/components/awaitModules';
+import createElementFromProp from 'common/components/createElementFromProp';
 import AppLayout from 'components/AppLayout';
 import CodeSplitRoute from 'components/CodeSplitRoute';
 import { ConnectedRouter as Router } from 'connected-react-router';
@@ -21,8 +23,12 @@ const Root = ({ history, store }) => (
           AuthRoot: require('modules/auth/components/Root'),
         }}
         path="/auth"
-        render={({ AuthRoot, match }) => (
-          AuthRoot && <AuthRoot pathname={match.path} />
+        render={awaitModules(
+          'AuthRoot',
+          createElementFromProp(
+            'AuthRoot',
+            ({ match }) => ({ ...match }),
+          ),
         )}
       />
       <AuthenticatedRoute
@@ -40,15 +46,18 @@ const Root = ({ history, store }) => (
                   adaptersSagas: require('modules/adapters/sagas'),
                 }}
                 path="/adapters"
-                render={({ adaptersReducer, AdaptersRoot, adaptersSagas, match }) => {
-                  if (adaptersReducer) {
-                    store.injectReducer({ key: 'adapters', reducer: adaptersReducer });
-                  }
-                  if (adaptersSagas) {
-                    store.injectSagas({ key: 'adapters', sagas: adaptersSagas });
-                  }
-                  return AdaptersRoot && <AdaptersRoot pathname={match.path} />;
-                }}
+                render={awaitModules(
+                  ['adaptersReducer', 'AdaptersRoot', 'adaptersSagas'],
+                  ({ adaptersReducer, AdaptersRoot, adaptersSagas, match }) => {
+                    if (adaptersReducer) {
+                      store.injectReducer({ key: 'adapters', reducer: adaptersReducer });
+                    }
+                    if (adaptersSagas) {
+                      store.injectSagas({ key: 'adapters', sagas: adaptersSagas });
+                    }
+                    return AdaptersRoot && <AdaptersRoot {...match} />;
+                  },
+                )}
               />
               <CodeSplitRoute
                 chunkName="routes"
@@ -57,8 +66,12 @@ const Root = ({ history, store }) => (
                   RoutesRoot: require('modules/routes/components/Root'),
                 }}
                 path="/routes"
-                render={({ match, RoutesRoot }) => (
-                  RoutesRoot && <RoutesRoot pathname={match.path} />
+                render={awaitModules(
+                  'RoutesRoot',
+                  createElementFromProp(
+                    'RoutesRoot',
+                    ({ match }) => ({ ...match }),
+                  ),
                 )}
               />
               <CodeSplitRoute
@@ -68,8 +81,12 @@ const Root = ({ history, store }) => (
                   UsersRoot: require('modules/users/components/Root'),
                 }}
                 path="/users"
-                render={({ match, UsersRoot }) => (
-                  UsersRoot && <UsersRoot pathname={match.path} />
+                render={awaitModules(
+                  'UsersRoot',
+                  createElementFromProp(
+                    'UsersRoot',
+                    ({ match }) => ({ ...match }),
+                  ),
                 )}
               />
               <CodeSplitRoute
@@ -79,8 +96,12 @@ const Root = ({ history, store }) => (
                   VendorsRoot: require('modules/vendors/components/Root'),
                 }}
                 path="/vendors"
-                render={({ match, VendorsRoot }) => (
-                  VendorsRoot && <VendorsRoot pathname={match.path} />
+                render={awaitModules(
+                  'VendorsRoot',
+                  createElementFromProp(
+                    'VendorsRoot',
+                    ({ match }) => ({ ...match }),
+                  ),
                 )}
               />
             </Switch>
