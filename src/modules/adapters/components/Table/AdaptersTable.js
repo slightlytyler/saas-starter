@@ -1,16 +1,14 @@
 import CreateButton from 'components/CreateButton';
 import DataTable from 'components/DataTable';
-import { push } from 'connected-react-router';
 import withActions from 'containers/withActions';
 import { map, size } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import Row from './AdaptersTableRow';
+import { transitionToRecordCreator } from '../../actions';
 
 const renderRow = id => <Row id={id} key={id} />;
 
 const renderRows = map(renderRow);
-
-const transitionToCreator = () => push('/adapters/new');
 
 const AdaptersTable = ({ ids, loading, onCreate }) => (
   <DataTable loading={loading && !size(ids)}>
@@ -48,7 +46,7 @@ AdaptersTable.defaultProps = {
   loading: false,
 };
 
-const container = withActions({ onCreate: transitionToCreator });
+const container = withActions({ onCreate: transitionToRecordCreator });
 
 export { AdaptersTable as component, container };
 

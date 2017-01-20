@@ -1,1 +1,3 @@
-export const name = 'adapters';
+export const rootPath = '/adapters';
+
+export const stateKey = 'adapters';

@@ -1,4 +1,3 @@
-import { push } from 'connected-react-router';
 import { compose } from 'lodash/fp';
 import { takeLatest } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
@@ -12,7 +11,7 @@ export function* createRecord({ payload }) {
       endpoint: '/adapters',
     });
     yield compose(put, actions.createRecord.succeed)(body);
-    yield compose(put, push)('/adapters');
+    yield compose(put, actions.transitionToCollectionViewer)();
   } catch (e) {
     yield compose(put, actions.createRecord.fail)(e.toString());
   }
@@ -62,7 +61,7 @@ export function* updateRecord({ payload }) {
       endpoint: `/adapters/${payload.id}`,
     });
     yield compose(put, actions.updateRecord.succeed)(body);
-    yield compose(put, push)('/adapters');
+    yield compose(put, actions.transitionToCollectionViewer)();
   } catch (e) {
     yield compose(put, actions.updateRecord.fail)(e.toString());
   }

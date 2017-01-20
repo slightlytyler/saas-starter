@@ -1,9 +1,9 @@
 import queryKey from 'common/data/queryKey';
 import { get } from 'lodash/fp';
 import { createSelector } from 'reselect';
-import { name } from './config';
+import { stateKey } from './config';
 
-export const selectSubstate = get(name);
+export const selectSubstate = get(stateKey);
 
 export const selectCollections = createSelector(
   selectSubstate,

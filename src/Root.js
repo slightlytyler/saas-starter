@@ -39,23 +39,14 @@ const Root = ({ history, store }) => (
                 chunkName="adapters"
                 modules={{
                   // eslint-disable-next-line global-require
-                  adaptersReducer: require('modules/adapters/reducer'),
-                  // eslint-disable-next-line global-require
-                  AdaptersRoot: require('modules/adapters/components/Root'),
-                  // eslint-disable-next-line global-require
-                  adaptersSagas: require('modules/adapters/sagas'),
+                  adapters: require('modules/adapters'),
                 }}
                 path="/adapters"
                 render={awaitModules(
-                  ['adaptersReducer', 'AdaptersRoot', 'adaptersSagas'],
-                  ({ adaptersReducer, AdaptersRoot, adaptersSagas, match }) => {
-                    if (adaptersReducer) {
-                      store.injectReducer({ key: 'adapters', reducer: adaptersReducer });
-                    }
-                    if (adaptersSagas) {
-                      store.injectSagas({ key: 'adapters', sagas: adaptersSagas });
-                    }
-                    return AdaptersRoot && <AdaptersRoot {...match} />;
+                  'adapters',
+                  ({ adapters: { init, Root: AdaptersRoot }, match }) => {
+                    init(store);
+                    return <AdaptersRoot {...match} />;
                   },
                 )}
               />

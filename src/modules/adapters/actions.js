@@ -1,8 +1,10 @@
-import { get } from 'lodash/fp';
 import _createAction from 'common/actions/createAction';
-import { name } from './config';
+import { push } from 'connected-react-router';
+import { get } from 'lodash/fp';
+import path from 'path';
+import { rootPath, stateKey } from './config';
 
-const createAction = _createAction(name);
+const createAction = _createAction(stateKey);
 
 export const createRecord = createAction({
   type: 'CREATE_RECORD',
@@ -115,3 +117,11 @@ export const updateRecord = createAction({
     }),
   },
 });
+
+export const transitionToCollectionViewer = () => push(rootPath);
+
+export const transitionToRecordCreator = () => push(path.join(rootPath, '/new'));
+
+export const transitionToRecordEditor = ({ id }) => push(path.join(rootPath, `/${id}/edit`));
+
+export const transitionToRecordViewer = ({ id }) => push(path.join(rootPath, `/${id}`));
