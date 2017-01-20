@@ -1,5 +1,5 @@
 const generateDeleteRecord = createAction => createAction({
-  type: 'CREATE_RECORD',
+  type: 'DELETE_RECORD',
   creator: {
     initiate: type => data => ({
       type,
