@@ -1,5 +1,5 @@
-import awaitModules from 'common/components/awaitModules';
-import createElementFromProp from 'common/components/createElementFromProp';
+import awaitProps from 'common/components/awaitProps';
+import renderElementFromProp from 'common/components/renderElementFromProp';
 import selectParamByKeyFromMatch from 'common/selectors/selectParamByKeyFromMatch';
 import selectQueryFromMatch from 'common/selectors/selectQueryFromMatch';
 import CodeSplitRoute from 'components/CodeSplitRoute';
@@ -16,9 +16,9 @@ const AdaptersRoot = ({ path }) => (
         CollectionViewer: require('../CollectionViewer'),
       }}
       path={path}
-      render={awaitModules(
+      render={awaitProps(
         'CollectionViewer',
-        createElementFromProp(
+        renderElementFromProp(
           'CollectionViewer',
           ({ match }) => ({ query: selectQueryFromMatch(match) }),
         ),
@@ -31,7 +31,7 @@ const AdaptersRoot = ({ path }) => (
         RecordCreator: require('../RecordCreator'),
       }}
       path={`${path}/new`}
-      render={awaitModules('RecordCreator', createElementFromProp('RecordCreator'))}
+      render={awaitProps('RecordCreator', renderElementFromProp('RecordCreator'))}
     />
     <CodeSplitRoute
       chunkName="AdaptersRecordEditor"
@@ -40,9 +40,9 @@ const AdaptersRoot = ({ path }) => (
         RecordEditor: require('../RecordEditor'),
       }}
       path={`${path}/:adapterId`}
-      render={awaitModules(
+      render={awaitProps(
         'RecordEditor',
-        createElementFromProp(
+        renderElementFromProp(
           'RecordEditor',
           ({ match }) => ({
             id: selectParamByKeyFromMatch(match, 'adapterId'),

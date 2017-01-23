@@ -1,5 +1,5 @@
-import awaitModules from 'common/components/awaitModules';
-import createElementFromProp from 'common/components/createElementFromProp';
+import awaitProps from 'common/components/awaitProps';
+import renderElementFromProp from 'common/components/renderElementFromProp';
 import AppLayout from 'components/AppLayout';
 import CodeSplitRoute from 'components/CodeSplitRoute';
 import { ConnectedRouter as Router } from 'connected-react-router';
@@ -23,9 +23,9 @@ const Root = ({ history, store }) => (
           AuthRoot: require('modules/auth/components/Root'),
         }}
         path="/auth"
-        render={awaitModules(
+        render={awaitProps(
           'AuthRoot',
-          createElementFromProp(
+          renderElementFromProp(
             'AuthRoot',
             ({ match }) => ({ ...match }),
           ),
@@ -42,7 +42,7 @@ const Root = ({ history, store }) => (
                   adapters: require('modules/adapters'),
                 }}
                 path="/adapters"
-                render={awaitModules(
+                render={awaitProps(
                   'adapters',
                   ({ adapters: { init, Root: AdaptersRoot }, match }) => {
                     init(store);
@@ -57,9 +57,9 @@ const Root = ({ history, store }) => (
                   RoutesRoot: require('modules/routes/components/Root'),
                 }}
                 path="/routes"
-                render={awaitModules(
+                render={awaitProps(
                   'RoutesRoot',
-                  createElementFromProp(
+                  renderElementFromProp(
                     'RoutesRoot',
                     ({ match }) => ({ ...match }),
                   ),
@@ -72,9 +72,9 @@ const Root = ({ history, store }) => (
                   UsersRoot: require('modules/users/components/Root'),
                 }}
                 path="/users"
-                render={awaitModules(
+                render={awaitProps(
                   'UsersRoot',
-                  createElementFromProp(
+                  renderElementFromProp(
                     'UsersRoot',
                     ({ match }) => ({ ...match }),
                   ),
@@ -87,9 +87,9 @@ const Root = ({ history, store }) => (
                   VendorsRoot: require('modules/vendors/components/Root'),
                 }}
                 path="/vendors"
-                render={awaitModules(
+                render={awaitProps(
                   'VendorsRoot',
-                  createElementFromProp(
+                  renderElementFromProp(
                     'VendorsRoot',
                     ({ match }) => ({ ...match }),
                   ),

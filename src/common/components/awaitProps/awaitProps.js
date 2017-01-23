@@ -5,10 +5,10 @@ import React from 'react';
 
 const renderPageSpinner = () => <PageSpinner />;
 
-const awaitModules = (moduleKeys, left, right = renderPageSpinner) => props => (
+const awaitProps = (moduleKeys, left, right = renderPageSpinner) => props => (
   compose(every(get(curry.placeholder, props)), toArray)(moduleKeys)
     ? left(props)
     : right(props)
 );
 
-export default awaitModules;
+export default awaitProps;
