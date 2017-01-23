@@ -1,28 +1,12 @@
-import queryKey from 'common/data/queryKey';
+import createRestSelectors from 'common/selectors/createRestSelectors';
 import { get } from 'lodash/fp';
-import { createSelector } from 'reselect';
 import { stateKey } from './config';
 
 export const selectSubstate = get(stateKey);
 
-export const selectCollections = createSelector(
-  selectSubstate,
-  get('collections'),
-);
-
-export const selectCollectionByQuery = createSelector(
+export const {
   selectCollections,
-  (state, query) => query,
-  (collections, query) => get(queryKey(query), collections),
-);
-
-export const selectRecords = createSelector(
-  selectSubstate,
-  get('records'),
-);
-
-export const selectRecordById = createSelector(
+  selectCollectionByQuery,
   selectRecords,
-  (state, id) => id,
-  (records, id) => get(id, records),
-);
+  selectRecordById,
+} = createRestSelectors(selectSubstate);

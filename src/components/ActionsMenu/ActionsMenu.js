@@ -1,6 +1,7 @@
-import { reduce } from 'lodash/fp';
+import { omit, reduce } from 'lodash/fp';
 import { IconMenu } from 'material-ui';
-import React, { PropTypes } from 'react';
+import React from 'react';
+import { mapProps } from 'recompose';
 import Item from './ActionsMenuItem';
 import MoreButton from '../MoreButton';
 
@@ -12,18 +13,12 @@ const renderItemsIteratee = (acc, item) => (
 
 const renderItems = reduce(renderItemsIteratee, []);
 
-const ActionsMenu = ({ items }) => (
-  <IconMenu
-    anchorOrigin={{ horizontal: 'left', vertical: 'top' }}
-    iconButtonElement={<MoreButton />}
-    targetOrigin={{ horizontal: 'left', vertical: 'top' }}
-  >
-    {renderItems(items)}
-  </IconMenu>
-);
+const container = mapProps(props => ({
+  ...omit('items', props),
+  anchorOrigin: { horizontal: 'left', vertical: 'top' },
+  children: renderItems(props.items),
+  iconButtonElement: <MoreButton />,
+  targetOrigin: { horizontal: 'left', vertical: 'top' },
+}));
 
-ActionsMenu.propTypes = {
-  items: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
-
-export default ActionsMenu;
+export default container(IconMenu);

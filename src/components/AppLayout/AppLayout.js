@@ -8,7 +8,7 @@ const AppLayout = ({ children }) => (
     <Box fit>
       <Sidebar />
       <Box column flex="1">
-        <Box column flex="1" style={{ padding: '16px' }}>
+        <Box column flex="1" style={{ padding: '1em 3em 2em' }}>
           {children}
         </Box>
         <CopyrightFooter />

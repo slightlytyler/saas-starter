@@ -6,7 +6,6 @@ const SubmitButton = ({ className, label, ...props }) => (
   <RaisedButton
     {...props}
     className={cx('FormSubmitButton', className)}
-    fullWidth
     label={label}
     primary
     type="submit"

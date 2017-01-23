@@ -34,33 +34,20 @@ const AdaptersRoot = ({ path }) => (
       render={awaitModules('RecordCreator', createElementFromProp('RecordCreator'))}
     />
     <CodeSplitRoute
-      chunkName="AdaptersRecordViewer"
-      exact
-      modules={{
-        // eslint-disable-next-line global-require
-        RecordViewer: require('../RecordViewer'),
-      }}
-      path={`${path}/:adapterId`}
-      render={awaitModules(
-        'RecordViewer',
-        createElementFromProp(
-          'RecordViewer',
-          ({ match }) => ({ id: selectParamByKeyFromMatch(match, 'adapterId') }),
-        ),
-      )}
-    />
-    <CodeSplitRoute
       chunkName="AdaptersRecordEditor"
       modules={{
         // eslint-disable-next-line global-require
         RecordEditor: require('../RecordEditor'),
       }}
-      path={`${path}/:adapterId/edit`}
+      path={`${path}/:adapterId`}
       render={awaitModules(
         'RecordEditor',
         createElementFromProp(
           'RecordEditor',
-          ({ match }) => ({ id: selectParamByKeyFromMatch(match, 'adapterId') }),
+          ({ match }) => ({
+            id: selectParamByKeyFromMatch(match, 'adapterId'),
+            rootMatch: match,
+          }),
         ),
       )}
     />

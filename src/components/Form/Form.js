@@ -4,6 +4,7 @@ import mapChildren from 'common/react/mapChildren';
 import { compose, get, identity, keys, memoize, pickBy } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import Formal from 'react-formal';
+import { Box } from 'react-layout-components';
 import { withState } from 'recompose';
 
 const getErrorForField = ({ element, errors }) => get([element.props.name, '0', 'message'], errors);
@@ -46,14 +47,16 @@ const Form = ({
     className={cx('Form', className)}
     onError={handleError(setErrors)}
   >
-    {renderChildren({
-      children,
-      errors,
-      events: getEvents({
-        onBlur: validateOnBlur,
-        onChange: validateOnChange,
-      }),
-    })}
+    <Box alignItems="flex-start" column justifyContent="flex-start">
+      {renderChildren({
+        children,
+        errors,
+        events: getEvents({
+          onBlur: validateOnBlur,
+          onChange: validateOnChange,
+        }),
+      })}
+    </Box>
   </Formal>
 );
 

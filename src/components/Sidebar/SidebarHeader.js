@@ -1,5 +1,5 @@
-import transitionToRoot from 'common/actions/transitionToRoot';
 import Logo from 'components/Logo';
+import { push } from 'connected-react-router';
 import React, { PropTypes } from 'react';
 import { Box } from 'react-layout-components';
 import withActions from 'containers/withActions';
@@ -15,5 +15,5 @@ SidebarHeader.propTypes = {
 };
 
 export default withActions({
-  onTouchTap: transitionToRoot,
+  onTouchTap: () => push('/'),
 })(SidebarHeader);

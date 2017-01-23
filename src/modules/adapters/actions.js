@@ -16,6 +16,4 @@ export const transitionToCollectionViewer = () => pushRelativeToRootPath('/');
 
 export const transitionToRecordCreator = () => pushRelativeToRootPath('/new');
 
-export const transitionToRecordEditor = ({ id }) => pushRelativeToRootPath(`/${id}/edit`);
-
-export const transitionToRecordViewer = ({ id }) => pushRelativeToRootPath(`/${id}`);
+export const transitionToRecordEditor = ({ id }) => pushRelativeToRootPath(`/${id}`);
