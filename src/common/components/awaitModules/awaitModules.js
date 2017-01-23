@@ -1,12 +1,14 @@
 import toArray from 'common/data/toArray';
 import PageSpinner from 'components/PageSpinner';
 import { compose, curry, every, get } from 'lodash/fp';
-import { createElement } from 'react';
+import React from 'react';
 
-const awaitModules = (moduleKeys, left, right = PageSpinner) => props => (
+const renderPageSpinner = () => <PageSpinner />;
+
+const awaitModules = (moduleKeys, left, right = renderPageSpinner) => props => (
   compose(every(get(curry.placeholder, props)), toArray)(moduleKeys)
-    ? createElement(left, props)
-    : createElement(right, props)
+    ? left(props)
+    : right(props)
 );
 
 export default awaitModules;
