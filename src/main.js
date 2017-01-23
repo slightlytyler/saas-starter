@@ -33,7 +33,6 @@ const renderApp = Component => {
       </MuiThemeProvider>
     </ReactHotLoader>
   );
-
   withAsyncComponents(app).then(({ appWithAsyncComponents }) => (
     render(appWithAsyncComponents, container)
   ));
