@@ -16,7 +16,6 @@
     "url": "git@github.com:slightlytyler/advance-client.git"
   },
   "dependencies": {
-    "code-split-component": "^2.0.0-alpha.4",
     "connected-react-router": "^2.0.0-alpha.2",
     "element-resize-detector": "^1.1.10",
     "lodash": "^4.17.2",
