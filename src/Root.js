@@ -10,30 +10,15 @@ import { Route, Switch } from 'react-router';
 
 const Root = () => (
   <Switch>
-    <Route
-      path="/auth"
-      render={({ match }) => <AuthRoot {...match} />}
-    />
+    <Route component={AuthRoot} path="/auth" />
     <AuthenticatedRoute
       render={() => (
         <AppLayout>
           <Switch>
-            <Route
-              path="/adapters"
-              render={({ match }) => <AdaptersRoot {...match} />}
-            />
-            <Route
-              path="/routes"
-              render={({ match }) => <RoutesRoot {...match} />}
-            />
-            <Route
-              path="/users"
-              render={({ match }) => <UsersRoot {...match} />}
-            />
-            <Route
-              path="/vendors"
-              render={({ match }) => <VendorsRoot {...match} />}
-            />
+            <Route component={AdaptersRoot} path="/adapters" />
+            <Route component={RoutesRoot} path="/routes" />
+            <Route component={UsersRoot} path="/users" />
+            <Route component={VendorsRoot} path="/vendors" />
           </Switch>
         </AppLayout>
       )}

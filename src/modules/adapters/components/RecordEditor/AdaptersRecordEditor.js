@@ -1,4 +1,5 @@
 import colors from 'colors';
+import selectParamByKeyFromMatch from 'common/selectors/selectParamByKeyFromMatch';
 import ActionsMenu from 'components/ActionsMenu';
 import InputBlock from 'components/InputBlock';
 import spinnerWhileLoading from 'containers/spinnerWhileLoading';
@@ -9,22 +10,22 @@ import { List, ListItem, RaisedButton } from 'material-ui';
 import React, { PropTypes } from 'react';
 import { Box } from 'react-layout-components';
 import { Route } from 'react-router';
-import { mapProps } from 'recompose';
+import { flattenProp, mapProps } from 'recompose';
 import Form from '../Form';
 import { updateRecord } from '../../actions';
 import withRecord from '../../containers/withRecord';
 
-const RecordEditor = ({ defaultValue, onSubmit, rootMatch }) => (
+const RecordEditor = ({ defaultValue, isExact, onSubmit, url }) => (
   <Box column>
-    <Route path={`${rootMatch.url}/general`}>
+    <Route path={`${url}/general`}>
       {({ history, match }) => (
         <InputBlock
           expand={Boolean(match)}
           icon="code"
           onExpand={expand => {
-            if (rootMatch.isExact) return history.push(`${rootMatch.url}/general`);
+            if (isExact) return history.push(`${url}/general`);
             if (!expand) return history.goBack();
-            return history.replace(`${rootMatch.url}/general`);
+            return history.replace(`${url}/general`);
           }}
           title={defaultValue.name}
         >
@@ -32,15 +33,15 @@ const RecordEditor = ({ defaultValue, onSubmit, rootMatch }) => (
         </InputBlock>
       )}
     </Route>
-    <Route path={`${rootMatch.url}/operations`}>
+    <Route path={`${url}/operations`}>
       {({ history, match }) => (
         <InputBlock
           expand={Boolean(match)}
           icon="layers"
           onExpand={expand => {
-            if (rootMatch.isExact) return history.push(`${rootMatch.url}/operations`);
+            if (isExact) return history.push(`${url}/operations`);
             if (!expand) return history.goBack();
-            return history.replace(`${rootMatch.url}/operations`);
+            return history.replace(`${url}/operations`);
           }}
           title="Operations"
         >
@@ -75,21 +76,24 @@ const RecordEditor = ({ defaultValue, onSubmit, rootMatch }) => (
 
 RecordEditor.propTypes = {
   defaultValue: PropTypes.object.isRequired,
+  isExact: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,
-  rootMatch: PropTypes.shape({
-    isExact: PropTypes.bool.isRequired,
-    url: PropTypes.string.isRequired,
-  }).isRequired,
+  url: PropTypes.string.isRequired,
 };
 
 export default compose(
+  mapProps(props => ({
+    ...props,
+    id: selectParamByKeyFromMatch(props.match, 'adapterId'),
+  })),
+  flattenProp('match'),
   withRecord(),
   withLocation,
   withActions({ onSubmit: updateRecord }),
   mapProps(props => ({
+    ...props,
     defaultValue: get('body', props.record),
     onSubmit: props.onSubmit,
-    rootMatch: props.rootMatch,
   })),
   spinnerWhileLoading(props => !props.defaultValue),
 )(RecordEditor);

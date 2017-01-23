@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import { Route, Switch } from 'react-router';
+import { flattenProp } from 'recompose';
 import ChangePassword from '../ChangePassword';
 import Login from '../Login';
 import ResetPassword from '../ResetPassword';
@@ -18,4 +19,4 @@ AuthRoot.propTypes = {
   path: PropTypes.string.isRequired,
 };
 
-export default AuthRoot;
+export default flattenProp('match')(AuthRoot);
