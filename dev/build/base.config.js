@@ -26,7 +26,6 @@ const globals = {
 export const baseConfig = {
   entry: {
     vendor: [
-      'code-split-component',
       'connected-react-router',
       'lodash',
       'material-ui',

@@ -24,11 +24,6 @@
       "plugins": [
         "react-hot-loader/babel"
       ]
-    },
-    "production": {
-      "plugins": [
-        "code-split-component/babel"
-      ]
     }
   }
 }

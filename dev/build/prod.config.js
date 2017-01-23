@@ -1,5 +1,4 @@
 import path from 'path';
-import CodeSplitWebpackPlugin from 'code-split-component/webpack';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import { createConfig } from './base.config';
 
@@ -17,7 +16,6 @@ export default createConfig(({ __src, baseConfig }) => ({
   },
   plugins: [
     ...baseConfig.plugins,
-    new CodeSplitWebpackPlugin(),
     new ExtractTextPlugin({
       filename: "[name].css",
       allChunks: true,

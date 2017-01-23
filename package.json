@@ -23,6 +23,7 @@
     "material-ui": "^0.16.6",
     "qs": "^6.3.0",
     "react": "^15.4.1",
+    "react-async-component": "^0.2.1",
     "react-dom": "^15.4.1",
     "react-formal": "^0.24.2",
     "react-layout-components": "^3.0.4",

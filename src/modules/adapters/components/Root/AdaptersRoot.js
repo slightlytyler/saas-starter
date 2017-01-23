@@ -1,54 +1,26 @@
-import awaitProps from 'common/components/awaitProps';
-import renderElementFromProp from 'common/components/renderElementFromProp';
 import selectParamByKeyFromMatch from 'common/selectors/selectParamByKeyFromMatch';
 import selectQueryFromMatch from 'common/selectors/selectQueryFromMatch';
-import CodeSplitRoute from 'components/CodeSplitRoute';
 import React, { PropTypes } from 'react';
-import { Switch } from 'react-router';
+import { Route, Switch } from 'react-router';
+import CollectionViewer from '../CollectionViewer';
+import RecordCreator from '../RecordCreator';
+import RecordEditor from '../RecordEditor';
 
 const AdaptersRoot = ({ path }) => (
   <Switch>
-    <CodeSplitRoute
-      chunkName="AdaptersCollection"
+    <Route
       exact
-      modules={{
-        // eslint-disable-next-line global-require
-        CollectionViewer: require('../CollectionViewer'),
-      }}
       path={path}
-      render={awaitProps(
-        'CollectionViewer',
-        renderElementFromProp(
-          'CollectionViewer',
-          ({ match }) => ({ query: selectQueryFromMatch(match) }),
-        ),
-      )}
+      render={({ match }) => <CollectionViewer query={selectQueryFromMatch(match)} />}
     />
-    <CodeSplitRoute
-      chunkName="AdaptersRecordCreator"
-      modules={{
-        // eslint-disable-next-line global-require
-        RecordCreator: require('../RecordCreator'),
-      }}
-      path={`${path}/new`}
-      render={awaitProps('RecordCreator', renderElementFromProp('RecordCreator'))}
-    />
-    <CodeSplitRoute
-      chunkName="AdaptersRecordEditor"
-      modules={{
-        // eslint-disable-next-line global-require
-        RecordEditor: require('../RecordEditor'),
-      }}
+    <Route component={RecordCreator} path={`${path}/new`} />
+    <Route
       path={`${path}/:adapterId`}
-      render={awaitProps(
-        'RecordEditor',
-        renderElementFromProp(
-          'RecordEditor',
-          ({ match }) => ({
-            id: selectParamByKeyFromMatch(match, 'adapterId'),
-            rootMatch: match,
-          }),
-        ),
+      render={({ match }) => (
+        <RecordEditor
+          id={selectParamByKeyFromMatch(match, 'adapterId')}
+          rootMatch={match}
+        />
       )}
     />
   </Switch>

@@ -29,7 +29,7 @@ const AuthLayout = ({ alternateMessages, children, title }) => (
             </section>
             <section className="AuthLayout__header__secondary">{title}</section>
           </header>
-          <Panel>{children}</Panel>
+          <Panel zDepth={1}>{children}</Panel>
           <Box center column>
             {renderAlternateMessages(alternateMessages)}
           </Box>

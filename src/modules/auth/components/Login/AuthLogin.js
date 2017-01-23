@@ -32,7 +32,7 @@ const AuthLogin = ({ onSubmit }) => (
         name="password"
         type={PasswordField}
       />
-      <Form.SubmitButton label="Login" />
+      <Form.SubmitButton fullWidth label="Login" />
     </Form>
   </Layout>
 );

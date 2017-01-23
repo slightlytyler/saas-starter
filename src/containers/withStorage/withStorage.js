@@ -1,9 +1,9 @@
+import spinnerWhileLoading from 'containers/spinnerWhileLoading';
 import withActions from 'containers/withActions';
-import { compose } from 'lodash/fp';
+import { compose, get } from 'lodash/fp';
 import { registerToken } from 'modules/auth/actions';
 import { selectIsAuthenticated } from 'modules/auth/selectors';
-import React from 'react';
-import { branch, lifecycle, renderComponent, withState } from 'recompose';
+import { lifecycle, withState } from 'recompose';
 
 const withStorage = compose(
   withActions({ registerToken }),
@@ -17,10 +17,7 @@ const withStorage = compose(
       this.props.setLoading(false);
     },
   }),
-  branch(
-    props => props.loading,
-    renderComponent(() => <div>Loading...</div>),
-  ),
+  compose(spinnerWhileLoading, get)('loading'),
 );
 
 export default withStorage;

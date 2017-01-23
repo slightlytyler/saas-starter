@@ -1,47 +1,16 @@
-import awaitProps from 'common/components/awaitProps';
-import renderElementFromProp from 'common/components/renderElementFromProp';
-import CodeSplitRoute from 'components/CodeSplitRoute';
 import React, { PropTypes } from 'react';
-import { Switch } from 'react-router';
+import { Route, Switch } from 'react-router';
+import ChangePassword from '../ChangePassword';
+import Login from '../Login';
+import ResetPassword from '../ResetPassword';
+import SignUp from '../SignUp';
 
 const AuthRoot = ({ path }) => (
   <Switch>
-    <CodeSplitRoute
-      chunkName="AuthLogin"
-      modules={{
-        // eslint-disable-next-line global-require
-        Login: require('../Login'),
-      }}
-      path={`${path}/login`}
-      render={awaitProps('Login', renderElementFromProp('Login'))}
-    />
-    <CodeSplitRoute
-      chunkName="AuthSignUp"
-      modules={{
-        // eslint-disable-next-line global-require
-        SignUp: require('../SignUp'),
-      }}
-      path={`${path}/sign-up/:token`}
-      render={awaitProps('SignUp', renderElementFromProp('SignUp'))}
-    />
-    <CodeSplitRoute
-      chunkName="AuthResetPassword"
-      modules={{
-        // eslint-disable-next-line global-require
-        ResetPassword: require('../ResetPassword'),
-      }}
-      path={`${path}/reset-password`}
-      render={awaitProps('ResetPassword', renderElementFromProp('ResetPassword'))}
-    />
-    <CodeSplitRoute
-      chunkName="AuthChangePassword"
-      modules={{
-        // eslint-disable-next-line global-require
-        ChangePassword: require('../ChangePassword'),
-      }}
-      path={`${path}/change-password/:token`}
-      render={awaitProps('ChangePassword', renderElementFromProp('ChangePassword'))}
-    />
+    <Route component={Login} path={`${path}/login`} />
+    <Route component={SignUp} path={`${path}/sign-up`} />
+    <Route component={ResetPassword} path={`${path}/reset-password`} />
+    <Route component={ChangePassword} path={`${path}/change-password/:token`} />
   </Switch>
 );
 
