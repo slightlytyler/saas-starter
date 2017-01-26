@@ -4,10 +4,11 @@ import { ConnectedRouter as Router } from 'connected-react-router';
 import ReactHotLoader from 'components/ReactHotLoader';
 import StoreProvider from 'components/StoreProvider';
 import { createBrowserHistory } from 'history';
+import { compose, get } from 'lodash/fp';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import React from 'react';
 import { withAsyncComponents } from 'react-async-component';
-import { render } from 'react-dom';
+import ReactDOM from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import ibmTheme from 'styles/mui/theme';
 import Root from './Root';
@@ -21,8 +22,11 @@ const store = createStore({ history });
 
 const container = document.getElementById('root');
 
+// eslint-disable-next-line react/no-render-return-value
+const renderToDOM = element => ReactDOM.render(element, container);
+
 const renderApp = Component => {
-  const app = (
+  const App = (
     <ReactHotLoader>
       <MuiThemeProvider muiTheme={ibmTheme}>
         <StoreProvider store={store}>
@@ -33,9 +37,7 @@ const renderApp = Component => {
       </MuiThemeProvider>
     </ReactHotLoader>
   );
-  withAsyncComponents(app).then(({ appWithAsyncComponents }) => (
-    render(appWithAsyncComponents, container)
-  ));
+  withAsyncComponents(App).then(compose(renderToDOM, get('appWithAsyncComponents')));
 };
 
 renderApp(Root);

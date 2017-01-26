@@ -3,8 +3,8 @@ import { fetchRecord } from '../../actions';
 import { selectRecordById } from '../../selectors';
 
 const withAdaptersRecord = withRecord({
-  action: fetchRecord,
-  selector: selectRecordById,
+  fetchRecord,
+  selectRecordById,
 });
 
 export default withAdaptersRecord;

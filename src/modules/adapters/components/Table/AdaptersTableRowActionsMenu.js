@@ -1,19 +1,22 @@
 import colors from 'colors';
 import ActionsMenu from 'components/ActionsMenu';
+import { push } from 'connected-react-router';
 import withActions from 'containers/withActions';
 import { compose } from 'lodash/fp';
-import { mapProps } from 'recompose';
-import { deleteRecord, transitionToRecordEditor } from '../../actions';
+import { PropTypes } from 'react';
+import { getContext, mapProps } from 'recompose';
+import * as actions from '../../actions';
 
 export default compose(
-  withActions(({ id }) => ({
-    deleteRecord: () => deleteRecord({ id }),
-    transitionToRecordEditor: () => transitionToRecordEditor({ id }),
+  getContext({ rootUrl: PropTypes.string.isRequired }),
+  withActions(props => ({
+    deleteRecord: () => actions.deleteRecord({ id: props.id }),
+    transitionToEdit: () => push(`${props.rootUrl}/${props.id}`),
   })),
   mapProps(props => ({
     items: [
       {
-        action: props.transitionToRecordEditor,
+        action: props.transitionToEdit,
         id: 'edit',
         label: 'Edit Adapter',
       },

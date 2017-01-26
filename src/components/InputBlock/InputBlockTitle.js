@@ -3,9 +3,16 @@ import MaterialIcon from 'components/MaterialIcon';
 import { Toolbar, ToolbarGroup, ToolbarTitle } from 'material-ui';
 import React, { PropTypes } from 'react';
 
-const InputBlockTitle = ({ className, icon, onTouchTap, text }) => (
+const InputBlockTitle = ({ disabled, forceOpen, icon, onTouchTap, open, text }) => (
   <Toolbar
-    className={cx('InputBlockTitle', className)}
+    className={cx(
+      'InputBlockTitle',
+      {
+        disabled,
+        'force-open': forceOpen,
+        open,
+      },
+    )}
     onTouchTap={onTouchTap}
   >
     <ToolbarGroup>
@@ -32,14 +39,12 @@ const InputBlockTitle = ({ className, icon, onTouchTap, text }) => (
 );
 
 InputBlockTitle.propTypes = {
-  className: PropTypes.string,
+  disabled: PropTypes.bool.isRequired,
+  forceOpen: PropTypes.bool.isRequired,
   icon: PropTypes.string.isRequired,
   onTouchTap: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
   text: PropTypes.string.isRequired,
-};
-
-InputBlockTitle.defaultProps = {
-  className: undefined,
 };
 
 export default InputBlockTitle;

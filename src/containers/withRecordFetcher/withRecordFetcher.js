@@ -2,17 +2,19 @@ import connect from 'common/redux/connect';
 import { compose } from 'lodash/fp';
 import { lifecycle } from 'recompose';
 
-const withRecordFetcher = action => compose(
+const withRecordFetcher = (action, idSelector) => compose(
   connect({
     mapDispatchToProps: { fetchRecord: action },
   }),
   lifecycle({
     componentDidMount() {
-      this.props.fetchRecord({ id: this.props.id });
+      const id = idSelector(this.props);
+      if (id !== 'new') this.props.fetchRecord({ id });
     },
     componentWillReceiveProps(nextProps) {
-      if (this.props.id !== nextProps.id) {
-        this.props.fetchRecord({ id: nextProps.id });
+      if (idSelector(this.props) !== idSelector(nextProps)) {
+        const id = idSelector(nextProps);
+        if (id !== 'new') this.props.fetchRecord({ id });
       }
     },
   }),

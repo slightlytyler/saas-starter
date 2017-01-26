@@ -1,8 +1,8 @@
 import connect from 'common/redux/connect';
 
-const withRecordSelector = selector => connect({
+const withRecordSelector = (selector, idSelector) => connect({
   mapStateToProps: {
-    record: (state, { id }) => selector(state, id),
+    record: (state, props) => selector(state, idSelector(props)),
   },
 });
 
