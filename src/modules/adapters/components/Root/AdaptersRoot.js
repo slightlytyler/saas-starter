@@ -1,28 +1,27 @@
 import { compose } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import { Route, Switch } from 'react-router';
-import { getContext, lifecycle, withContext } from 'recompose';
+import { getContext, lifecycle, mapProps, withContext } from 'recompose';
 import CollectionViewer from '../CollectionViewer';
 import RecordBuilder from '../RecordBuilder';
 import init from '../../init';
 
-const AdaptersRoot = ({ match }) => (
+const AdaptersRoot = ({ rootUrl }) => (
   <Switch>
-    <Route component={CollectionViewer} exact path={match.url} />
-    <Route component={RecordBuilder} path={`${match.url}/:adapterId`} />
+    <Route component={CollectionViewer} exact path={rootUrl} />
+    <Route component={RecordBuilder} path={`${rootUrl}/:adapterId`} />
   </Switch>
 );
 
 AdaptersRoot.propTypes = {
-  match: PropTypes.shape({
-    url: PropTypes.string.isRequired,
-  }).isRequired,
+  rootUrl: PropTypes.string.isRequired,
 };
 
 export default compose(
+  mapProps(props => ({ rootUrl: props.match.url })),
   withContext(
     { rootUrl: PropTypes.string.isRequired },
-    props => ({ rootUrl: props.match.url }),
+    props => ({ rootUrl: props.rootUrl }),
   ),
   getContext({ store: PropTypes.object.isRequired }),
   lifecycle({

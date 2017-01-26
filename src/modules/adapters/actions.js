@@ -1,5 +1,5 @@
 import createRestActions from 'common/actions/createRestActions';
-import { stateKey } from './config';
+import { name } from './config';
 
 export const {
   createRecord,
@@ -7,4 +7,4 @@ export const {
   fetchCollection,
   fetchRecord,
   updateRecord,
-} = createRestActions(stateKey);
+} = createRestActions(name);
