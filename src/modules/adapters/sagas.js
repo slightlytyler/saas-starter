@@ -1,9 +1,11 @@
+import * as toastsActions from 'common/modules/toasts/actions';
 import { push, replace } from 'connected-react-router';
 import { compose } from 'lodash/fp';
 import { takeLatest } from 'redux-saga';
-import { call, put } from 'redux-saga/effects';
+import { call, put, select } from 'redux-saga/effects';
 import { rest } from 'src/http';
 import * as actions from './actions';
+import { selectRecordById } from './selectors';
 
 export function* createRecord({ payload }) {
   try {
@@ -21,10 +23,15 @@ export function* createRecord({ payload }) {
 
 export function* deleteRecord({ payload }) {
   try {
+    const state = yield select();
+    const record = selectRecordById(state, payload.id);
     const { body } = yield call(rest.delete, {
       endpoint: `/adapters/${payload.id}`,
     });
     yield compose(put, actions.deleteRecord.succeed)(body);
+    yield compose(put, toastsActions.add)({
+      message: `Deleted ${record.body.name}.`,
+    });
   } catch (e) {
     yield compose(put, actions.deleteRecord.fail)(e.toString());
   }

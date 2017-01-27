@@ -9,7 +9,7 @@ const withStorage = compose(
   withActions({ registerToken }),
   withState('loading', 'setLoading', true),
   lifecycle({
-    async componentWillMount() {
+    async componentDidMount() {
       await this.props.store.loadStorage();
       if (selectIsAuthenticated(this.props.store.getState())) {
         this.props.registerToken();
