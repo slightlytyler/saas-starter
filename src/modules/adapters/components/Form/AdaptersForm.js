@@ -1,5 +1,5 @@
 import Form from 'components/Form';
-import React, { PropTypes } from 'react';
+import React from 'react';
 import yup from 'yup';
 
 const formSchema = yup.object({
@@ -7,10 +7,9 @@ const formSchema = yup.object({
   description: yup.string(),
 });
 
-const AdaptersForm = ({ defaultValue, onSubmit }) => (
+const AdaptersForm = props => (
   <Form
-    defaultValue={defaultValue}
-    onSubmit={onSubmit}
+    {...props}
     schema={formSchema}
     style={{ padding: '16px' }}
   >
@@ -19,14 +18,5 @@ const AdaptersForm = ({ defaultValue, onSubmit }) => (
     <Form.SubmitButton label="Save Adapter" />
   </Form>
 );
-
-AdaptersForm.propTypes = {
-  defaultValue: PropTypes.object,
-  onSubmit: PropTypes.func.isRequired,
-};
-
-AdaptersForm.defaultProps = {
-  defaultValue: undefined,
-};
 
 export default AdaptersForm;

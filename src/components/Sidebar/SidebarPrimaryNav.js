@@ -19,7 +19,7 @@ export default compose(
         value: 'users',
       },
       {
-        icon: 'code',
+        icon: 'settings_input_component',
         onTouchTap: props.transitionToAdapters,
         value: 'adapters',
       },

@@ -1,4 +1,5 @@
 import colors from 'colors';
+import matchPropType from 'common/propTypes/match';
 import ActionsMenu from 'components/ActionsMenu';
 import InputBlock from 'components/InputBlock';
 import spinnerWhileLoading from 'containers/spinnerWhileLoading';
@@ -8,39 +9,39 @@ import { List, ListItem, RaisedButton } from 'material-ui';
 import React, { PropTypes } from 'react';
 import { Box } from 'react-layout-components';
 import { Route } from 'react-router';
-import { flattenProp, mapProps } from 'recompose';
+import { mapProps } from 'recompose';
 import Form from '../Form';
 import * as actions from '../../actions';
 import withRecord from '../../containers/withRecord';
 
-const RecordBuilder = ({ isExact, newRecord, onSubmit, record, url }) => (
+const RecordBuilder = ({ isNewRecord, onSubmit, parentMatch, record }) => (
   <Box column>
-    <Route path={`${url}/general`}>
+    <Route path={`${parentMatch.url}/general`}>
       {({ history, match }) => (
         <InputBlock
-          forceOpen={newRecord}
-          icon="code"
-          onOpen={newRecord ? noop : expand => {
-            if (isExact) return history.push(`${url}/general`);
-            if (!expand) return history.goBack();
-            return history.replace(`${url}/general`);
+          forceOpen={isNewRecord}
+          icon="settings_input_component"
+          onOpen={isNewRecord ? noop : open => {
+            if (parentMatch.isExact) return history.push(`${parentMatch.url}/general`);
+            if (!open) return history.goBack();
+            return history.replace(`${parentMatch.url}/general`);
           }}
           open={Boolean(match)}
-          title={newRecord ? 'New Adapter' : get('body.name', record)}
+          title={isNewRecord ? 'New Adapter' : get('body.name', record)}
         >
           {() => <Form defaultValue={get('body', record)} onSubmit={onSubmit} />}
         </InputBlock>
       )}
     </Route>
-    <Route path={`${url}/operations`}>
+    <Route path={`${parentMatch.url}/operations`}>
       {({ history, match }) => (
         <InputBlock
-          disabled={newRecord}
+          disabled={isNewRecord}
           icon="layers"
-          onOpen={expand => {
-            if (isExact) return history.push(`${url}/operations`);
-            if (!expand) return history.goBack();
-            return history.replace(`${url}/operations`);
+          onOpen={open => {
+            if (parentMatch.isExact) return history.push(`${parentMatch.url}/operations`);
+            if (!open) return history.goBack();
+            return history.replace(`${parentMatch.url}/operations`);
           }}
           open={Boolean(match)}
           title="Operations"
@@ -79,11 +80,10 @@ const RecordBuilder = ({ isExact, newRecord, onSubmit, record, url }) => (
 );
 
 RecordBuilder.propTypes = {
-  isExact: PropTypes.bool.isRequired,
-  newRecord: PropTypes.bool.isRequired,
+  isNewRecord: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,
+  parentMatch: matchPropType.isRequired,
   record: PropTypes.object,
-  url: PropTypes.string.isRequired,
 };
 
 RecordBuilder.defaultProps = {
@@ -92,15 +92,15 @@ RecordBuilder.defaultProps = {
 
 export default compose(
   withActions({ createRecord: actions.createRecord, updateRecord: actions.updateRecord }),
-  flattenProp('match'),
   mapProps(props => {
-    const id = props.params.adapterId;
-    const newRecord = id === 'new';
+    const id = props.match.params.adapterId;
+    const isNewRecord = id === 'new';
     return {
       ...props,
-      id: props.params.adapterId,
-      newRecord,
-      onSubmit: newRecord ? props.createRecord : props.updateRecord,
+      id,
+      isNewRecord,
+      onSubmit: isNewRecord ? props.createRecord : props.updateRecord,
+      parentMatch: props.match,
     };
   }),
   withRecord(),

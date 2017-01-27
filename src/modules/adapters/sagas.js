@@ -12,7 +12,7 @@ export function* createRecord({ payload }) {
       endpoint: '/adapters',
     });
     yield compose(put, actions.createRecord.succeed)(body);
-    yield compose(put, replace)(`/adapters/${body.id}/general`);
+    yield compose(put, replace)(`/adapters/${body.id}`);
     yield compose(put, push)(`/adapters/${body.id}/operations`);
   } catch (e) {
     yield compose(put, actions.createRecord.fail)(e.toString());
