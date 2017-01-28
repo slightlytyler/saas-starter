@@ -10,7 +10,7 @@ export function* deregisterToken() {
   yield call(rest.deregisterToken);
 }
 
-export function* login({ payload }) {
+export function* login({ payload, meta }) {
   try {
     const { body, headers } = yield call(rest.post, {
       body: payload,
@@ -24,6 +24,7 @@ export function* login({ payload }) {
     yield compose(put, push)('/adapters');
   } catch (e) {
     yield compose(put, actions.login.fail)(e.toString());
+    yield call(meta.callback);
   }
 }
 

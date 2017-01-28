@@ -11,9 +11,10 @@ export const deregisterToken = createAction({
 export const login = createAction({
   type: 'LOGIN',
   creator: {
-    initiate: type => data => ({
+    initiate: type => (data, callback) => ({
       type,
       payload: data,
+      meta: { callback },
     }),
     succeed: type => data => ({
       type,

@@ -5,9 +5,9 @@ import {
 import Formal from 'react-formal';
 import { withProps } from 'recompose';
 import asField from './asField';
-import Field from './Field';
 import Form from './Form';
-import SubmitButton from './SubmitButton';
+import Field from './FormField';
+import SubmitButton from './FormSubmitButton';
 
 export const CheckboxField = asField('checked', 'onCheck', false)(MaterialCheckbox);
 export const TextField = asField('value', 'onChange', '')(MaterialTextField);
