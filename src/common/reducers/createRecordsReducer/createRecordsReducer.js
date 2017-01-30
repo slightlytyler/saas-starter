@@ -2,13 +2,12 @@ import { reduce } from 'lodash/fp';
 
 const initialProps = { deleted: false, loading: false };
 
-const timestamp = () => ({ timestamp: new Date().toString() });
-
 const applyModelToState = (id, state, model) => ({
   ...state,
   [id]: {
     ...state[id],
     ...model,
+    timestamp: new Date().toString(),
   },
 });
 
@@ -22,7 +21,6 @@ const createRecordsReducer = actions => (state = {}, { type, payload }) => {
         state,
         {
           ...initialProps,
-          ...timestamp,
           body: payload,
         },
       );
@@ -31,10 +29,7 @@ const createRecordsReducer = actions => (state = {}, { type, payload }) => {
       return applyModelToState(
         payload.id,
         state,
-        {
-          ...timestamp(),
-          deleted: true,
-        },
+        { deleted: true },
       );
 
     case actions.fetchCollection.types.succeed:
@@ -44,7 +39,6 @@ const createRecordsReducer = actions => (state = {}, { type, payload }) => {
           acc,
           {
             ...initialProps,
-            ...timestamp(),
             body: el,
           },
         ),
