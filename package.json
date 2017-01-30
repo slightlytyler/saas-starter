@@ -16,6 +16,7 @@
     "url": "git@github.com:slightlytyler/advance-client.git"
   },
   "dependencies": {
+    "@slightlytyler/redux-optimist": "^1.0.0",
     "connected-react-router": "^2.0.0-alpha.2",
     "element-resize-detector": "^1.1.10",
     "invariant": "^2.2.2",

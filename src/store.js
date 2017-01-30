@@ -1,5 +1,6 @@
+import optimist from '@slightlytyler/redux-optimist';
 import { connectRouter, routerMiddleware } from 'connected-react-router';
-import { assign, compose, identity, map, values } from 'lodash/fp';
+import { assign, compose, get, identity, map, values } from 'lodash/fp';
 import { applyMiddleware, combineReducers, createStore } from 'redux';
 import createSagaMiddleware from 'redux-saga';
 import { fork } from 'redux-saga/effects';
@@ -31,7 +32,18 @@ export default ({ history }) => {
       '@@auth/SIGN_UP/succeed',
     ],
   );
-  const makeRootReducer = compose(connectRouter(history), storageWrapper, combineReducers);
+  const makeRootReducer = compose(
+    connectRouter(history),
+    storageWrapper,
+    r => optimist(
+      r,
+      {
+        selectId: get('meta.transactionId'),
+        selectType: get('meta.optimistic'),
+      },
+    ),
+    combineReducers,
+  );
   const makeRootSaga = s => function* rootSaga() {
     yield compose(map(fork), values)(s);
   };

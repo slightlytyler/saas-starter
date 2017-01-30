@@ -22,7 +22,7 @@ export function* createRecord({ payload }) {
   }
 }
 
-export function* deleteRecord({ payload }) {
+export function* deleteRecord({ payload, meta: { transactionId } }) {
   try {
     const state = yield select();
     const record = selectRecordById(state, payload.id);
@@ -32,20 +32,32 @@ export function* deleteRecord({ payload }) {
       title: 'Are you sure?',
     });
     if (confirm) {
-      const { body } = yield call(rest.delete, {
-        endpoint: `/adapters/${payload.id}`,
-      });
-      yield compose(put, actions.deleteRecord.succeed)(body);
+      yield call(rest.delete, { endpoint: `/adapters/${payload.id}` });
+      yield compose(
+        put,
+        actions.deleteRecord.succeed(transactionId),
+      )(payload);
     }
-    if (deny) yield compose(put, actions.deleteRecord.cancel)(payload);
+    if (deny) {
+      yield compose(
+        put,
+        actions.deleteRecord.cancel(transactionId),
+      )(payload);
+    }
   } catch (e) {
-    yield compose(put, actions.deleteRecord.fail)({
+    yield compose(
+      put,
+      actions.deleteRecord.fail(transactionId),
+    )({
       ...payload,
       reason: e.toString(),
     });
   } finally {
     if (yield cancelled()) {
-      yield compose(put, actions.deleteRecord.cancel)(payload);
+      yield compose(
+        put,
+        actions.deleteRecord.cancel(transactionId),
+      )(payload);
     }
   }
 }

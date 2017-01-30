@@ -1,25 +1,13 @@
-import { assign, compose, get, map, zipObject } from 'lodash/fp';
+import { reduce } from 'lodash/fp';
 
-const applyInitialProps = assign({ deleted: false, loading: false });
+const initialProps = { deleted: false, loading: false };
 
-const applyNestedBody = record => ({ body: record });
+const timestamp = () => ({ timestamp: new Date().toString() });
 
-const applyTimestamp = model => assign({ timestamp: new Date().toString() }, model);
-
-const createRecordsById = records => zipObject(map(get('body.id'), records), records);
-
-const applyCollectionToState = (state, records) => ({
+const applyModelToState = (id, state, model) => ({
   ...state,
-  ...compose(
-    createRecordsById,
-    map(compose(applyTimestamp, applyInitialProps, applyNestedBody)),
-  )(records),
-});
-
-const applyModelToState = (state, model) => ({
-  ...state,
-  [model.body.id]: {
-    ...state[model.body.id],
+  [id]: {
+    ...state[id],
     ...model,
   },
 });
@@ -30,22 +18,39 @@ const createRecordsReducer = actions => (state = {}, { type, payload }) => {
     case actions.fetchRecord.types.succeed:
     case actions.updateRecord.types.succeed:
       return applyModelToState(
+        payload.id,
         state,
-        compose(applyTimestamp, applyInitialProps, applyNestedBody)(payload),
+        {
+          ...initialProps,
+          ...timestamp,
+          body: payload,
+        },
       );
 
-    case actions.deleteRecord.types.succeed:
+    case actions.deleteRecord.types.initiate:
       return applyModelToState(
+        payload.id,
         state,
-        compose(
-          applyTimestamp,
-          assign({ deleted: true, loading: false }),
-          applyNestedBody,
-        )(payload),
+        {
+          ...timestamp(),
+          deleted: true,
+        },
       );
 
     case actions.fetchCollection.types.succeed:
-      return applyCollectionToState(state, payload.records);
+      return reduce(
+        (acc, el) => applyModelToState(
+          el.id,
+          acc,
+          {
+            ...initialProps,
+            ...timestamp(),
+            body: el,
+          },
+        ),
+        state,
+        payload.records,
+      );
 
     default:
       return state;
