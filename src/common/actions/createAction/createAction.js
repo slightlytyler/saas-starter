@@ -1,62 +1,49 @@
-import { curry, isFunction, isObject } from 'lodash/fp';
+import invariant from 'invariant';
+import { compose, curry, isFunction, isPlainObject, keys, reduce } from 'lodash/fp';
 
-const namespaceType = (namespace, type) => `@@${namespace}/${type}`;
+const createType = name => (base, sub) => `@@${name}/${base}${sub ? `/${sub}` : ''}`;
 
-const typeError = new TypeError(
-  '[ERROR] `createAction` requires that the argument `creator` be '
-  + 'either a function for synchronous actions, or an object with keys '
-  + '`initiate`, `succeed`, `fail`, and `cancel`.',
-);
+const createAction = curry((name, { type: basetype, creator: creatorSelector }) => {
+  invariant(
+    isFunction(creatorSelector) || isPlainObject(creatorSelector),
+    '`createAction` requires that the argument `creator` be '
+    + 'either a function for synchronous actions, or an object with keys '
+    + 'representing the respective types for an asynchronous action.',
+  );
 
-const createAction = curry((namespace, { type, creator: creatorSelector }) => {
-  if (isFunction(creatorSelector)) {
-    const namespacedType = namespaceType(namespace, type);
-    const creator = creatorSelector(namespacedType);
+  const namespaceType = createType(name);
+
+  if (isPlainObject(creatorSelector)) {
+    invariant(
+      creatorSelector.initiate,
+      '`createAction` requires a creator with `initiate` key for asynchronous actions.',
+    );
 
     // eslint-disable-next-line no-inner-declarations
-    function action(data) {
-      return creator(data);
-    }
+    const baseAction = compose(creatorSelector.initiate, namespaceType)(basetype, 'initiate');
+    baseAction.types = {};
 
-    action.type = namespacedType;
+    const action = reduce(
+      (acc, subtype) => {
+        const type = namespaceType(basetype, subtype);
+        // eslint-disable-next-line no-param-reassign
+        acc[subtype] = creatorSelector[subtype](type);
+        // eslint-disable-next-line no-param-reassign
+        acc.types[subtype] = type;
+        return acc;
+      },
+      baseAction,
+      keys(creatorSelector),
+    );
 
     return action;
   }
 
-  if (isObject(creatorSelector)) {
-    const {
-      initiate: initiateSelector,
-      succeed: succeedSelector,
-      fail: failSelector,
-      cancel: cancelSelector,
-    } = creatorSelector;
+  const type = namespaceType(basetype);
+  const action = creatorSelector(type);
+  action.type = type;
 
-    const types = {
-      initiate: namespaceType(namespace, `${type}/initiate`),
-      succeed: namespaceType(namespace, `${type}/succeed`),
-      fail: namespaceType(namespace, `${type}/fail`),
-      cancel: namespaceType(namespace, `${type}/cancel`),
-    };
-
-    const initiate = initiateSelector(types.initiate);
-    const succeed = succeedSelector(types.succeed);
-    const fail = failSelector(types.fail);
-    const cancel = cancelSelector(types.cancel);
-
-    // eslint-disable-next-line no-inner-declarations
-    function action(...args) {
-      return initiate(...args);
-    }
-
-    action.succeed = succeed;
-    action.fail = fail;
-    action.cancel = cancel;
-    action.types = types;
-
-    return action;
-  }
-
-  throw typeError;
+  return action;
 });
 
 export default createAction;

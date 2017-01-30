@@ -1,3 +1,4 @@
+import DialogsRoot from 'common/modules/dialogs/components/Root';
 import ToastsRoot from 'common/modules/toasts/components/Root';
 import AppLayout from 'components/AppLayout';
 import AdaptersRoot from 'modules/adapters/components/Root';
@@ -27,6 +28,7 @@ const Root = () => (
         )}
       />
     </Switch>
+    <DialogsRoot />
     <ToastsRoot />
   </Page>
 );

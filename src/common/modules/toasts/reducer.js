@@ -1,17 +1,17 @@
-import { tail } from 'lodash/fp';
+import { drop } from 'lodash/fp';
 import * as actions from './actions';
 
-const toastsReducer = (state = [], { type, payload }) => {
+const reducer = (state = [], { type, payload }) => {
   switch (type) {
     case actions.add.type:
       return [...state, payload];
 
     case actions.take.type:
-      return tail(state);
+      return drop(1, state);
 
     default:
       return state;
   }
 };
 
-export default toastsReducer;
+export default reducer;

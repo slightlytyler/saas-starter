@@ -1,8 +1,9 @@
-import * as toastsActions from 'common/modules/toasts/actions';
 import { push, replace } from 'connected-react-router';
 import { compose } from 'lodash/fp';
+import * as dialogsSagas from 'common/modules/dialogs/sagas';
 import { takeLatest } from 'redux-saga';
-import { call, put, select } from 'redux-saga/effects';
+import { call, cancelled, put, select } from 'redux-saga/effects';
+import generateId from 'shortid';
 import { rest } from 'src/http';
 import * as actions from './actions';
 import { selectRecordById } from './selectors';
@@ -25,15 +26,27 @@ export function* deleteRecord({ payload }) {
   try {
     const state = yield select();
     const record = selectRecordById(state, payload.id);
-    const { body } = yield call(rest.delete, {
-      endpoint: `/adapters/${payload.id}`,
+    const { confirm, deny } = yield call(dialogsSagas.prompt, {
+      id: generateId(),
+      message: `Deleting ${record.body.name} will effect the routes that depend on it.`,
+      title: 'Are you sure?',
     });
-    yield compose(put, actions.deleteRecord.succeed)(body);
-    yield compose(put, toastsActions.add)({
-      message: `Deleted ${record.body.name}.`,
-    });
+    if (confirm) {
+      const { body } = yield call(rest.delete, {
+        endpoint: `/adapters/${payload.id}`,
+      });
+      yield compose(put, actions.deleteRecord.succeed)(body);
+    }
+    if (deny) yield compose(put, actions.deleteRecord.cancel)(payload);
   } catch (e) {
-    yield compose(put, actions.deleteRecord.fail)(e.toString());
+    yield compose(put, actions.deleteRecord.fail)({
+      ...payload,
+      reason: e.toString(),
+    });
+  } finally {
+    if (yield cancelled()) {
+      yield compose(put, actions.deleteRecord.cancel)(payload);
+    }
   }
 }
 
@@ -49,6 +62,10 @@ export function* fetchCollection({ payload }) {
     });
   } catch (e) {
     yield compose(put, actions.fetchCollection.fail)(e.toString());
+  } finally {
+    if (yield cancelled()) {
+      yield compose(put, actions.fetchCollection.cancel)(payload);
+    }
   }
 }
 
@@ -60,6 +77,10 @@ export function* fetchRecord({ payload }) {
     yield compose(put, actions.fetchRecord.succeed)(body);
   } catch (e) {
     yield compose(put, actions.fetchRecord.fail)(e.toString());
+  } finally {
+    if (yield cancelled()) {
+      yield compose(put, actions.fetchRecord.cancel)(payload);
+    }
   }
 }
 
@@ -72,6 +93,10 @@ export function* updateRecord({ payload }) {
     yield compose(put, actions.updateRecord.succeed)(body);
   } catch (e) {
     yield compose(put, actions.updateRecord.fail)(e.toString());
+  } finally {
+    if (yield cancelled()) {
+      yield compose(put, actions.updateRecord.cancel)(payload);
+    }
   }
 }
 

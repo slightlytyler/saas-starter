@@ -13,16 +13,6 @@ const __src = path.join(__root, 'src');
 const __assets = path.join(__src, 'assets');
 const __static = path.join(__src, 'static');
 
-const env = process.env.NODE_ENV || 'development';
-const globals = {
-  __NODE_ENV__: JSON.stringify(env),
-  __DEV__: env === 'development',
-  __PROD__: env === 'production',
-  __TEST__: env === 'test',
-  __DEBUG__: env === 'development' && !yargs.argv.no_debug,
-  __BASENAME__: JSON.stringify(process.env.BASENAME || ''),
-};
-
 export const baseConfig = {
   entry: {
     vendor: [
@@ -68,7 +58,6 @@ export const baseConfig = {
         `stylint ${path.join(__src, 'styles')} --config ${path.join(__dev, 'styl-lint/dev.rc')}`,
       ],
     }),
-    new webpack.DefinePlugin(globals),
     new webpack.optimize.CommonsChunkPlugin({
       names: ['manifest', 'vendor'],
     }),
