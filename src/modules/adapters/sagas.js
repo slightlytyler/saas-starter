@@ -18,7 +18,14 @@ export function* createRecord({ payload }) {
     yield compose(put, replace)(`/adapters/${body.id}`);
     yield compose(put, push)(`/adapters/${body.id}/operations`);
   } catch (e) {
-    yield compose(put, actions.createRecord.fail)(e.toString());
+    yield compose(put, actions.createRecord.fail)({
+      ...payload,
+      reason: e.toString(),
+    });
+  } finally {
+    if (yield cancelled()) {
+      yield compose(put, actions.createRecord.cancel)(payload);
+    }
   }
 }
 
@@ -73,7 +80,10 @@ export function* fetchCollection({ payload }) {
       ...body,
     });
   } catch (e) {
-    yield compose(put, actions.fetchCollection.fail)(e.toString());
+    yield compose(put, actions.fetchCollection.fail)({
+      ...payload,
+      reason: e.toString(),
+    });
   } finally {
     if (yield cancelled()) {
       yield compose(put, actions.fetchCollection.cancel)(payload);
@@ -106,18 +116,30 @@ export function* fetchRecord({ payload, meta: { transactionId } }) {
   }
 }
 
-export function* updateRecord({ payload }) {
+export function* updateRecord({ payload, meta: { transactionId } }) {
   try {
     const { body } = yield call(rest.patch, {
       body: payload,
       endpoint: `/adapters/${payload.id}`,
     });
-    yield compose(put, actions.updateRecord.succeed)(body);
+    yield compose(
+      put,
+      actions.updateRecord.succeed(transactionId),
+    )(body);
   } catch (e) {
-    yield compose(put, actions.updateRecord.fail)(e.toString());
+    yield compose(
+      put,
+      actions.updateRecord.fail(transactionId),
+    )({
+      ...payload,
+      reason: e.toString(),
+    });
   } finally {
     if (yield cancelled()) {
-      yield compose(put, actions.updateRecord.cancel)(payload);
+      yield compose(
+        put,
+        actions.updateRecord.cancel(transactionId),
+      )(payload);
     }
   }
 }

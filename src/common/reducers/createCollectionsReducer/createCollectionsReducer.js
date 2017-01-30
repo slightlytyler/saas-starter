@@ -1,6 +1,20 @@
 import queryKey from 'common/data/queryKey';
 import { get, has, map } from 'lodash/fp';
 
+const applyModelToState = (query, state, model) => {
+  const key = queryKey(queryKey);
+  return {
+    ...state,
+    [key]: {
+      ...state[key],
+      ...model,
+      timestamp: new Date().toString(),
+    },
+  };
+};
+
+const hasModelForQuery = (query, state) => has(queryKey(query), state);
+
 const initialProps = {
   ids: [],
   loading: true,
@@ -14,24 +28,10 @@ const selectIdFromRecord = get('id');
 
 const selectIdsFromCollection = map(selectIdFromRecord);
 
-const hasCollectionForQuery = (state, query) => has(queryKey(query), state);
-
-const applyModelToState = (query, state, model) => {
-  const key = queryKey(queryKey);
-  return {
-    ...state,
-    [key]: {
-      ...state[key],
-      ...model,
-      timestamp: new Date().toString(),
-    },
-  };
-};
-
 const createCollectionsReducer = actions => (state = {}, { type, payload }) => {
   switch (type) {
     case actions.fetchCollection.types.initiate: {
-      if (hasCollectionForQuery(state, payload.query)) {
+      if (hasModelForQuery(payload.query, state)) {
         return applyModelToState(
           payload.query,
           state,

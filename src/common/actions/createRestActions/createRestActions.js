@@ -3,7 +3,6 @@ import generateCreateRecord from './generateCreateRecord';
 import generateDeleteRecord from './generateDeleteRecord';
 import generateFetchCollection from './generateFetchCollection';
 import generateFetchRecord from './generateFetchRecord';
-import generateReplaceRecord from './generateReplaceRecord';
 import generateUpdateRecord from './generateUpdateRecord';
 
 const createRestActions = stateKey => {
@@ -13,7 +12,6 @@ const createRestActions = stateKey => {
     deleteRecord: generateDeleteRecord(createAction),
     fetchCollection: generateFetchCollection(createAction),
     fetchRecord: generateFetchRecord(createAction),
-    replaceRecord: generateReplaceRecord(createAction),
     updateRecord: generateUpdateRecord(createAction),
   };
 };
