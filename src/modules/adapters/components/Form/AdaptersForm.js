@@ -13,7 +13,7 @@ const AdaptersForm = props => (
     schema={formSchema}
     style={{ padding: '16px' }}
   >
-    <Form.Field name="name" />
+    <Form.Field autoFocus name="name" />
     <Form.Field name="description" />
     <Form.SubmitButton label="Save Adapter" />
   </Form>

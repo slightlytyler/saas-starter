@@ -1,27 +1,17 @@
-import { capitalize } from 'lodash/fp';
+import { capitalize, compose } from 'lodash/fp';
 import { MenuItem } from 'material-ui';
-import React, { PropTypes } from 'react';
-import { toClass } from 'recompose';
+import { mapProps, toClass } from 'recompose';
 
-const ActionsMenuItem = ({ action, id, label, style }) => (
-  <MenuItem
-    key={id}
-    onTouchTap={action}
-    primaryText={label || capitalize(id)}
-    style={style}
-  />
+const container = compose(
+  toClass,
+  mapProps(({ action, id, label, onTouchTap, ...props }) => ({
+    ...props,
+    onTouchTap: (...args) => {
+      action();
+      return onTouchTap(...args);
+    },
+    primaryText: label || capitalize(id),
+  })),
 );
 
-ActionsMenuItem.propTypes = {
-  action: PropTypes.func.isRequired,
-  id: PropTypes.string.isRequired,
-  label: PropTypes.string,
-  style: PropTypes.object,
-};
-
-ActionsMenuItem.defaultProps = {
-  label: undefined,
-  style: undefined,
-};
-
-export default toClass(ActionsMenuItem);
+export default container(MenuItem);
