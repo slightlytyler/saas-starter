@@ -81,17 +81,27 @@ export function* fetchCollection({ payload }) {
   }
 }
 
-export function* fetchRecord({ payload }) {
+export function* fetchRecord({ payload, meta: { transactionId } }) {
   try {
-    const { body } = yield call(rest.get, {
-      endpoint: `/adapters/${payload.id}`,
-    });
-    yield compose(put, actions.fetchRecord.succeed)(body);
+    const { body } = yield call(rest.get, { endpoint: `/adapters/${payload.id}` });
+    yield compose(
+      put,
+      actions.fetchRecord.succeed(transactionId),
+    )(body);
   } catch (e) {
-    yield compose(put, actions.fetchRecord.fail)(e.toString());
+    yield compose(
+      put,
+      actions.fetchRecord.fail(transactionId),
+    )({
+      ...payload,
+      reason: e.toString(),
+    });
   } finally {
     if (yield cancelled()) {
-      yield compose(put, actions.fetchRecord.cancel)(payload);
+      yield compose(
+        put,
+        actions.fetchRecord.cancel(transactionId),
+      )(payload);
     }
   }
 }

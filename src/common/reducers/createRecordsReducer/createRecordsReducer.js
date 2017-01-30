@@ -1,6 +1,6 @@
 import { reduce } from 'lodash/fp';
 
-const initialProps = { deleted: false, loading: false };
+const initialProps = { deleted: false, loading: true };
 
 const applyModelToState = (id, state, model) => ({
   ...state,
@@ -13,8 +13,27 @@ const applyModelToState = (id, state, model) => ({
 
 const createRecordsReducer = actions => (state = {}, { type, payload }) => {
   switch (type) {
-    case actions.createRecord.types.succeed:
+    case actions.fetchRecord.types.initiate:
+      return applyModelToState(
+        payload.id,
+        state,
+        {
+          ...initialProps,
+          body: payload,
+        },
+      );
+
     case actions.fetchRecord.types.succeed:
+      return applyModelToState(
+        payload.id,
+        state,
+        {
+          loading: false,
+          body: payload,
+        },
+      );
+
+    case actions.createRecord.types.succeed:
     case actions.updateRecord.types.succeed:
       return applyModelToState(
         payload.id,

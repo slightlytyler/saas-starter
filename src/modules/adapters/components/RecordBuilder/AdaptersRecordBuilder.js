@@ -4,7 +4,7 @@ import ActionsMenu from 'components/ActionsMenu';
 import InputBlock from 'components/InputBlock';
 import spinnerWhileLoading from 'containers/spinnerWhileLoading';
 import withActions from 'containers/withActions';
-import { compose, get, noop } from 'lodash/fp';
+import { compose, get, noop, omit } from 'lodash/fp';
 import { List, ListItem, RaisedButton } from 'material-ui';
 import React, { PropTypes } from 'react';
 import { Box } from 'react-layout-components';
@@ -90,19 +90,21 @@ RecordBuilder.defaultProps = {
   record: undefined,
 };
 
+const selectId = get('match.params.adapterId');
+
 export default compose(
   withActions({ createRecord: actions.createRecord, updateRecord: actions.updateRecord }),
-  mapProps(props => {
-    const id = props.match.params.adapterId;
-    const isNewRecord = id === 'new';
+  withRecord({ selectId }),
+  mapProps(({ createRecord, updateRecord, ...props }) => {
+    const isNewRecord = selectId(props) === 'new';
     return {
-      ...props,
-      id,
+      ...omit('match', props),
       isNewRecord,
-      onSubmit: isNewRecord ? props.createRecord : props.updateRecord,
+      onSubmit: isNewRecord ? createRecord : updateRecord,
       parentMatch: props.match,
     };
   }),
-  withRecord(),
-  spinnerWhileLoading(props => (props.id === 'new' ? false : !get('record.body', props))),
+  spinnerWhileLoading(props => (
+    !(props.isNewRecord || props.record) || get('record.loading', props)
+  )),
 )(RecordBuilder);
