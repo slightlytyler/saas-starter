@@ -1,8 +1,8 @@
 import connect from 'common/redux/connect';
 
-const withCollectionSelector = selector => connect({
+const withCollectionSelector = (selectCollectionByQuery, selectQuery) => connect({
   mapStateToProps: {
-    collection: (state, { query }) => selector(state, query),
+    collection: (state, props) => selectCollectionByQuery(state, selectQuery(props)),
   },
 });
 

@@ -1,14 +1,14 @@
-import { compose, identity } from 'lodash/fp';
+import { compose, get, identity } from 'lodash/fp';
 import withCollectionFetcher from '../withCollectionFetcher';
 import withCollectionSelector from '../withCollectionSelector';
 
-const withCollection = ({ fetchCollection, selectCollectionByQuery }) => {
-  const withFetcher = withCollectionFetcher(fetchCollection);
-  const withSelector = withCollectionSelector(selectCollectionByQuery);
-  return ({ fetch = true, select = true } = {}) => compose(
-    fetch ? withFetcher : identity,
-    select ? withSelector : identity,
+const defaultSelectQuery = get('query');
+
+const withCollection =
+  ({ fetchCollection, selectCollectionByQuery }) =>
+  ({ fetch = true, select = true, selectQuery = defaultSelectQuery } = {}) => compose(
+    fetch ? withCollectionFetcher(fetchCollection, selectQuery) : identity,
+    select ? withCollectionSelector(selectCollectionByQuery, selectQuery) : identity,
   );
-};
 
 export default withCollection;
