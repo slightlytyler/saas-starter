@@ -1,12 +1,11 @@
-import withLocation from 'common/containers/withLocation';
-import { capitalize, compose, get, head, map, split, trimChars } from 'lodash/fp';
+import { capitalize, compose, head, map, split, trimChars } from 'lodash/fp';
 import { List, ListItem, makeSelectable } from 'material-ui';
 import React, { PropTypes } from 'react';
 import MaterialIcon from '../MaterialIcon';
 
 const SelectableList = makeSelectable(List);
 
-const getValueFromLocation = compose(head, split('/'), trimChars('/'), get('pathname'));
+const getValueFromUrl = compose(head, split('/'), trimChars('/'));
 
 // eslint-disable-next-line react/prop-types
 const renderItemsIteratee = ({ icon, label, onTouchTap, value }) => (
@@ -21,15 +20,15 @@ const renderItemsIteratee = ({ icon, label, onTouchTap, value }) => (
 
 const renderItems = map(renderItemsIteratee);
 
-const SidebarNav = ({ items, location }) => (
-  <SelectableList style={{ width: '100%' }} value={getValueFromLocation(location)}>
+const SidebarNav = ({ items, url }) => (
+  <SelectableList style={{ width: '100%' }} value={getValueFromUrl(url)}>
     {renderItems(items)}
   </SelectableList>
 );
 
 SidebarNav.propTypes = {
   items: PropTypes.array.isRequired,
-  location: PropTypes.object.isRequired,
+  url: PropTypes.string.isRequired,
 };
 
-export default withLocation(SidebarNav);
+export default SidebarNav;

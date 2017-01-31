@@ -4,9 +4,10 @@ import { logout } from 'modules/auth/actions';
 import { withProps } from 'recompose';
 import Nav from './SidebarNav';
 
-export default compose(
+const container = compose(
   withActions({ logout }),
   withProps(props => ({
+    ...props,
     items: [
       {
         icon: 'power_settings_new',
@@ -15,4 +16,6 @@ export default compose(
       },
     ],
   })),
-)(Nav);
+);
+
+export default container(Nav);
