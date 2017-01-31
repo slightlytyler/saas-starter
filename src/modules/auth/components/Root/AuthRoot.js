@@ -1,6 +1,6 @@
 import matchPropType from 'common/propTypes/match';
 import React from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 import ChangePassword from '../ChangePassword';
 import Login from '../Login';
 import ResetPassword from '../ResetPassword';

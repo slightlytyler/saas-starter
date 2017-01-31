@@ -1,6 +1,6 @@
 import connect from 'common/redux/connect';
 import React, { PropTypes } from 'react';
-import { Route, Redirect } from 'react-router';
+import { Route, Redirect } from 'react-router-dom';
 import { selectIsAuthenticated } from '../../selectors';
 
 const AuthenticatedRoute = ({ isAuthenticated, render, ...rest }) => (

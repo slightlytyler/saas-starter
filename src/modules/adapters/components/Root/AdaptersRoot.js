@@ -1,7 +1,7 @@
 import matchPropType from 'common/propTypes/match';
 import withModuleInit from 'containers/withModuleInit';
 import React from 'react';
-import { Route, Switch } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 import CollectionViewer from '../CollectionViewer';
 import RecordBuilder from '../RecordBuilder';
 import init from '../../init';

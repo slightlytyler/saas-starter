@@ -8,7 +8,7 @@ import { compose, get, noop, omit } from 'lodash/fp';
 import { List, ListItem, RaisedButton } from 'material-ui';
 import React, { PropTypes } from 'react';
 import { Box } from 'react-layout-components';
-import { Route } from 'react-router';
+import { Route } from 'react-router-dom';
 import { mapProps } from 'recompose';
 import Form from '../Form';
 import * as actions from '../../actions';

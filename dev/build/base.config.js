@@ -25,7 +25,7 @@ export const baseConfig = {
       'react-formal',
       'react-layout-components',
       'react-redux',
-      'react-router',
+      'react-router-dom',
       'react-tap-event-plugin',
       'redux',
       'redux-saga',

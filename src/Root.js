@@ -9,7 +9,7 @@ import UsersRoot from 'modules/users/components/Root';
 import VendorsRoot from 'modules/vendors/components/Root';
 import React from 'react';
 import { Page } from 'react-layout-components';
-import { Route, Switch } from 'react-router';
+import { Route, Switch } from 'react-router-dom';
 
 const Root = () => (
   <Page>
