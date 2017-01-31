@@ -10,7 +10,7 @@ const renderStatus = status => (
     : status
 );
 
-const AdaptersTableRow = ({ record }) => {
+const AdaptersTableRow = ({ record, onEdit }) => {
   if (record.deleted) return false;
   return (
     <DataTable.Row>
@@ -27,13 +27,14 @@ const AdaptersTableRow = ({ record }) => {
         {renderStatus(record.body.status)}
       </DataTable.RowColumn>
       <DataTable.RowColumn actions>
-        <ActionsMenu id={record.body.id} />
+        <ActionsMenu id={record.body.id} onEdit={onEdit} />
       </DataTable.RowColumn>
     </DataTable.Row>
   );
 };
 
 AdaptersTableRow.propTypes = {
+  onEdit: PropTypes.func.isRequired,
   record: PropTypes.object.isRequired,
 };
 

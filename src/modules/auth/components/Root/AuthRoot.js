@@ -1,22 +1,22 @@
-import React, { PropTypes } from 'react';
+import matchPropType from 'common/propTypes/match';
+import React from 'react';
 import { Route, Switch } from 'react-router';
-import { flattenProp } from 'recompose';
 import ChangePassword from '../ChangePassword';
 import Login from '../Login';
 import ResetPassword from '../ResetPassword';
 import SignUp from '../SignUp';
 
-const AuthRoot = ({ path }) => (
+const AuthRoot = ({ match }) => (
   <Switch>
-    <Route component={Login} path={`${path}/login`} />
-    <Route component={SignUp} path={`${path}/sign-up`} />
-    <Route component={ResetPassword} path={`${path}/reset-password`} />
-    <Route component={ChangePassword} path={`${path}/change-password/:token`} />
+    <Route component={Login} path={`${match.url}/login`} />
+    <Route component={SignUp} path={`${match.url}/sign-up`} />
+    <Route component={ResetPassword} path={`${match.url}/reset-password`} />
+    <Route component={ChangePassword} path={`${match.url}/change-password/:token`} />
   </Switch>
 );
 
 AuthRoot.propTypes = {
-  path: PropTypes.string.isRequired,
+  match: matchPropType.isRequired,
 };
 
-export default flattenProp('match')(AuthRoot);
+export default AuthRoot;

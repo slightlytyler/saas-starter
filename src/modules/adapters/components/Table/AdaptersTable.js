@@ -1,15 +1,10 @@
 import CreateButton from 'components/CreateButton';
 import DataTable from 'components/DataTable';
-import { push } from 'connected-react-router';
-import withActions from 'containers/withActions';
-import { compose, map, size } from 'lodash/fp';
+import { map, size } from 'lodash/fp';
 import React, { PropTypes } from 'react';
-import { getContext } from 'recompose';
 import Row from './AdaptersTableRow';
 
-const renderRow = id => <Row id={id} key={id} />;
-
-const AdaptersTable = ({ ids, loading, transitionToCreate }) => (
+const AdaptersTable = ({ ids, loading, onCreate, onEdit }) => (
   <DataTable loading={loading && !size(ids)}>
     <DataTable.Header>
       <DataTable.HeaderColumn icon>
@@ -25,11 +20,11 @@ const AdaptersTable = ({ ids, loading, transitionToCreate }) => (
         Status
       </DataTable.HeaderColumn>
       <DataTable.HeaderColumn actions>
-        <CreateButton onTouchTap={transitionToCreate} />
+        <CreateButton onTouchTap={onCreate} />
       </DataTable.HeaderColumn>
     </DataTable.Header>
     <DataTable.Body>
-      {map(renderRow, ids)}
+      {map(id => <Row id={id} key={id} onEdit={onEdit} />, ids)}
     </DataTable.Body>
   </DataTable>
 );
@@ -37,7 +32,8 @@ const AdaptersTable = ({ ids, loading, transitionToCreate }) => (
 AdaptersTable.propTypes = {
   ids: PropTypes.arrayOf(PropTypes.string),
   loading: PropTypes.bool,
-  transitionToCreate: PropTypes.func.isRequired,
+  onCreate: PropTypes.func.isRequired,
+  onEdit: PropTypes.func.isRequired,
 };
 
 AdaptersTable.defaultProps = {
@@ -45,7 +41,4 @@ AdaptersTable.defaultProps = {
   loading: false,
 };
 
-export default compose(
-  getContext({ rootUrl: PropTypes.string.isRequired }),
-  withActions(props => ({ transitionToCreate: () => push(`${props.rootUrl}/new`) })),
-)(AdaptersTable);
+export default AdaptersTable;
