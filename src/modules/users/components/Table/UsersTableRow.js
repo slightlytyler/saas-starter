@@ -14,7 +14,7 @@ const UsersTableRow = ({ record }) => {
         {record.body.email}
       </DataTable.RowColumn>
       <DataTable.RowColumn actions>
-        <ActionsMenu id={record.body.id} />
+        <ActionsMenu email={record.body.email} id={record.body.id} />
       </DataTable.RowColumn>
     </DataTable.Row>
   );

@@ -60,27 +60,38 @@ export function* fetchRecord({ payload, meta: { transactionId } }) {
   }
 }
 
-export function* sendInvite({ payload }) {
+export function* invite(actionCreator, { payload }) {
   try {
     const { body } = yield call(rest.post, {
       body: payload,
       endpoint: 'users/invite',
     });
-    yield compose(put, actions.resendInvite.succeed)(body);
+    yield compose(put, actionCreator.succeed)(body);
+    yield compose(put, toastsActions.add)({
+      message: `Invite sent to ${body.email}.`,
+    });
   } catch (e) {
-    yield compose(put, actions.resendInvite.fail)({
+    yield compose(put, actionCreator.fail)({
       ...payload,
       reason: e.toString(),
     });
+    yield compose(put, toastsActions.add)({
+      message: 'Invite failed to send.',
+      type: 'failure',
+    });
   } finally {
     if (yield cancelled()) {
-      yield compose(put, actions.resendInvite.cancel)(payload);
+      yield compose(put, actionCreator.cancel)(payload);
     }
   }
 }
 
 export function* resendInvite(action) {
-  yield fork(sendInvite, action);
+  yield fork(invite, actions.resendInvite, action);
+}
+
+export function* sendInvite(action) {
+  yield fork(invite, actions.sendInvite, action);
 }
 
 export default function* sagas() {
