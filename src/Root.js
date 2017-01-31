@@ -1,4 +1,5 @@
 import AppLayout from 'common/components/AppLayout';
+import NoMatch from 'common/components/NoMatch';
 import DialogsRoot from 'common/modules/dialogs/components/Root';
 import ToastsRoot from 'common/modules/toasts/components/Root';
 import AdaptersRoot from 'modules/adapters/components/Root';
@@ -24,6 +25,7 @@ const Root = () => (
               <Route component={RoutesRoot} path="/routes" />
               <Route component={UsersRoot} path="/users" />
               <Route component={VendorsRoot} path="/vendors" />
+              <Route component={NoMatch} />
             </Switch>
           </AppLayout>
         )}
