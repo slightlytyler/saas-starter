@@ -1,50 +1,19 @@
-import Form, { PasswordField } from 'common/components/Form';
 import withActions from 'common/containers/withActions';
 import { compose } from 'lodash/fp';
 import { signUp } from 'modules/auth/actions';
 import React, { PropTypes } from 'react';
-import { mapProps } from 'recompose';
-import yup from 'yup';
+import { mapProps, withState } from 'recompose';
+import Form from './AuthSignUpForm';
 import Layout from '../Layout';
 
-function validatePassword() {
-  return this.parent.password === this.parent.passwordConfirmation;
-}
-
-const schema = yup.object({
-  username: yup.string().required('is required'),
-  password: yup.string().required('is required'),
-  passwordConfirmation: yup.string()
-    .required('is required')
-    .test('passwords-match', 'passwords do not match', validatePassword),
-});
-
-const AuthSignUp = ({ onSubmit }) => (
+const AuthSignUp = ({ loading, onSubmit }) => (
   <Layout title="SignUp">
-    <Form onSubmit={onSubmit} schema={schema}>
-      <Form.Field
-        floatingLabelText="Username"
-        fullWidth
-        name="username"
-      />
-      <Form.Field
-        floatingLabelText="Password"
-        fullWidth
-        name="password"
-        type={PasswordField}
-      />
-      <Form.Field
-        floatingLabelText="Confirm Password"
-        fullWidth
-        name="passwordConfirmation"
-        type={PasswordField}
-      />
-      <Form.SubmitButton fullWidth label="Sign Up" />
-    </Form>
+    <Form loading={loading} onSubmit={onSubmit} />
   </Layout>
 );
 
 AuthSignUp.propTypes = {
+  loading: PropTypes.bool.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 
@@ -52,6 +21,7 @@ const container = compose(
   mapProps(props => ({
     token: props.match.params.token,
   })),
+  withState('loading', 'setLoading', false),
   withActions(props => ({
     onSubmit: data => signUp({ ...data, token: props.token }),
   })),

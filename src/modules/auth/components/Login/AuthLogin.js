@@ -1,16 +1,10 @@
-import Form, { PasswordField } from 'common/components/Form';
 import withActions from 'common/containers/withActions';
 import { compose } from 'lodash/fp';
 import { login } from 'modules/auth/actions';
 import React, { PropTypes } from 'react';
 import { mapProps, withState } from 'recompose';
-import yup from 'yup';
+import Form from './AuthLoginForm';
 import Layout from '../Layout';
-
-const schema = yup.object({
-  username: yup.string().required('is required'),
-  password: yup.string().required('is required'),
-});
 
 const AuthLogin = ({ loading, onChange, onSubmit, value }) => (
   <Layout
@@ -23,28 +17,11 @@ const AuthLogin = ({ loading, onChange, onSubmit, value }) => (
     title="Login"
   >
     <Form
+      loading={loading}
       onChange={onChange}
       onSubmit={onSubmit}
-      schema={schema}
       value={value}
-    >
-      <Form.Field
-        floatingLabelText="Username"
-        fullWidth
-        name="username"
-      />
-      <Form.Field
-        floatingLabelText="Password"
-        fullWidth
-        name="password"
-        type={PasswordField}
-      />
-      <Form.SubmitButton
-        fullWidth
-        label="Login"
-        loading={loading}
-      />
-    </Form>
+    />
   </Layout>
 );
 
