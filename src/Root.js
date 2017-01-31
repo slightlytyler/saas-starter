@@ -9,7 +9,7 @@ import UsersRoot from 'modules/users/components/Root';
 import VendorsRoot from 'modules/vendors/components/Root';
 import React from 'react';
 import { Page } from 'react-layout-components';
-import { Route, Switch } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 
 const Root = () => (
   <Page>
@@ -19,6 +19,7 @@ const Root = () => (
         render={() => (
           <AppLayout>
             <Switch>
+              <Route exact path="/" render={() => <Redirect to="/adapters" />} />
               <Route component={AdaptersRoot} path="/adapters" />
               <Route component={RoutesRoot} path="/routes" />
               <Route component={UsersRoot} path="/users" />
