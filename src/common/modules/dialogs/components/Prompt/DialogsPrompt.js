@@ -1,4 +1,4 @@
-import withActions from 'containers/withActions';
+import withActions from 'common/containers/withActions';
 import { FlatButton } from 'material-ui';
 import React, { PropTypes } from 'react';
 import Item from '../Item';

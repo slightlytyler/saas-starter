@@ -1,5 +1,5 @@
-import Form, { PasswordField } from 'components/Form';
-import withActions from 'containers/withActions';
+import Form, { PasswordField } from 'common/components/Form';
+import withActions from 'common/containers/withActions';
 import { compose } from 'lodash/fp';
 import { login } from 'modules/auth/actions';
 import React, { PropTypes } from 'react';

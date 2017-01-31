@@ -1,4 +1,4 @@
-import Form from 'components/Form';
+import Form from 'common/components/Form';
 import React from 'react';
 import yup from 'yup';
 

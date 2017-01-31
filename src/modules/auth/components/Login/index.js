@@ -1,4 +1,4 @@
-import PageSpinner from 'components/PageSpinner';
+import PageSpinner from 'common/components/PageSpinner';
 import { createAsyncComponent } from 'react-async-component';
 
 const AsyncAuthLogin = createAsyncComponent({

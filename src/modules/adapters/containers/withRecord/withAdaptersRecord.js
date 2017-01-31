@@ -1,4 +1,4 @@
-import withRecord from 'containers/withRecord';
+import withRecord from 'common/containers/withRecord';
 import { fetchRecord } from '../../actions';
 import { selectRecordById } from '../../selectors';
 

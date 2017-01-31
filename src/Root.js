@@ -1,6 +1,6 @@
+import AppLayout from 'common/components/AppLayout';
 import DialogsRoot from 'common/modules/dialogs/components/Root';
 import ToastsRoot from 'common/modules/toasts/components/Root';
-import AppLayout from 'components/AppLayout';
 import AdaptersRoot from 'modules/adapters/components/Root';
 import AuthenticatedRoute from 'modules/auth/components/AuthenticatedRoute';
 import AuthRoot from 'modules/auth/components/Root';

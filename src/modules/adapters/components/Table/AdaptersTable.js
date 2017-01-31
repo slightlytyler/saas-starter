@@ -1,5 +1,5 @@
-import CreateButton from 'components/CreateButton';
-import DataTable from 'components/DataTable';
+import CreateButton from 'common/components/CreateButton';
+import DataTable from 'common/components/DataTable';
 import { map, size } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import Row from './AdaptersTableRow';

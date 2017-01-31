@@ -1,6 +1,6 @@
-import Logo from 'components/Logo';
-import Panel from 'components/Panel';
-import SmallContainer from 'components/SmallContainer';
+import Logo from 'common/components/Logo';
+import Panel from 'common/components/Panel';
+import SmallContainer from 'common/components/SmallContainer';
 import { map, size } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import { Box, Page } from 'react-layout-components';

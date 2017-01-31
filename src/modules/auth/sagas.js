@@ -1,8 +1,8 @@
+import { rest } from 'common/http';
 import { push } from 'connected-react-router';
 import { compose } from 'lodash/fp';
 import { takeEvery, takeLatest } from 'redux-saga';
 import { call, put } from 'redux-saga/effects';
-import { rest } from 'src/http';
 import * as actions from './actions';
 
 export function* deregisterToken() {

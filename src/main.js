@@ -1,8 +1,8 @@
 import 'styles/index.styl';
 import 'whatwg-fetch';
+import ReactHotLoader from 'common/components/ReactHotLoader';
+import StoreProvider from 'common/components/StoreProvider';
 import { ConnectedRouter as Router } from 'connected-react-router';
-import ReactHotLoader from 'components/ReactHotLoader';
-import StoreProvider from 'components/StoreProvider';
 import { createBrowserHistory } from 'history';
 import { compose, get } from 'lodash/fp';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';

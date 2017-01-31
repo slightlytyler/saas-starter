@@ -1,7 +1,7 @@
-import _createAction from 'common/actions/createAction';
+import actionFactory from 'common/actions/actionFactory';
 import { name } from './config';
 
-const createAction = _createAction(name);
+const createAction = actionFactory(name);
 
 export const prompt = createAction({
   type: 'PROMPT',

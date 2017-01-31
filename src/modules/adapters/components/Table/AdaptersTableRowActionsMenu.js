@@ -1,6 +1,6 @@
 import colors from 'colors';
-import ActionsMenu from 'components/ActionsMenu';
-import withActions from 'containers/withActions';
+import ActionsMenu from 'common/components/ActionsMenu';
+import withActions from 'common/containers/withActions';
 import { compose } from 'lodash/fp';
 import { mapProps } from 'recompose';
 import * as actions from '../../actions';

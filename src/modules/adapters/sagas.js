@@ -1,11 +1,11 @@
-import { push, replace } from 'connected-react-router';
-import { compose } from 'lodash/fp';
+import { rest } from 'common/http';
 import * as dialogsSagas from 'common/modules/dialogs/sagas';
 import * as toastsActions from 'common/modules/toasts/actions';
+import { push, replace } from 'connected-react-router';
+import { compose } from 'lodash/fp';
 import { takeLatest } from 'redux-saga';
 import { call, cancelled, put, select } from 'redux-saga/effects';
 import generateId from 'shortid';
-import { rest } from 'src/http';
 import * as actions from './actions';
 import { selectRecordById } from './selectors';
 

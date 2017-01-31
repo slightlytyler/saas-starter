@@ -1,4 +1,4 @@
-import createRestActions from 'common/actions/createRestActions';
+import restActionsFactory from 'common/actions/restActionsFactory';
 import { name } from './config';
 
 export const {
@@ -7,4 +7,4 @@ export const {
   fetchCollection,
   fetchRecord,
   updateRecord,
-} = createRestActions(name);
+} = restActionsFactory(name);

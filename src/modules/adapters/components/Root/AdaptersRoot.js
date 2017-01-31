@@ -1,5 +1,5 @@
 import matchPropType from 'common/propTypes/match';
-import withModuleInit from 'containers/withModuleInit';
+import withModuleInit from 'common/containers/withModuleInit';
 import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import CollectionViewer from '../CollectionViewer';

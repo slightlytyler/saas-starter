@@ -1,5 +1,5 @@
-import Bool from 'components/Bool';
-import DataTable from 'components/DataTable';
+import Bool from 'common/components/Bool';
+import DataTable from 'common/components/DataTable';
 import React, { PropTypes } from 'react';
 import ActionsMenu from './AdaptersTableRowActionsMenu';
 import withRecord from '../../containers/withRecord';

@@ -1,9 +1,9 @@
 import colors from 'colors';
+import ActionsMenu from 'common/components/ActionsMenu';
+import InputBlock from 'common/components/InputBlock';
+import spinnerWhileLoading from 'common/containers/spinnerWhileLoading';
+import withActions from 'common/containers/withActions';
 import matchPropType from 'common/propTypes/match';
-import ActionsMenu from 'components/ActionsMenu';
-import InputBlock from 'components/InputBlock';
-import spinnerWhileLoading from 'containers/spinnerWhileLoading';
-import withActions from 'containers/withActions';
 import { compose, get, noop, omit } from 'lodash/fp';
 import { List, ListItem, RaisedButton } from 'material-ui';
 import React, { PropTypes } from 'react';
