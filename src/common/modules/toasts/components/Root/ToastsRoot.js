@@ -1,4 +1,6 @@
+import colors from 'colors';
 import connect from 'common/redux/connect';
+import hexToRgb from 'common/styles/hexToRgb';
 import { compose, get, head, size } from 'lodash/fp';
 import { Snackbar } from 'material-ui';
 import React, { PropTypes } from 'react';
@@ -6,10 +8,23 @@ import { lifecycle, withState } from 'recompose';
 import * as actions from '../../actions';
 import { selectSubstate } from '../../selectors';
 
+const selectBodyStyle = type => {
+  if (type === 'failure') return { backgroundColor: `rgba(${hexToRgb(colors.red30)}, 0.870588)` };
+  if (type === 'success') return { backgroundColor: `rgba(${hexToRgb(colors.green30)}, 0.870588)` };
+  return {};
+};
+
+const selectContentStyle = type => {
+  if (type === 'failure' || type === 'success') return { color: colors.grey100 };
+  return {};
+};
+
 const ToastsRoot = ({ currentToast, setCurrentToast }) => (
   <Snackbar
     autoHideDuration={3000}
-    message={get('message', currentToast.record) || ''}
+    bodyStyle={compose(selectBodyStyle, get('record.type'))(currentToast)}
+    contentStyle={compose(selectContentStyle, get('record.type'))(currentToast)}
+    message={get('record.message', currentToast) || ''}
     onRequestClose={() => {
       setCurrentToast({
         open: false,
