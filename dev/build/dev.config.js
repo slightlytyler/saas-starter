@@ -21,7 +21,11 @@ export default createConfig(({ __src, baseConfig }) => ({
   },
   devtool: 'cheap-module-eval-source-map',
   devServer: {
-    historyApiFallback: true,
+    historyApiFallback: {
+      rewrites: [
+        { from: /\./, to: '/' },
+      ],
+    },
     hot: true,
     noInfo: false,
     quiet: false,

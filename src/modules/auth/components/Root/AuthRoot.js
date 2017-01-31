@@ -8,10 +8,10 @@ import SignUp from '../SignUp';
 
 const AuthRoot = ({ match }) => (
   <Switch>
-    <Route component={Login} path={`${match.url}/login`} />
-    <Route component={SignUp} path={`${match.url}/sign-up`} />
-    <Route component={ResetPassword} path={`${match.url}/reset-password`} />
     <Route component={ChangePassword} path={`${match.url}/change-password/:token`} />
+    <Route component={Login} path={`${match.url}/login`} />
+    <Route component={ResetPassword} path={`${match.url}/reset-password`} />
+    <Route component={SignUp} path={`${match.url}/sign-up/:token`} />
   </Switch>
 );
 
