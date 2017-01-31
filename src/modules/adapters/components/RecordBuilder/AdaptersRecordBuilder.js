@@ -17,14 +17,14 @@ import withRecord from '../../containers/withRecord';
 const RecordBuilder = ({ isNewRecord, onSubmit, parentMatch, record }) => (
   <Box column>
     <Route path={`${parentMatch.url}/general`}>
-      {({ history, match }) => (
+      {({ goBack, match, push, replace }) => (
         <InputBlock
           forceOpen={isNewRecord}
           icon="settings_input_component"
           onOpen={isNewRecord ? noop : open => {
-            if (parentMatch.isExact) return history.push(`${parentMatch.url}/general`);
-            if (!open) return history.goBack();
-            return history.replace(`${parentMatch.url}/general`);
+            if (parentMatch.isExact) return push(`${parentMatch.url}/general`);
+            if (!open) return goBack();
+            return replace(`${parentMatch.url}/general`);
           }}
           open={Boolean(match)}
           title={isNewRecord ? 'New Adapter' : get('body.name', record)}
@@ -34,14 +34,14 @@ const RecordBuilder = ({ isNewRecord, onSubmit, parentMatch, record }) => (
       )}
     </Route>
     <Route path={`${parentMatch.url}/operations`}>
-      {({ history, match }) => (
+      {({ goBack, match, push, replace }) => (
         <InputBlock
           disabled={isNewRecord}
           icon="layers"
           onOpen={open => {
-            if (parentMatch.isExact) return history.push(`${parentMatch.url}/operations`);
-            if (!open) return history.goBack();
-            return history.replace(`${parentMatch.url}/operations`);
+            if (parentMatch.isExact) return push(`${parentMatch.url}/operations`);
+            if (!open) return goBack();
+            return replace(`${parentMatch.url}/operations`);
           }}
           open={Boolean(match)}
           title="Operations"
@@ -94,7 +94,7 @@ const selectId = get('match.params.adapterId');
 
 export default compose(
   withActions({ createRecord: actions.createRecord, updateRecord: actions.updateRecord }),
-  withRecord({ selectId }),
+  withRecord({ fetchEvents: ['mount'], selectId }),
   mapProps(({ createRecord, updateRecord, ...props }) => {
     const isNewRecord = selectId(props) === 'new';
     return {
@@ -105,6 +105,6 @@ export default compose(
     };
   }),
   spinnerWhileLoading(props => (
-    !(props.isNewRecord || props.record) || get('record.loading', props)
+    props.isNewRecord ? false : get('record.loading', props) !== false
   )),
 )(RecordBuilder);

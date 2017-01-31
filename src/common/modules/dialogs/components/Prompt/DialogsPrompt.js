@@ -12,6 +12,7 @@ const DialogsPrompt = ({ confirm, deny, ...props }) => (
         onTouchTap={deny}
       />,
       <FlatButton
+        keyboardFocused
         label="Confirm"
         onTouchTap={confirm}
         primary

@@ -38,7 +38,10 @@ export const logout = createAction({
 
 export const registerToken = createAction({
   type: 'REGISTER_TOKEN',
-  creator: type => () => ({ type }),
+  creator: type => data => ({
+    type,
+    payload: data,
+  }),
 });
 
 export const signUp = createAction({

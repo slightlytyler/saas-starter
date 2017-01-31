@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@slightlytyler/redux-optimist": "^1.0.0",
-    "connected-react-router": "^2.0.0-alpha.2",
+    "connected-react-router": "^4.0.0-beta.1",
     "element-resize-detector": "^1.1.10",
     "invariant": "^2.2.2",
     "lodash": "^4.17.2",
@@ -32,7 +32,8 @@
     "react-layout-components": "^3.0.4",
     "react-motion": "^0.4.7",
     "react-redux": "^5.0.2",
-    "react-router": "^4.0.0-alpha.6",
+    "react-router": "^4.0.0-beta.3",
+    "react-router-dom": "^4.0.0-beta.3",
     "react-tap-event-plugin": "^2.0.1",
     "recompose": "^0.21.2",
     "redux": "^3.6.0",

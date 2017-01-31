@@ -1,20 +1,22 @@
 import connect from 'common/redux/connect';
-import { compose, omit } from 'lodash/fp';
+import { compose, indexOf, omit } from 'lodash/fp';
 import { lifecycle, mapProps } from 'recompose';
 
-const withRecordFetcher = (action, selectId) => compose(
-  connect({
-    mapDispatchToProps: { fetchRecord: action },
-  }),
+const withRecordFetcher = ({ fetchEvents, fetchRecord, newKey, selectId }) => compose(
+  connect({ mapDispatchToProps: { fetchRecord } }),
   lifecycle({
     componentDidMount() {
-      const id = selectId(this.props);
-      if (id !== 'new') this.props.fetchRecord({ id });
+      if (indexOf('mount', fetchEvents) !== -1) {
+        const id = selectId(this.props);
+        if (id !== newKey) this.props.fetchRecord({ id });
+      }
     },
     componentWillReceiveProps(nextProps) {
-      if (selectId(this.props) !== selectId(nextProps)) {
-        const id = selectId(nextProps);
-        if (id !== 'new') this.props.fetchRecord({ id });
+      if (indexOf('update', fetchEvents) !== -1) {
+        if (selectId(this.props) !== selectId(nextProps)) {
+          const id = selectId(nextProps);
+          if (id !== newKey) this.props.fetchRecord({ id });
+        }
       }
     },
   }),

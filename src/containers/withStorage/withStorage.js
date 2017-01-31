@@ -2,7 +2,7 @@ import spinnerWhileLoading from 'containers/spinnerWhileLoading';
 import withActions from 'containers/withActions';
 import { compose, get } from 'lodash/fp';
 import { registerToken } from 'modules/auth/actions';
-import { selectIsAuthenticated } from 'modules/auth/selectors';
+import { selectIsAuthenticated, selectToken } from 'modules/auth/selectors';
 import { lifecycle, withState } from 'recompose';
 
 const withStorage = compose(
@@ -11,8 +11,9 @@ const withStorage = compose(
   lifecycle({
     async componentDidMount() {
       await this.props.store.loadStorage();
-      if (selectIsAuthenticated(this.props.store.getState())) {
-        this.props.registerToken();
+      const state = this.props.store.getState();
+      if (selectIsAuthenticated(state)) {
+        this.props.registerToken({ token: selectToken(state) });
       }
       this.props.setLoading(false);
     },

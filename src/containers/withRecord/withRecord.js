@@ -6,9 +6,11 @@ const defaultSelectId = get('id');
 
 const withRecord =
   ({ fetchRecord, selectRecordById }) =>
-  ({ fetch = true, select = true, selectId = defaultSelectId } = {}) => compose(
-    fetch ? withRecordFetcher(fetchRecord, selectId) : identity,
-    select ? withRecordSelector(selectRecordById, selectId) : identity,
+  ({ fetchEvents = ['mount', 'update'], newKey = 'new', selectId = defaultSelectId } = {}) => compose(
+    fetchEvents !== false
+      ? withRecordFetcher({ fetchEvents, fetchRecord, newKey, selectId })
+      : identity,
+    withRecordSelector({ selectId, selectRecordById }) : identity,
   );
 
 

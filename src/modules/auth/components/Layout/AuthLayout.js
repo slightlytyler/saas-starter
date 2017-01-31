@@ -4,7 +4,7 @@ import SmallContainer from 'components/SmallContainer';
 import { map, size } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import { Box, Page } from 'react-layout-components';
-import { Link } from 'react-router';
+import { Link } from 'react-router-dom';
 
 const renderAlternateMessagesIteratee = message => (
   <Link className="AuthLayout__alternate-message" key={message.prompt} to={message.pathname}>
