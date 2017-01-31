@@ -1,3 +1,3 @@
-export const rootPath = '/users';
+export const name = 'users';
 
 export const stateKey = 'users';

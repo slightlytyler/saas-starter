@@ -1,4 +1,4 @@
-import createRestReducer from 'common/reducers/createRestReducer';
+import restReducerFactory from 'common/reducers/restReducerFactory';
 import * as actions from './actions';
 
-export default createRestReducer(actions);
+export default restReducerFactory(actions);

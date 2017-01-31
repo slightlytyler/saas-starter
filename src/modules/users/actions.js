@@ -1,8 +1,11 @@
-import createRestActions from 'common/actions/createRestActions';
-import { stateKey } from './config';
+import restActionsFactory from 'common/actions/restActionsFactory';
+import { name } from './config';
 
-export const { fetchCollection } = createRestActions(stateKey);
+export const {
+  fetchCollection,
+  fetchRecord,
+} = restActionsFactory(name);
 
-export const resentInvite = () => {};
+export const resendInvite = () => {};
 
 export const sendInvite = () => {};

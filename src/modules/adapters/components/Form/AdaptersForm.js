@@ -8,11 +8,7 @@ const formSchema = yup.object({
 });
 
 const AdaptersForm = props => (
-  <Form
-    {...props}
-    schema={formSchema}
-    style={{ padding: '16px' }}
-  >
+  <Form {...props} schema={formSchema}>
     <Form.Field autoFocus name="name" />
     <Form.Field name="description" />
     <Form.SubmitButton label="Save Adapter" />

@@ -24,7 +24,7 @@ const InputBlock = ({
         disabled={disabled}
         forceOpen={forceOpen}
         icon={icon}
-        onTouchTap={disabled ? noop : handleOpen(open, onOpen)}
+        onTouchTap={(disabled || forceOpen) ? noop : handleOpen(open, onOpen)}
         open={open}
         text={title}
       />
@@ -41,8 +41,8 @@ InputBlock.propTypes = {
   disabled: PropTypes.bool,
   forceOpen: PropTypes.bool,
   icon: PropTypes.string.isRequired,
-  onOpen: PropTypes.func.isRequired,
-  open: PropTypes.bool.isRequired,
+  onOpen: PropTypes.func,
+  open: PropTypes.bool,
   title: PropTypes.string.isRequired,
 };
 
@@ -50,6 +50,8 @@ InputBlock.defaultProps = {
   className: undefined,
   disabled: false,
   forceOpen: false,
+  onOpen: noop,
+  open: true,
 };
 
 export default InputBlock;

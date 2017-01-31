@@ -4,7 +4,7 @@ import InputBlock from 'common/components/InputBlock';
 import spinnerWhileLoading from 'common/containers/spinnerWhileLoading';
 import withActions from 'common/containers/withActions';
 import matchPropType from 'common/propTypes/match';
-import { compose, get, noop, omit } from 'lodash/fp';
+import { compose, get, omit } from 'lodash/fp';
 import { List, ListItem, RaisedButton } from 'material-ui';
 import React, { PropTypes } from 'react';
 import { Box } from 'react-layout-components';
@@ -21,7 +21,7 @@ const RecordBuilder = ({ isNewRecord, onSubmit, parentMatch, record }) => (
         <InputBlock
           forceOpen={isNewRecord}
           icon="settings_input_component"
-          onOpen={isNewRecord ? noop : open => {
+          onOpen={open => {
             if (parentMatch.isExact) return push(`${parentMatch.url}/general`);
             if (!open) return goBack();
             return replace(`${parentMatch.url}/general`);
