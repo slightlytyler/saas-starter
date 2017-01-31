@@ -1,6 +1,6 @@
 import colors from 'colors';
 import connect from 'common/redux/connect';
-import hexToRgb from 'common/styles/hexToRgb';
+import hexToRgb from 'common/styles/helpers/hexToRgb';
 import { compose, get, head, size } from 'lodash/fp';
 import { Snackbar } from 'material-ui';
 import React, { PropTypes } from 'react';

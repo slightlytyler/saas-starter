@@ -1,7 +1,8 @@
-import 'styles/index.styl';
+import 'common/styles/index.styl';
 import 'whatwg-fetch';
 import ReactHotLoader from 'common/components/ReactHotLoader';
 import StoreProvider from 'common/components/StoreProvider';
+import ibmTheme from 'common/styles/mui/theme';
 import { ConnectedRouter as Router } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import { compose, get } from 'lodash/fp';
@@ -10,7 +11,6 @@ import React from 'react';
 import { withAsyncComponents } from 'react-async-component';
 import ReactDOM from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import ibmTheme from 'styles/mui/theme';
 import Root from './Root';
 import createStore from './store';
 

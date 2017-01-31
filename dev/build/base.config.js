@@ -55,7 +55,7 @@ export const baseConfig = {
     }),
     new WebpackShellPlugin({
       onBuildExit: [
-        `stylint ${path.join(__src, 'styles')} --config ${path.join(__dev, 'styl-lint/dev.rc')}`,
+        `stylint ${path.join(__src, 'common/styles')} --config ${path.join(__dev, 'styl-lint/dev.rc')}`,
       ],
     }),
     new webpack.optimize.CommonsChunkPlugin({
@@ -93,13 +93,10 @@ export const baseConfig = {
   resolve: {
     alias: {
       assets: __assets,
-      colors: path.join(__src, 'styles/base/colors.js'),
+      colors: path.join(__src, 'common/styles/base/colors.js'),
       common: path.join(__src, 'common'),
-      components: path.join(__src, 'components'),
-      containers: path.join(__src, 'containers'),
       modules: path.join(__src, 'modules'),
       src: path.join(__src),
-      styles: path.join(__src, 'styles'),
     },
   },
 };
