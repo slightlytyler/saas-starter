@@ -1,4 +1,4 @@
-import connect from 'common/redux/connect';
+import connect from 'common/containers/connect';
 
 const withCollectionSelector = (selectCollectionByQuery, selectQuery) => connect({
   mapStateToProps: {

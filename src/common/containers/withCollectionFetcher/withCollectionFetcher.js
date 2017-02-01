@@ -1,4 +1,4 @@
-import connect from 'common/redux/connect';
+import connect from 'common/containers/connect';
 import { compose, omit } from 'lodash/fp';
 import { lifecycle, mapProps } from 'recompose';
 

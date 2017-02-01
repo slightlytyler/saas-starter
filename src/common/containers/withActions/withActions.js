@@ -1,4 +1,4 @@
-import connect from 'common/redux/connect';
+import connect from 'common/containers/connect';
 import { isFunction } from 'lodash/fp';
 import { bindActionCreators } from 'redux';
 

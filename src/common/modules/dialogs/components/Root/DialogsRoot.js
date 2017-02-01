@@ -1,4 +1,4 @@
-import connect from 'common/redux/connect';
+import connect from 'common/containers/connect';
 import { compose, dropRight, last, map, size } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import { lifecycle, mapProps, withState } from 'recompose';

@@ -1,4 +1,4 @@
-import connect from 'common/redux/connect';
+import connect from 'common/containers/connect';
 
 const withRecordSelector = ({ selectId, selectRecordById }) => connect({
   mapStateToProps: { record: (state, props) => selectRecordById(state, selectId(props)) },

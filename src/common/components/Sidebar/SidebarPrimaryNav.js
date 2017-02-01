@@ -1,4 +1,4 @@
-import connect from 'common/redux/connect';
+import connect from 'common/containers/connect';
 import { compose } from 'lodash/fp';
 import { selectIsAdmin } from 'modules/auth/selectors';
 import { withProps } from 'recompose';

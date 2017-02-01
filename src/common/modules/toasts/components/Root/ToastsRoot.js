@@ -1,5 +1,5 @@
 import colors from 'colors';
-import connect from 'common/redux/connect';
+import connect from 'common/containers/connect';
 import hexToRgb from 'common/styles/helpers/hexToRgb';
 import { compose, get, head, size } from 'lodash/fp';
 import { Snackbar } from 'material-ui';
