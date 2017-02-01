@@ -20,7 +20,6 @@ const InputBlockTitle = ({ disabled, forceOpen, icon, onTouchTap, open, text }) 
         color="currentColor"
         hoverColor="currentColor"
         style={{
-          cursor: 'default',
           paddingLeft: 0,
           paddingRight: '24px',
         }}
