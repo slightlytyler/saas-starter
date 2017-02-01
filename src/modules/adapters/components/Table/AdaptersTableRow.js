@@ -10,7 +10,7 @@ const renderStatus = status => (
     : status
 );
 
-const AdaptersTableRow = ({ record, onEdit }) => {
+const AdaptersTableRow = ({ record, onDelete, onEdit }) => {
   if (record.deleted) return false;
   return (
     <DataTable.Row>
@@ -27,15 +27,22 @@ const AdaptersTableRow = ({ record, onEdit }) => {
         {renderStatus(record.body.status)}
       </DataTable.RowColumn>
       <DataTable.RowColumn actions>
-        <ActionsMenu id={record.body.id} onEdit={onEdit} />
+        <ActionsMenu
+          id={record.body.id}
+          onDelete={onDelete}
+          onEdit={onEdit}
+        />
       </DataTable.RowColumn>
     </DataTable.Row>
   );
 };
 
 AdaptersTableRow.propTypes = {
+  onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
   record: PropTypes.object.isRequired,
 };
 
-export default withRecord({ fetchEvents: false })(AdaptersTableRow);
+const container = withRecord({ fetchEvents: false });
+
+export default container(AdaptersTableRow);
