@@ -1,10 +1,10 @@
 import withActions from 'common/containers/withActions';
 import { compose } from 'lodash/fp';
-import { signUp } from 'modules/auth/actions';
 import React, { PropTypes } from 'react';
 import { mapProps, withState } from 'recompose';
 import Form from './AuthSignUpForm';
 import Layout from '../Layout';
+import * as actions from '../../actions';
 
 const AuthSignUp = ({ loading, onSubmit }) => (
   <Layout title="SignUp">
@@ -18,12 +18,17 @@ AuthSignUp.propTypes = {
 };
 
 const container = compose(
-  mapProps(props => ({
-    token: props.match.params.token,
-  })),
+  withActions({ onSubmit: actions.signUp }),
   withState('loading', 'setLoading', false),
-  withActions(props => ({
-    onSubmit: data => signUp({ ...data, token: props.token }),
+  mapProps(props => ({
+    loading: props.loading,
+    onSubmit: data => {
+      props.setLoading(true);
+      props.onSubmit(
+        { ...data, token: props.match.params.token },
+        () => props.setLoading(false),
+      );
+    },
   })),
 );
 

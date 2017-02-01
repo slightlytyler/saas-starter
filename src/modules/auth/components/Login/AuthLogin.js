@@ -1,10 +1,10 @@
 import withActions from 'common/containers/withActions';
 import { compose } from 'lodash/fp';
-import { login } from 'modules/auth/actions';
 import React, { PropTypes } from 'react';
 import { mapProps, withState } from 'recompose';
 import Form from './AuthLoginForm';
 import Layout from '../Layout';
+import * as actions from '../../actions';
 
 const AuthLogin = ({ loading, onChange, onSubmit, value }) => (
   <Layout
@@ -37,7 +37,7 @@ AuthLogin.defaultProps = {
 };
 
 const container = compose(
-  withActions({ login }),
+  withActions({ onSubmit: actions.login }),
   withState('loading', 'setLoading', false),
   withState('value', 'setValue', null),
   mapProps(props => ({
@@ -45,7 +45,7 @@ const container = compose(
     onChange: model => props.setValue(model),
     onSubmit: () => {
       props.setLoading(true);
-      props.login(
+      props.onSubmit(
         props.value,
         () => {
           props.setLoading(false);

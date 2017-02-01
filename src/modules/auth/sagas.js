@@ -1,4 +1,5 @@
 import { rest } from 'common/http';
+import * as toastsActions from 'common/modules/toasts/actions';
 import { push } from 'connected-react-router';
 import { compose } from 'lodash/fp';
 import { takeEvery, takeLatest } from 'redux-saga';
@@ -16,14 +17,45 @@ export function* authenticate({ payload, meta }, actionCreator, restCall) {
     yield compose(put, actions.registerToken)({ token });
     yield compose(put, push)('/');
   } catch (e) {
+    yield call(meta.callback);
     yield compose(put, actionCreator.fail)({
       ...payload,
       reason: e.toString(),
     });
-    yield call(meta.callback);
+    yield compose(put, toastsActions.add)({
+      message: e.toString(),
+      type: 'failure',
+    });
   } finally {
     if (yield cancelled()) {
+      yield call(meta.callback);
       yield compose(put, actionCreator.cancel)(payload);
+    }
+  }
+}
+
+export function* changePassword({ payload, meta }) {
+  try {
+    yield call(rest.post, {
+      body: payload,
+      endpoint: '/users/password-reset',
+    });
+    yield compose(put, actions.changePassword.succeed)({ payload });
+    yield compose(put, push)('/auth/login');
+  } catch (e) {
+    yield call(meta.callback);
+    yield compose(put, actions.changePassword.fail)({
+      ...payload,
+      reason: e.toString(),
+    });
+    yield compose(put, toastsActions.add)({
+      message: e.toString(),
+      type: 'failure',
+    });
+  } finally {
+    if (yield cancelled()) {
+      yield call(meta.callback);
+      yield compose(put, actions.changePassword.cancel)({ payload });
     }
   }
 }
@@ -53,6 +85,32 @@ export function* registerToken({ payload }) {
   yield call(rest.registerToken, payload.token);
 }
 
+export function* resetPassword({ payload, meta }) {
+  try {
+    yield call(rest.post, {
+      body: payload,
+      endpoint: '/users/password-reset',
+    });
+    yield compose(put, actions.resetPassword.succeed)({ payload });
+    yield compose(put, push)('/auth/login');
+  } catch (e) {
+    yield call(meta.callback);
+    yield compose(put, actions.resetPassword.fail)({
+      ...payload,
+      reason: e.toString(),
+    });
+    yield compose(put, toastsActions.add)({
+      message: e.toString(),
+      type: 'failure',
+    });
+  } finally {
+    if (yield cancelled()) {
+      yield call(meta.callback);
+      yield compose(put, actions.resetPassword.cancel)({ payload });
+    }
+  }
+}
+
 export function* signUp(action) {
   yield fork(
     authenticate,
@@ -67,9 +125,11 @@ export function* signUp(action) {
 
 export default function* sagas() {
   yield [
+    takeLatest(actions.changePassword.types.initiate, changePassword),
     takeEvery(actions.deregisterToken.type, deregisterToken),
     takeLatest(actions.login.types.initiate, login),
     takeLatest(actions.logout.type, logout),
+    takeLatest(actions.resetPassword.types.initiate, resetPassword),
     takeEvery(actions.registerToken.type, registerToken),
     takeLatest(actions.signUp.types.initiate, signUp),
   ];

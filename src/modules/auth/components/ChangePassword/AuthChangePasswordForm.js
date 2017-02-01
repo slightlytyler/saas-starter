@@ -7,22 +7,16 @@ function validatePassword() {
 }
 
 const schema = yup.object({
-  username: yup.string().required('is required'),
   password: yup.string().required('is required'),
   passwordConfirmation: yup.string()
     .required('is required')
     .test('passwords-match', 'passwords do not match', validatePassword),
 });
 
-const AuthSignUpForm = ({ loading, ...props }) => (
+const AuthResetPassword = ({ loading, ...props }) => (
   <Form {...props} schema={schema}>
     <Form.Field
       autoFocus
-      floatingLabelText="Username"
-      fullWidth
-      name="username"
-    />
-    <Form.Field
       floatingLabelText="Password"
       fullWidth
       name="password"
@@ -36,14 +30,14 @@ const AuthSignUpForm = ({ loading, ...props }) => (
     />
     <Form.SubmitButton
       fullWidth
-      label="Sign Up"
+      label="Reset Password"
       loading={loading}
     />
   </Form>
 );
 
-AuthSignUpForm.propTypes = {
+AuthResetPassword.propTypes = {
   loading: PropTypes.bool.isRequired,
 };
 
-export default AuthSignUpForm;
+export default AuthResetPassword;
