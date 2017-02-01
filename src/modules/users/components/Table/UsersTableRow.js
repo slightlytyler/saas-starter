@@ -3,7 +3,7 @@ import React, { PropTypes } from 'react';
 import ActionsMenu from './UsersTableRowActionsMenu';
 import withRecord from '../../containers/withRecord';
 
-const UsersTableRow = ({ record }) => {
+const UsersTableRow = ({ record, onResendInvite, onViewAdapters, onViewRoutes }) => {
   if (record.deleted) return false;
   return (
     <DataTable.Row>
@@ -14,14 +14,25 @@ const UsersTableRow = ({ record }) => {
         {record.body.email}
       </DataTable.RowColumn>
       <DataTable.RowColumn actions>
-        <ActionsMenu email={record.body.email} id={record.body.id} />
+        <ActionsMenu
+          id={record.body.id}
+          isRegistered={Boolean(record.body.username)}
+          onResendInvite={onResendInvite}
+          onViewAdapters={onViewAdapters}
+          onViewRoutes={onViewRoutes}
+        />
       </DataTable.RowColumn>
     </DataTable.Row>
   );
 };
 
 UsersTableRow.propTypes = {
+  onResendInvite: PropTypes.func.isRequired,
+  onViewAdapters: PropTypes.func.isRequired,
+  onViewRoutes: PropTypes.func.isRequired,
   record: PropTypes.object.isRequired,
 };
 
-export default withRecord({ fetchEvents: false })(UsersTableRow);
+const container = withRecord({ fetchEvents: false });
+
+export default container(UsersTableRow);

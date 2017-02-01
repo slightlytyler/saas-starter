@@ -2,8 +2,9 @@ import fetchSaga from 'common/sagas/fetch';
 import * as toastsActions from 'common/modules/toasts/actions';
 import { compose } from 'lodash/fp';
 import { takeLatest } from 'redux-saga';
-import { call, cancelled, fork, put } from 'redux-saga/effects';
+import { call, cancelled, fork, put, select } from 'redux-saga/effects';
 import * as actions from './actions';
+import * as selectors from './selectors';
 
 export function* fetchCollection({ payload }) {
   try {
@@ -88,7 +89,9 @@ export function* invite(actionCreator, { payload }) {
 }
 
 export function* resendInvite(action) {
-  yield fork(invite, actions.resendInvite, action);
+  const state = yield select();
+  const { body: { email } } = selectors.selectRecordById(state, action.payload.id);
+  yield fork(invite, actions.resendInvite, { ...action, payload: { email } });
 }
 
 export function* sendInvite(action) {

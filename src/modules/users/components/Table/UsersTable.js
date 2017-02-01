@@ -1,11 +1,18 @@
 import CreateButton from 'common/components/CreateButton';
 import DataTable from 'common/components/DataTable';
-import { map, size } from 'lodash/fp';
+import { map } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import Row from './UsersTableRow';
 
-const UsersTable = ({ ids, loading, onCreate }) => (
-  <DataTable loading={loading && !size(ids)}>
+const UsersTable = ({
+  ids,
+  loading,
+  onResendInvite,
+  onSendInvite,
+  onViewAdapters,
+  onViewRoutes,
+}) => (
+  <DataTable loading={loading}>
     <DataTable.Header>
       <DataTable.HeaderColumn>
         Username
@@ -14,24 +21,33 @@ const UsersTable = ({ ids, loading, onCreate }) => (
         Email
       </DataTable.HeaderColumn>
       <DataTable.HeaderColumn actions>
-        <CreateButton onTouchTap={onCreate} />
+        <CreateButton onTouchTap={onSendInvite} />
       </DataTable.HeaderColumn>
     </DataTable.Header>
     <DataTable.Body>
-      {map(id => <Row id={id} key={id} />, ids)}
+      {map(
+        id => (
+          <Row
+            id={id}
+            key={id}
+            onResendInvite={onResendInvite}
+            onViewAdapters={onViewAdapters}
+            onViewRoutes={onViewRoutes}
+          />
+        ),
+        ids,
+      )}
     </DataTable.Body>
   </DataTable>
 );
 
 UsersTable.propTypes = {
-  ids: PropTypes.arrayOf(PropTypes.string),
-  loading: PropTypes.bool,
-  onCreate: PropTypes.func.isRequired,
-};
-
-UsersTable.defaultProps = {
-  ids: null,
-  loading: false,
+  ids: PropTypes.arrayOf(PropTypes.string).isRequired,
+  loading: PropTypes.bool.isRequired,
+  onResendInvite: PropTypes.func.isRequired,
+  onSendInvite: PropTypes.func.isRequired,
+  onViewAdapters: PropTypes.func.isRequired,
+  onViewRoutes: PropTypes.func.isRequired,
 };
 
 export default UsersTable;

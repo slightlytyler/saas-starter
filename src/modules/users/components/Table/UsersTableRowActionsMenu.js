@@ -1,28 +1,28 @@
 import ActionsMenu from 'common/components/ActionsMenu';
-import withActions from 'common/containers/withActions';
-import { compose } from 'lodash/fp';
 import { mapProps } from 'recompose';
-import * as actions from '../../actions';
 
-export default compose(
-  withActions({ resendInvite: actions.resendInvite }),
-  mapProps(props => ({
-    items: [
-      {
-        action: () => {},
-        id: 'view-adapters',
-        label: 'View Adapters',
-      },
-      {
-        action: () => {},
-        id: 'view-routes',
-        label: 'View Routes',
-      },
-      {
-        action: () => props.resendInvite({ email: props.email }),
-        id: 'resend-invite',
-        label: 'Resend Invite',
-      },
-    ],
-  })),
-)(ActionsMenu);
+const container = mapProps(props => {
+  const baseItems = [
+    {
+      action: () => props.onViewAdapters(props.id),
+      id: 'view-adapters',
+      label: 'View Adapters',
+    },
+    {
+      action: () => props.onViewRoutes(props.id),
+      id: 'view-routes',
+      label: 'View Routes',
+    },
+  ];
+  const unregisteredItems = [
+    {
+      action: () => props.onResendInvite(props.id),
+      id: 'resend-invite',
+      label: 'Resend Invite',
+    },
+  ];
+  const items = props.isRegistered ? baseItems : [...baseItems, ...unregisteredItems];
+  return { items };
+});
+
+export default container(ActionsMenu);
