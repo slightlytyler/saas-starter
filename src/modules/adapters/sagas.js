@@ -4,7 +4,6 @@ import fetchSaga from 'common/sagas/fetch';
 import { compose } from 'lodash/fp';
 import { takeLatest } from 'redux-saga';
 import { call, cancelled, put, select } from 'redux-saga/effects';
-import generateId from 'shortid';
 import * as actions from './actions';
 import { selectRecordById } from './selectors';
 
@@ -38,7 +37,6 @@ export function* deleteRecord({ payload, meta: { transactionId } }) {
   const record = selectRecordById(state, payload.id);
   try {
     const { confirm, deny } = yield call(dialogsSagas.prompt, {
-      id: generateId(),
       message: `Deleting ${record.body.name} will effect the routes that depend on it.`,
       title: 'Are you sure?',
     });

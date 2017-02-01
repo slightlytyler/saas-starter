@@ -10,7 +10,7 @@ import React, { PropTypes } from 'react';
 import { Box } from 'react-layout-components';
 import { Route } from 'react-router-dom';
 import { mapProps } from 'recompose';
-import Form from '../Form';
+import Form from './AdaptersRecordBuilderGeneralForm';
 import * as actions from '../../actions';
 import withRecord from '../../containers/withRecord';
 

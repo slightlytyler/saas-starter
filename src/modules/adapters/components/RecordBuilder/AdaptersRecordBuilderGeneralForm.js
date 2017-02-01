@@ -7,7 +7,7 @@ const formSchema = yup.object({
   description: yup.string(),
 });
 
-const AdaptersForm = props => (
+const AdaptersRecordBuilderGeneralForm = props => (
   <Form {...props} schema={formSchema}>
     <Form.Field autoFocus name="name" />
     <Form.Field name="description" />
@@ -15,4 +15,4 @@ const AdaptersForm = props => (
   </Form>
 );
 
-export default AdaptersForm;
+export default AdaptersRecordBuilderGeneralForm;

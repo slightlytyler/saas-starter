@@ -1,4 +1,4 @@
-import connect from 'common/redux/connect';
+import connect from 'common/containers/connect';
 import React, { PropTypes } from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import { selectIsAuthenticated } from '../../selectors';

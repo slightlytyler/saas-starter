@@ -1,4 +1,5 @@
 import { dropRight } from 'lodash/fp';
+import generateId from 'shortid';
 import * as actions from './actions';
 
 const reducer = (state = [], { type, payload }) => {
@@ -8,6 +9,7 @@ const reducer = (state = [], { type, payload }) => {
         ...state,
         {
           ...payload,
+          id: generateId(),
           type: 'prompt',
         },
       ];
