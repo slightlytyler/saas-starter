@@ -1,4 +1,4 @@
-import { rest } from 'common/http';
+import fetchSaga from 'common/sagas/fetch';
 import * as toastsActions from 'common/modules/toasts/actions';
 import { compose } from 'lodash/fp';
 import { takeLatest } from 'redux-saga';
@@ -7,7 +7,7 @@ import * as actions from './actions';
 
 export function* fetchCollection({ payload }) {
   try {
-    const { body } = yield call(rest.get, {
+    const { body } = yield call(fetchSaga, {
       endpoint: '/users',
       query: payload.query,
     });
@@ -33,7 +33,7 @@ export function* fetchCollection({ payload }) {
 
 export function* fetchRecord({ payload, meta: { transactionId } }) {
   try {
-    const { body } = yield call(rest.get, { endpoint: `/users/${payload.id}` });
+    const { body } = yield call(fetchSaga, { endpoint: `/users/${payload.id}` });
     yield compose(
       put,
       actions.fetchRecord.succeed(transactionId),
@@ -62,9 +62,10 @@ export function* fetchRecord({ payload, meta: { transactionId } }) {
 
 export function* invite(actionCreator, { payload }) {
   try {
-    const { body } = yield call(rest.post, {
+    const { body } = yield call(fetchSaga, {
       body: payload,
       endpoint: 'users/invite',
+      method: 'POST',
     });
     yield compose(put, actionCreator.succeed)(body);
     yield compose(put, toastsActions.add)({

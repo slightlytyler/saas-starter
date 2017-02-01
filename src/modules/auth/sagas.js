@@ -1,20 +1,18 @@
-import { rest } from 'common/http';
 import * as toastsActions from 'common/modules/toasts/actions';
+import fetchSaga from 'common/sagas/fetch';
 import { push } from 'connected-react-router';
 import { compose } from 'lodash/fp';
-import { takeEvery, takeLatest } from 'redux-saga';
+import { takeLatest } from 'redux-saga';
 import { call, cancelled, fork, put } from 'redux-saga/effects';
 import * as actions from './actions';
 
-export function* authenticate({ payload, meta }, actionCreator, restCall) {
+export function* authenticate({ payload, meta }, actionCreator, fetchOptions) {
   try {
-    const { body, headers } = yield restCall;
-    const token = rest.selectToken(headers);
+    const { body, token } = yield call(fetchSaga, fetchOptions);
     yield compose(put, actionCreator.succeed)({
       token,
       user: body,
     });
-    yield compose(put, actions.registerToken)({ token });
     yield compose(put, push)('/');
   } catch (e) {
     yield call(meta.callback);
@@ -36,9 +34,10 @@ export function* authenticate({ payload, meta }, actionCreator, restCall) {
 
 export function* changePassword({ payload, meta }) {
   try {
-    yield call(rest.post, {
+    yield call(fetchSaga, {
       body: payload,
       endpoint: '/users/password-reset',
+      method: 'POST',
     });
     yield compose(put, actions.changePassword.succeed)({ payload });
     yield compose(put, push)('/auth/login');
@@ -60,39 +59,31 @@ export function* changePassword({ payload, meta }) {
   }
 }
 
-export function* deregisterToken() {
-  yield call(rest.deregisterToken);
-}
-
 export function* login(action) {
   yield fork(
     authenticate,
     action,
     actions.login,
-    call(rest.post, {
+    {
       body: action.payload,
       endpoint: '/users/login',
-    }),
+      method: 'POST',
+    },
   );
 }
 
 export function* logout() {
-  yield compose(put, actions.deregisterToken)();
   yield compose(put, push)('/auth/login');
-}
-
-export function* registerToken({ payload }) {
-  yield call(rest.registerToken, payload.token);
 }
 
 export function* resetPassword({ payload, meta }) {
   try {
-    yield call(rest.post, {
+    yield call(fetchSaga, {
       body: payload,
       endpoint: '/users/password-reset',
+      method: 'POST',
     });
     yield compose(put, actions.resetPassword.succeed)({ payload });
-    yield compose(put, push)('/auth/login');
   } catch (e) {
     yield call(meta.callback);
     yield compose(put, actions.resetPassword.fail)({
@@ -116,21 +107,20 @@ export function* signUp(action) {
     authenticate,
     action,
     actions.signUp,
-    call(rest.post, {
+    {
       body: action.payload,
       endpoint: '/users/sign-up',
-    }),
+      method: 'POST',
+    },
   );
 }
 
 export default function* sagas() {
   yield [
     takeLatest(actions.changePassword.types.initiate, changePassword),
-    takeEvery(actions.deregisterToken.type, deregisterToken),
     takeLatest(actions.login.types.initiate, login),
     takeLatest(actions.logout.type, logout),
     takeLatest(actions.resetPassword.types.initiate, resetPassword),
-    takeEvery(actions.registerToken.type, registerToken),
     takeLatest(actions.signUp.types.initiate, signUp),
   ];
 }

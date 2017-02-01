@@ -1,6 +1,6 @@
-import { rest } from 'common/http';
 import * as dialogsSagas from 'common/modules/dialogs/sagas';
 import * as toastsActions from 'common/modules/toasts/actions';
+import fetchSaga from 'common/sagas/fetch';
 import { compose } from 'lodash/fp';
 import { takeLatest } from 'redux-saga';
 import { call, cancelled, put, select } from 'redux-saga/effects';
@@ -10,9 +10,10 @@ import { selectRecordById } from './selectors';
 
 export function* createRecord({ payload, meta: { callback } }) {
   try {
-    const { body } = yield call(rest.post, {
+    const { body } = yield call(fetchSaga, {
       body: payload,
       endpoint: '/adapters',
+      method: 'POST',
     });
     yield compose(put, actions.createRecord.succeed)(body);
     yield call(callback, body);
@@ -42,7 +43,10 @@ export function* deleteRecord({ payload, meta: { transactionId } }) {
       title: 'Are you sure?',
     });
     if (confirm) {
-      yield call(rest.delete, { endpoint: `/adapters/${payload.id}` });
+      yield call(fetchSaga, {
+        endpoint: `/adapters/${payload.id}`,
+        method: 'DELETE',
+      });
       yield compose(
         put,
         actions.deleteRecord.succeed(transactionId),
@@ -78,7 +82,7 @@ export function* deleteRecord({ payload, meta: { transactionId } }) {
 
 export function* fetchCollection({ payload }) {
   try {
-    const { body } = yield call(rest.get, {
+    const { body } = yield call(fetchSaga, {
       endpoint: '/adapters',
       query: payload.query,
     });
@@ -104,7 +108,7 @@ export function* fetchCollection({ payload }) {
 
 export function* fetchRecord({ payload, meta: { transactionId } }) {
   try {
-    const { body } = yield call(rest.get, { endpoint: `/adapters/${payload.id}` });
+    const { body } = yield call(fetchSaga, { endpoint: `/adapters/${payload.id}` });
     yield compose(
       put,
       actions.fetchRecord.succeed(transactionId),
@@ -133,9 +137,10 @@ export function* fetchRecord({ payload, meta: { transactionId } }) {
 
 export function* updateRecord({ payload, meta: { transactionId } }) {
   try {
-    const { body } = yield call(rest.patch, {
+    const { body } = yield call(fetchSaga, {
       body: payload,
       endpoint: `/adapters/${payload.id}`,
+      method: 'PATCH',
     });
     yield compose(
       put,
