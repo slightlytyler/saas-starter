@@ -1,4 +1,4 @@
-import Form, { PasswordField } from 'common/components/Form';
+import Form from 'common/components/Form';
 import React, { PropTypes } from 'react';
 import yup from 'yup';
 
@@ -19,7 +19,7 @@ const AuthLoginForm = ({ loading, ...props }) => (
       floatingLabelText="Password"
       fullWidth
       name="password"
-      type={PasswordField}
+      type="password"
     />
     <Form.SubmitButton
       fullWidth

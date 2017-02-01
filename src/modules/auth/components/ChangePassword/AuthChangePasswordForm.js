@@ -1,16 +1,13 @@
-import Form, { PasswordField } from 'common/components/Form';
+import Form from 'common/components/Form';
+import validatePasswordsMatch from 'common/validations/passwordsMatch';
 import React, { PropTypes } from 'react';
 import yup from 'yup';
-
-function validatePassword() {
-  return this.parent.password === this.parent.passwordConfirmation;
-}
 
 const schema = yup.object({
   password: yup.string().required('is required'),
   passwordConfirmation: yup.string()
-    .required('is required')
-    .test('passwords-match', 'passwords do not match', validatePassword),
+    .test('passwords-match', 'passwords do not match', validatePasswordsMatch)
+    .required('is required'),
 });
 
 const AuthResetPassword = ({ loading, ...props }) => (
@@ -20,13 +17,13 @@ const AuthResetPassword = ({ loading, ...props }) => (
       floatingLabelText="Password"
       fullWidth
       name="password"
-      type={PasswordField}
+      type="password"
     />
     <Form.Field
       floatingLabelText="Confirm Password"
       fullWidth
       name="passwordConfirmation"
-      type={PasswordField}
+      type="password"
     />
     <Form.SubmitButton
       fullWidth

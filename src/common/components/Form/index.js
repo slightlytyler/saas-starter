@@ -20,7 +20,6 @@ Formal.addInputTypes({
   number: NumberField,
   password: PasswordField,
   string: TextField,
-  text: TextField,
 });
 
 Form.Field = Field;
