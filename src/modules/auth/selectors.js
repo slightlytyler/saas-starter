@@ -18,3 +18,8 @@ export const selectUser = createSelector(
   selectSubstate,
   get('user'),
 );
+
+export const selectIsAdmin = createSelector(
+  selectUser,
+  get('admin'),
+);
