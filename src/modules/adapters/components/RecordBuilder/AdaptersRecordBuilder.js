@@ -92,19 +92,30 @@ RecordBuilder.defaultProps = {
 
 const selectId = get('match.params.adapterId');
 
-export default compose(
+const container = compose(
   withActions({ createRecord: actions.createRecord, updateRecord: actions.updateRecord }),
   withRecord({ fetchEvents: ['mount'], selectId }),
   mapProps(({ createRecord, updateRecord, ...props }) => {
     const isNewRecord = selectId(props) === 'new';
+    const onSubmit = isNewRecord
+      ? data => createRecord(
+        data,
+        ({ id }) => {
+          props.replace(`/adapters/${id}`);
+          props.push(`/adapters/${id}/operations`);
+        },
+      )
+      : updateRecord;
     return {
       ...omit('match', props),
       isNewRecord,
-      onSubmit: isNewRecord ? createRecord : updateRecord,
+      onSubmit,
       parentMatch: props.match,
     };
   }),
   spinnerWhileLoading(props => (
     props.isNewRecord ? false : get('record.loading', props) !== false
   )),
-)(RecordBuilder);
+);
+
+export default container(RecordBuilder);

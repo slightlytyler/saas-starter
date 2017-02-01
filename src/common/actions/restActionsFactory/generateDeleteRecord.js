@@ -4,10 +4,11 @@ import generateId from 'shortid';
 const generateDeleteRecord = createAction => createAction({
   type: 'DELETE_RECORD',
   creator: {
-    initiate: type => data => ({
+    initiate: type => (data, callback) => ({
       type,
       payload: data,
       meta: {
+        callback,
         optimistic: BEGIN,
         transactionId: generateId(),
       },

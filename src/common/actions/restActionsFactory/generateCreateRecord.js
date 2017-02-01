@@ -1,9 +1,10 @@
 const generateCreateRecord = createAction => createAction({
   type: 'CREATE_RECORD',
   creator: {
-    initiate: type => data => ({
+    initiate: type => (data, callback) => ({
       type,
       payload: data,
+      meta: callback ? { callback } : undefined,
     }),
     succeed: type => data => ({
       type,

@@ -1,7 +1,6 @@
 import { rest } from 'common/http';
 import * as dialogsSagas from 'common/modules/dialogs/sagas';
 import * as toastsActions from 'common/modules/toasts/actions';
-import { push, replace } from 'connected-react-router';
 import { compose } from 'lodash/fp';
 import { takeLatest } from 'redux-saga';
 import { call, cancelled, put, select } from 'redux-saga/effects';
@@ -9,15 +8,14 @@ import generateId from 'shortid';
 import * as actions from './actions';
 import { selectRecordById } from './selectors';
 
-export function* createRecord({ payload }) {
+export function* createRecord({ payload, meta: { callback } }) {
   try {
     const { body } = yield call(rest.post, {
       body: payload,
       endpoint: '/adapters',
     });
     yield compose(put, actions.createRecord.succeed)(body);
-    yield compose(put, replace)(`/adapters/${body.id}`);
-    yield compose(put, push)(`/adapters/${body.id}/operations`);
+    yield call(callback, body);
   } catch (e) {
     yield compose(put, actions.createRecord.fail)({
       ...payload,
