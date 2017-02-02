@@ -4,25 +4,25 @@ import { mapProps } from 'recompose';
 const container = mapProps(props => {
   const baseItems = [
     {
-      action: () => props.onViewAdapters(props.id),
+      action: props.onViewAdapters,
       id: 'view-adapters',
       label: 'View Adapters',
     },
     {
-      action: () => props.onViewRoutes(props.id),
+      action: props.onViewRoutes,
       id: 'view-routes',
       label: 'View Routes',
     },
   ];
+  if (props.isRegistered) return { items: baseItems };
   const unregisteredItems = [
     {
-      action: () => props.onResendInvite(props.id),
+      action: props.onResendInvite,
       id: 'resend-invite',
       label: 'Resend Invite',
     },
   ];
-  const items = props.isRegistered ? baseItems : [...baseItems, ...unregisteredItems];
-  return { items };
+  return { items: [...baseItems, ...unregisteredItems] };
 });
 
 export default container(ActionsMenu);

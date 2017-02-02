@@ -1,4 +1,4 @@
-import { omit, reduce } from 'lodash/fp';
+import { invoke, omit, reduce } from 'lodash/fp';
 import { IconMenu } from 'material-ui';
 import React from 'react';
 import { mapProps } from 'recompose';
@@ -18,6 +18,7 @@ const container = mapProps(props => ({
   anchorOrigin: { horizontal: 'left', vertical: 'top' },
   children: renderItems(props.items),
   iconButtonElement: <MoreButton />,
+  onTouchTap: invoke('stopPropagation'),
   targetOrigin: { horizontal: 'left', vertical: 'top' },
 }));
 

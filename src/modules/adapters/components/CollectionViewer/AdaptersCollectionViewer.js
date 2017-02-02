@@ -13,7 +13,7 @@ const container = compose(
     loading: get('loading', props.collection) || !props.collection,
     onCreate: () => props.push(`${props.match.url}/new`),
     onDelete: id => props.onDelete({ id }),
-    onEdit: id => props.push(`${props.match.url}/${id}`),
+    onEdit: id => props.push(`${props.match.url}/${id}/general`),
   })),
 );
 

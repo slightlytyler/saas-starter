@@ -13,25 +13,21 @@ const renderStatus = status => (
 const AdaptersTableRow = ({ record, onDelete, onEdit }) => {
   if (record.deleted) return false;
   return (
-    <DataTable.Row>
+    <DataTable.Row onTouchTap={onEdit}>
       <DataTable.RowColumn icon>
         <Bool value={record.body.enabled} />
       </DataTable.RowColumn>
       <DataTable.RowColumn icon>
         <Bool value={record.body.global} />
       </DataTable.RowColumn>
-      <DataTable.RowColumn>
+      <DataTable.RowColumn style={{ width: '20rem' }}>
         {record.body.name}
       </DataTable.RowColumn>
       <DataTable.RowColumn>
         {renderStatus(record.body.status)}
       </DataTable.RowColumn>
       <DataTable.RowColumn actions>
-        <ActionsMenu
-          id={record.body.id}
-          onDelete={onDelete}
-          onEdit={onEdit}
-        />
+        <ActionsMenu onDelete={onDelete} onEdit={onEdit} />
       </DataTable.RowColumn>
     </DataTable.Row>
   );

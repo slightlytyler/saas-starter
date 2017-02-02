@@ -17,13 +17,12 @@ import withRecord from '../../containers/withRecord';
 const RecordBuilder = ({ isNewRecord, onSubmit, parentMatch, record }) => (
   <Box column>
     <Route path={`${parentMatch.url}/general`}>
-      {({ goBack, match, push, replace }) => (
+      {({ match, replace }) => (
         <InputBlock
           forceOpen={isNewRecord}
           icon="settings_input_component"
           onOpen={open => {
-            if (parentMatch.isExact) return push(`${parentMatch.url}/general`);
-            if (!open) return goBack();
+            if (!open) return replace(parentMatch.url);
             return replace(`${parentMatch.url}/general`);
           }}
           open={Boolean(match)}
@@ -34,13 +33,12 @@ const RecordBuilder = ({ isNewRecord, onSubmit, parentMatch, record }) => (
       )}
     </Route>
     <Route path={`${parentMatch.url}/operations`}>
-      {({ goBack, match, push, replace }) => (
+      {({ match, replace }) => (
         <InputBlock
           disabled={isNewRecord}
           icon="layers"
           onOpen={open => {
-            if (parentMatch.isExact) return push(`${parentMatch.url}/operations`);
-            if (!open) return goBack();
+            if (!open) return replace(parentMatch.url);
             return replace(`${parentMatch.url}/operations`);
           }}
           open={Boolean(match)}

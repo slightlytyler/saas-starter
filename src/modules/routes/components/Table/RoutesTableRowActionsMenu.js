@@ -5,12 +5,12 @@ import { mapProps } from 'recompose';
 const container = mapProps(props => ({
   items: [
     {
-      action: () => props.onEdit(props.id),
+      action: props.onEdit,
       id: 'edit',
       label: 'Edit Route',
     },
     {
-      action: () => props.onDelete(props.id),
+      action: props.onDelete,
       id: 'delete',
       label: 'Delete Route',
       style: { color: colors.red50 },

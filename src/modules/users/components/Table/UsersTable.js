@@ -14,7 +14,7 @@ const UsersTable = ({
 }) => (
   <DataTable loading={loading}>
     <DataTable.Header>
-      <DataTable.HeaderColumn>
+      <DataTable.HeaderColumn style={{ width: '20rem' }}>
         Username
       </DataTable.HeaderColumn>
       <DataTable.HeaderColumn>
@@ -30,9 +30,9 @@ const UsersTable = ({
           <Row
             id={id}
             key={id}
-            onResendInvite={onResendInvite}
-            onViewAdapters={onViewAdapters}
-            onViewRoutes={onViewRoutes}
+            onResendInvite={() => onResendInvite(id)}
+            onViewAdapters={() => onViewAdapters(id)}
+            onViewRoutes={() => onViewRoutes(id)}
           />
         ),
         ids,

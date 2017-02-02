@@ -7,13 +7,6 @@ import Nav from './SidebarNav';
 const container = compose(
   connect({ mapStateToProps: { isAdmin: selectIsAdmin } }),
   withProps(props => {
-    const adminItems = [
-      {
-        icon: 'group',
-        onTouchTap: () => props.push('/users'),
-        value: 'users',
-      },
-    ];
     const baseItems = [
       {
         icon: 'settings_input_component',
@@ -31,8 +24,18 @@ const container = compose(
         value: 'routes',
       },
     ];
-    const items = props.isAdmin ? [...adminItems, ...baseItems] : baseItems;
-    return { ...props, items };
+    if (!props.isAdmin) return { ...props, items: baseItems };
+    const adminItems = [
+      {
+        icon: 'group',
+        onTouchTap: () => props.push('/users'),
+        value: 'users',
+      },
+    ];
+    return {
+      ...props,
+      items: [...adminItems, ...baseItems],
+    };
   }),
 );
 

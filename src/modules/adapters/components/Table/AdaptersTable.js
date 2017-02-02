@@ -13,7 +13,7 @@ const AdaptersTable = ({ ids, loading, onCreate, onDelete, onEdit }) => (
       <DataTable.HeaderColumn icon>
         Global
       </DataTable.HeaderColumn>
-      <DataTable.HeaderColumn>
+      <DataTable.HeaderColumn style={{ width: '20rem' }}>
         Name
       </DataTable.HeaderColumn>
       <DataTable.HeaderColumn>
@@ -29,8 +29,8 @@ const AdaptersTable = ({ ids, loading, onCreate, onDelete, onEdit }) => (
           <Row
             id={id}
             key={id}
-            onDelete={onDelete}
-            onEdit={onEdit}
+            onDelete={() => onDelete(id)}
+            onEdit={() => onEdit(id)}
           />
         ),
         ids,

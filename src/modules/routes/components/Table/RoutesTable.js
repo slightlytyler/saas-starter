@@ -10,7 +10,7 @@ const RoutesTable = ({ ids, loading, onCreate, onDelete, onEdit }) => (
       <DataTable.HeaderColumn icon>
         Enabled
       </DataTable.HeaderColumn>
-      <DataTable.HeaderColumn>
+      <DataTable.HeaderColumn style={{ width: '20rem' }}>
         Name
       </DataTable.HeaderColumn>
       <DataTable.HeaderColumn>
@@ -26,8 +26,8 @@ const RoutesTable = ({ ids, loading, onCreate, onDelete, onEdit }) => (
           <Row
             id={id}
             key={id}
-            onDelete={onDelete}
-            onEdit={onEdit}
+            onDelete={() => onDelete(id)}
+            onEdit={() => onEdit(id)}
           />
         ),
         ids,

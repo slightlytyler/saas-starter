@@ -5,12 +5,12 @@ import { mapProps } from 'recompose';
 const container = mapProps(props => ({
   items: [
     {
-      action: () => props.onEdit(props.id),
+      action: props.onEdit,
       id: 'edit',
       label: 'Edit Adapter',
     },
     {
-      action: () => props.onDelete(props.id),
+      action: props.onDelete,
       id: 'delete',
       label: 'Delete Adapter',
       style: { color: colors.red50 },

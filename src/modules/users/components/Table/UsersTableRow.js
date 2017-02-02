@@ -6,8 +6,8 @@ import withRecord from '../../containers/withRecord';
 const UsersTableRow = ({ record, onResendInvite, onViewAdapters, onViewRoutes }) => {
   if (record.deleted) return false;
   return (
-    <DataTable.Row>
-      <DataTable.RowColumn>
+    <DataTable.Row onTouchTap={onViewAdapters}>
+      <DataTable.RowColumn style={{ width: '20rem' }}>
         {record.body.username}
       </DataTable.RowColumn>
       <DataTable.RowColumn>
@@ -15,7 +15,6 @@ const UsersTableRow = ({ record, onResendInvite, onViewAdapters, onViewRoutes })
       </DataTable.RowColumn>
       <DataTable.RowColumn actions>
         <ActionsMenu
-          id={record.body.id}
           isRegistered={Boolean(record.body.username)}
           onResendInvite={onResendInvite}
           onViewAdapters={onViewAdapters}
