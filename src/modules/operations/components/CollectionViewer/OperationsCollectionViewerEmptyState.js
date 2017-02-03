@@ -2,7 +2,7 @@ import { RaisedButton } from 'material-ui';
 import React, { PropTypes } from 'react';
 import { Box } from 'react-layout-components';
 
-const OperationsListEmptyState = ({ onCreate }) => (
+const OperationsCollectionViewerEmptyState = ({ onCreate }) => (
   <Box center column style={{ padding: '16px' }}>
     <Box style={{ marginBottom: '1rem' }}>No operations found.</Box>
     <RaisedButton
@@ -13,8 +13,8 @@ const OperationsListEmptyState = ({ onCreate }) => (
   </Box>
 );
 
-OperationsListEmptyState.propTypes = {
+OperationsCollectionViewerEmptyState.propTypes = {
   onCreate: PropTypes.func.isRequired,
 };
 
-export default OperationsListEmptyState;
+export default OperationsCollectionViewerEmptyState;

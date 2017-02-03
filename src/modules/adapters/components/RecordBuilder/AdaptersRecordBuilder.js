@@ -3,7 +3,7 @@ import spinnerWhileLoading from 'common/containers/spinnerWhileLoading';
 import withActions from 'common/containers/withActions';
 import matchPropType from 'common/propTypes/match';
 import { compose, get, omit } from 'lodash/fp';
-import OperationsList from 'modules/operations/components/List';
+import OperationsCollectionViewer from 'modules/operations/components/CollectionViewer';
 import OperationsRecordBuilder from 'modules/operations/components/RecordBuilder';
 import React, { PropTypes } from 'react';
 import { Box } from 'react-layout-components';
@@ -52,7 +52,7 @@ const AdaptersRecordBuilder = ({ isNewRecord, onSubmit, parentMatch, record }) =
                 title="Operations"
               >
                 {() => (
-                  <OperationsList
+                  <OperationsCollectionViewer
                     ids={get('body.operationIds', record)}
                     onCreate={() => push(`${match.url}/new`)}
                   />
