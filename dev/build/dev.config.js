@@ -47,11 +47,11 @@ export default createConfig(({ __src, baseConfig }) => ({
     new webpack.NamedModulesPlugin(),
   ],
   module: {
-    loaders: [
-      ...baseConfig.module.loaders,
+    rules: [
+      ...baseConfig.module.rules,
       {
         test: /\.styl$/,
-        use: 'style-loader!css-loader!postcss-loader!stylus-relative-loader?resolve url',
+        use: ['style-loader', 'css-loader', 'postcss-loader', 'stylus-loader'],
       },
     ],
   },

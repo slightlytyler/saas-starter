@@ -22,13 +22,13 @@ export default createConfig(({ __src, baseConfig }) => ({
     }),
   ],
   module: {
-    loaders: [
-      ...baseConfig.module.loaders,
+    rules: [
+      ...baseConfig.module.rules,
       {
         test: /\.styl$/,
-        loader: ExtractTextPlugin.extract({
+        use: ExtractTextPlugin.extract({
+          use: ['css-loader', 'postcss-loader', 'stylus-loader'],
           fallback: 'style-loader',
-          use: 'css-loader!postcss-loader!stylus-relative-loader?resolve url',
         }),
       },
     ],

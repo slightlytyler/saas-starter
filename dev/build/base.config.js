@@ -71,7 +71,7 @@ export const baseConfig = {
     ),
   ],
   module: {
-    loaders: [
+    rules: [
       {
         enforce: 'pre',
         test: /\.js$/,
