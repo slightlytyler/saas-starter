@@ -1,5 +1,6 @@
 import autoprefixer from 'autoprefixer';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import InlineManifestWebpackPlugin from 'inline-manifest-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
@@ -13,8 +14,18 @@ const __src = path.join(__root, 'src');
 const __assets = path.join(__src, 'assets');
 const __static = path.join(__src, 'static');
 
-export const baseConfig = {
+export const directories = {
+  root: __root,
+  dev: __dev,
+  dist: __dist,
+  src: __src,
+  assets: __assets,
+  static: __static,
+};
+
+export default {
   entry: {
+    polyfills: ['whatwg-fetch'],
     vendor: [
       'connected-react-router',
       'lodash',
@@ -32,19 +43,18 @@ export const baseConfig = {
       'redux-storage',
       'redux-storage-decorator-filter',
       'redux-storage-engine-localstorage',
-      'whatwg-fetch',
       'yup',
     ],
   },
   output: {
-    path: __dist,
+    path: directories.dist,
     publicPath: '/',
   },
   plugins: [
     new webpack.LoaderOptionsPlugin({
       options: {
         eslint: {
-          configFile: path.join(__dev, 'js-lint/dev.rc'),
+          configFile: path.join(directories.dev, 'js-lint/dev.rc'),
         },
         postcss: [
           autoprefixer({
@@ -55,19 +65,22 @@ export const baseConfig = {
     }),
     new WebpackShellPlugin({
       onBuildExit: [
-        `stylint ${path.join(__src, 'common/styles')} --config ${path.join(__dev, 'styl-lint/dev.rc')}`,
+        `stylint ${path.join(directories.src, 'common/styles')} --config ${path.join(directories.dev, 'styl-lint/dev.rc')}`,
       ],
     }),
     new webpack.optimize.CommonsChunkPlugin({
-      names: ['manifest', 'vendor'],
+      names: ['polyfills', 'vendor', 'manifest'],
     }),
     new HtmlWebpackPlugin({
-      template: path.join(__src, 'index.html'),
-      filename: 'index.html',
+      template: path.join(directories.src, 'index.ejs'),
       inject: 'body',
+      chunksSortMode: 'dependency',
+    }),
+    new InlineManifestWebpackPlugin({
+      name: 'webpackManifest',
     }),
     new CopyWebpackPlugin(
-      [{ from: __static, ignore: '.DS_Store' }]
+      [{ from: directories.static, ignore: '.DS_Store' }]
     ),
   ],
   module: {
@@ -76,35 +89,27 @@ export const baseConfig = {
         enforce: 'pre',
         test: /\.js$/,
         use: 'eslint-loader',
-        include: __src,
+        include: directories.src,
       },
       {
         test: /\.js$/,
         use: 'babel-loader',
-        include: __src,
+        include: directories.src,
       },
       {
         test: /\.jpg|\.png$/,
         use: 'url-loader?limit=10000',
-        include: __assets,
+        include: directories.assets,
       },
     ],
   },
   resolve: {
     alias: {
-      assets: __assets,
-      colors: path.join(__src, 'common/styles/base/colors.js'),
-      common: path.join(__src, 'common'),
-      modules: path.join(__src, 'modules'),
-      src: path.join(__src),
+      assets: directories.assets,
+      colors: path.join(directories.src, 'common/styles/base/colors.js'),
+      common: path.join(directories.src, 'common'),
+      modules: path.join(directories.src, 'modules'),
+      src: path.join(directories.src),
     },
   },
 };
-
-export const createConfig = selector => selector({
-  __root,
-  __dev,
-  __dist,
-  __src,
-  baseConfig,
-});

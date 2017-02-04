@@ -1,22 +1,20 @@
 import path from 'path';
 import webpack from 'webpack';
-import { createConfig } from './base.config';
+import webpackMerge from 'webpack-merge'
+import baseConfig, { directories } from './base.config';
 
 const port = 3000;
 
-export default createConfig(({ __src, baseConfig }) => ({
-  ...baseConfig,
+export default webpackMerge(baseConfig, {
   entry: {
-    ...baseConfig.entry,
     main: [
       `webpack-dev-server/client?http://localhost:${port}`,
       'webpack/hot/only-dev-server',
       'react-hot-loader/patch',
-      path.join(__src, 'main.js'),
+      path.join(directories.src, 'main.js'),
     ],
   },
   output: {
-    ...baseConfig.output,
     filename: '[hash]-[id].[name].bundle.js',
   },
   devtool: 'cheap-module-eval-source-map',
@@ -42,13 +40,11 @@ export default createConfig(({ __src, baseConfig }) => ({
     },
   },
   plugins: [
-    ...baseConfig.plugins,
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
   ],
   module: {
     rules: [
-      ...baseConfig.module.rules,
       {
         test: /\.styl$/,
         use: ['style-loader', 'css-loader', 'postcss-loader', 'stylus-loader'],
@@ -58,4 +54,4 @@ export default createConfig(({ __src, baseConfig }) => ({
   performance: {
     hints: false,
   },
-}))
+});

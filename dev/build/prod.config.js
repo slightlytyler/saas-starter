@@ -1,21 +1,39 @@
-import path from 'path';
 import ExtractTextPlugin from 'extract-text-webpack-plugin';
-import { createConfig } from './base.config';
+import path from 'path';
+import webpack from 'webpack';
+import webpackMerge from 'webpack-merge'
+import baseConfig, { directories } from './base.config';
 
-export default createConfig(({ __src, baseConfig }) => ({
-  ...baseConfig,
+export default webpackMerge(baseConfig, {
   entry: {
-    ...baseConfig.entry,
     main: [
-      path.join(__src, 'main.js'),
+      path.join(directories.src, 'main.js'),
     ],
   },
   output: {
-    ...baseConfig.output,
     filename: '[chunkhash].[name].bundle.js',
   },
   plugins: [
-    ...baseConfig.plugins,
+    new webpack.LoaderOptionsPlugin({
+      minimize: true,
+      debug: false,
+    }),
+    new webpack.DefinePlugin({
+      'process.env': {
+        'NODE_ENV': JSON.stringify('production'),
+      },
+    }),
+    new webpack.optimize.UglifyJsPlugin({
+      beautify: false,
+      mangle: {
+        screw_ie8: true,
+        keep_fnames: true,
+      },
+      compress: {
+        screw_ie8: true,
+      },
+      comments: false,
+    }),
     new ExtractTextPlugin({
       filename: "[name].css",
       allChunks: true,
@@ -23,7 +41,6 @@ export default createConfig(({ __src, baseConfig }) => ({
   ],
   module: {
     rules: [
-      ...baseConfig.module.rules,
       {
         test: /\.styl$/,
         use: ExtractTextPlugin.extract({
@@ -36,4 +53,4 @@ export default createConfig(({ __src, baseConfig }) => ({
   performance: {
     hints: "warning",
   },
-}));
+});
