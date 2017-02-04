@@ -12,12 +12,7 @@
     "browser": true
   },
   "globals" : {
-    "__NODE_ENV__": false,
-    "__DEV__": false,
-    "__PROD__": false,
-    "__TEST__": false,
-    "__DEBUG__": false,
-    "__BASENAME__": false
+    "__DEV__": false
   },
   "rules": {
     "arrow-parens": "off",

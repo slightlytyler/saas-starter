@@ -1,7 +1,8 @@
 {
   "parser": "babel-eslint",
   "extends": [
-    "airbnb"
+    "airbnb",
+    "plugin:lodash-fp/recommended"
   ],
   "plugins": [
     "lodash-fp",
@@ -18,12 +19,7 @@
     "after": false,
     "beforeEach": false,
     "afterEach": false,
-    "__NODE_ENV__": false,
-    "__DEV__": false,
-    "__PROD__": false,
-    "__TEST__": false,
-    "__DEBUG__": false,
-    "__BASENAME__": false
+    "__DEV__": false
   },
   "rules": {
     "arrow-parens": "off",
