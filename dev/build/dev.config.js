@@ -51,7 +51,7 @@ export default createConfig(({ __src, baseConfig }) => ({
       ...baseConfig.module.loaders,
       {
         test: /\.styl$/,
-        loader: 'style-loader!css-loader!postcss-loader!stylus-relative-loader?resolve url',
+        use: 'style-loader!css-loader!postcss-loader!stylus-relative-loader?resolve url',
       },
     ],
   },

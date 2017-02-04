@@ -27,8 +27,8 @@ export default createConfig(({ __src, baseConfig }) => ({
       {
         test: /\.styl$/,
         loader: ExtractTextPlugin.extract({
-          fallbackLoader: 'style-loader',
-          loader: 'css-loader!postcss-loader!stylus-relative-loader?resolve url',
+          fallback: 'style-loader',
+          use: 'css-loader!postcss-loader!stylus-relative-loader?resolve url',
         }),
       },
     ],

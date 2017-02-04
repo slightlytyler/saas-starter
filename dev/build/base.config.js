@@ -75,17 +75,17 @@ export const baseConfig = {
       {
         enforce: 'pre',
         test: /\.js$/,
-        loader: 'eslint-loader',
+        use: 'eslint-loader',
         include: __src,
       },
       {
         test: /\.js$/,
-        loader: 'babel-loader',
+        use: 'babel-loader',
         include: __src,
       },
       {
         test: /\.jpg|\.png$/,
-        loader: 'url-loader?limit=10000',
+        use: 'url-loader?limit=10000',
         include: __assets,
       },
     ],
