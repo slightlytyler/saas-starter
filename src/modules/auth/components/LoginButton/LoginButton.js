@@ -2,12 +2,16 @@ import Auth0LockPasswordless from 'auth0-lock-passwordless';
 import { RaisedButton } from 'material-ui';
 import gql from 'graphql-tag';
 import React, { Component, PropTypes } from 'react';
-import { graphql } from 'react-apollo';
+import { withApollo } from 'react-apollo';
 import { LOCAL_STORAGE_AUTH_KEY } from 'src/config';
+import userQuery from '../../queries/user';
 
 class LoginButton extends Component {
   static propTypes = {
-    createUser: PropTypes.func.isRequired,
+    client: PropTypes.shape({
+      mutate: PropTypes.func.isRequired,
+      query: PropTypes.func.isRequired,
+    }).isRequired,
   };
 
   constructor(props) {
@@ -17,10 +21,55 @@ class LoginButton extends Component {
 
   start = () => this.auth0lock.sms(
     { autoclose: true },
-    (error, profile, idToken) => {
+    async (error, profile, idToken) => {
       if (!error) {
-        window.localStorage.setItem(LOCAL_STORAGE_AUTH_KEY, idToken);
-        this.props.createUser({ variables: { idToken, name: 'slightlytyler' } });
+        try {
+          const { data: { User: user } } = await this.props.client.query({
+            query: gql`
+              query {
+                User(
+                  auth0UserId: "${profile.user_id}"
+                ) {
+                  id
+                  name
+                }
+              }
+            `,
+          });
+          if (!user) {
+            this.props.client.mutate({
+              mutation: gql`
+                mutation {
+                  createUser(
+                    authProvider: { auth0: { idToken: "${idToken}" } }
+                    name: "slightlytyler"
+                  ) {
+                    id
+                    name
+                  }
+                }
+              `,
+              refetchQueries: [{ query: userQuery }],
+            });
+          }
+          this.props.client.mutate({
+            mutation: gql`
+              mutation {
+                signinUser(auth0: { idToken: "${idToken}" }) {
+                  token
+                  user {
+                    id
+                    name
+                  }
+                }
+              }
+            `,
+            refetchQueries: [{ query: userQuery }],
+          });
+          window.localStorage.setItem(LOCAL_STORAGE_AUTH_KEY, idToken);
+        } catch (e) {
+          console.log(e);
+        }
       }
     },
   );
@@ -30,14 +79,4 @@ class LoginButton extends Component {
   );
 }
 
-const createUser = gql`
-  mutation ($idToken: String!, $name: String!){
-    createUser(authProvider: {auth0: {idToken: $idToken}}, name: $name) {
-      id
-    }
-  }
-`;
-
-const container = graphql(createUser, { name: 'createUser' });
-
-export default container(LoginButton);
+export default withApollo(LoginButton);
