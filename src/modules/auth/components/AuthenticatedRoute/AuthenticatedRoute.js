@@ -1,24 +1,33 @@
-import connect from 'common/containers/connect';
+import gql from 'graphql-tag';
 import React, { PropTypes } from 'react';
+import { graphql } from 'react-apollo';
 import { Route, Redirect } from 'react-router-dom';
-import { selectIsAuthenticated } from '../../selectors';
 
-const AuthenticatedRoute = ({ isAuthenticated, render, ...rest }) => (
-  <Route
-    {...rest}
-    render={props => (isAuthenticated ? render(props) : <Redirect to="/auth/login" />)}
-  />
-);
+const AuthenticatedRoute = ({ data, render, ...rest }) => {
+  console.log(data);
+  return (
+    <Route
+      {...rest}
+      render={props => (data.user ? render(props) : <Redirect to="/auth/login" />)}
+    />
+  );
+};
 
 AuthenticatedRoute.propTypes = {
-  isAuthenticated: PropTypes.bool.isRequired,
+  data: PropTypes.shape({
+    user: PropTypes.object,
+  }).isRequired,
   render: PropTypes.func.isRequired,
 };
 
-const container = connect({
-  mapStateToProps: { isAuthenticated: selectIsAuthenticated },
-});
+const userQuery = gql`
+  query {
+    user {
+      id
+    }
+  }
+`;
 
-export { AuthenticatedRoute as component, container };
+const container = graphql(userQuery, { options: { forceFetch: true } });
 
 export default container(AuthenticatedRoute);

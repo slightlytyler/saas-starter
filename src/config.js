@@ -8,6 +8,10 @@ export const API_BASE_PATH = '';
 
 export const API_TOKEN_KEY = 'homestead-jwt';
 
-export const LOCAL_STORAGE_KEY = 'homestead';
+export const API_URI = 'https://api.graph.cool/simple/v1/ciyp5mu7q47df0132db4vojmp';
+
+export const LOCAL_STORAGE_KEY = 'paep';
+
+export const LOCAL_STORAGE_AUTH_KEY = `${LOCAL_STORAGE_KEY}:auth0IdToken`;
 
 export const COPYRIGHT_START = 2016;

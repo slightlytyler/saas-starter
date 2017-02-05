@@ -1,24 +1,45 @@
 import 'common/styles/index.styl';
 import 'whatwg-fetch';
+import ApolloClient, { createNetworkInterface } from 'apollo-client';
 import ReactHotLoader from 'common/components/ReactHotLoader';
-import StoreProvider from 'common/components/StoreProvider';
 import ibmTheme from 'common/styles/mui/theme';
 import { ConnectedRouter as Router } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import { compose, get } from 'lodash/fp';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import React from 'react';
+import { ApolloProvider } from 'react-apollo';
 import { withAsyncComponents } from 'react-async-component';
 import ReactDOM from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import { API_URI, LOCAL_STORAGE_AUTH_KEY } from './config';
 import Root from './Root';
 import createStore from './store';
 
 injectTapEventPlugin();
 
+const networkInterface = createNetworkInterface({ uri: API_URI });
+
+networkInterface.use([{
+  applyMiddleware: (req, next) => {
+    if (!req.options.headers) {
+      // eslint-disable-next-line no-param-reassign
+      req.options.headers = {};
+    }
+
+    if (localStorage.getItem(LOCAL_STORAGE_AUTH_KEY)) {
+      // eslint-disable-next-line no-param-reassign
+      req.options.headers.authorization = `Bearer ${localStorage.getItem(LOCAL_STORAGE_AUTH_KEY)}`;
+    }
+    next();
+  },
+}]);
+
+const client = new ApolloClient({ networkInterface });
+
 const history = createBrowserHistory();
 
-const store = createStore({ history });
+const store = createStore({ history, reducers: { apollo: client.reducer() } });
 
 const container = document.getElementById('root');
 
@@ -29,11 +50,11 @@ const renderApp = Component => {
   const App = (
     <ReactHotLoader>
       <MuiThemeProvider muiTheme={ibmTheme}>
-        <StoreProvider store={store}>
+        <ApolloProvider client={client} store={store}>
           <Router history={history}>
             <Component />
           </Router>
-        </StoreProvider>
+        </ApolloProvider>
       </MuiThemeProvider>
     </ReactHotLoader>
   );

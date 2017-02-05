@@ -4,6 +4,7 @@ import { push } from 'connected-react-router';
 import { compose } from 'lodash/fp';
 import { takeLatest } from 'redux-saga';
 import { call, cancelled, fork, put } from 'redux-saga/effects';
+import { LOCAL_STORAGE_AUTH_KEY } from 'src/config';
 import * as actions from './actions';
 
 export function* authenticate({ payload, meta }, actionCreator, fetchOptions) {
@@ -73,7 +74,9 @@ export function* login(action) {
 }
 
 export function* logout() {
-  yield compose(put, push)('/auth/login');
+  window.localStorage.removeItem(LOCAL_STORAGE_AUTH_KEY);
+  yield compose(put, push)('/');
+  location.reload();
 }
 
 export function* resetPassword({ payload, meta }) {
