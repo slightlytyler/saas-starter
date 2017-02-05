@@ -4,7 +4,7 @@ import { graphql } from 'react-apollo';
 import { mapProps } from 'recompose';
 import LoginButton from '../LoginButton';
 import LogoutButton from '../LogoutButton';
-import userQuery from '../../queries/user';
+import * as queries from '../../queries';
 
 const AuthenticationButton = ({ isAuthenticated }) => (
   isAuthenticated ? <LogoutButton /> : <LoginButton />
@@ -15,7 +15,7 @@ AuthenticationButton.propTypes = {
 };
 
 const container = compose(
-  graphql(userQuery, { options: { forceFetch: true } }),
+  graphql(queries.currentUser, { options: { forceFetch: true } }),
   mapProps(props => ({ isAuthenticated: Boolean(props.data.user) })),
 );
 

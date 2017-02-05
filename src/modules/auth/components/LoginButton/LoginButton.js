@@ -1,10 +1,10 @@
 import Auth0LockPasswordless from 'auth0-lock-passwordless';
 import { RaisedButton } from 'material-ui';
-import gql from 'graphql-tag';
 import React, { Component, PropTypes } from 'react';
 import { withApollo } from 'react-apollo';
 import { LOCAL_STORAGE_AUTH_KEY } from 'src/config';
-import userQuery from '../../queries/user';
+import * as mutations from '../../mutations';
+import * as queries from '../../queries';
 
 class LoginButton extends Component {
   static propTypes = {
@@ -25,46 +25,19 @@ class LoginButton extends Component {
       if (!error) {
         try {
           const { data: { User: user } } = await this.props.client.query({
-            query: gql`
-              query {
-                User(
-                  auth0UserId: "${profile.user_id}"
-                ) {
-                  id
-                  name
-                }
-              }
-            `,
+            query: queries.user,
+            variables: { auth0UserId: profile.user_id },
           });
           if (!user) {
             this.props.client.mutate({
-              mutation: gql`
-                mutation {
-                  createUser(
-                    authProvider: { auth0: { idToken: "${idToken}" } }
-                    name: "slightlytyler"
-                  ) {
-                    id
-                    name
-                  }
-                }
-              `,
-              refetchQueries: [{ query: userQuery }],
+              mutation: mutations.signUpUser,
+              refetchQueries: [{ query: queries.currentUser }],
             });
           }
           this.props.client.mutate({
-            mutation: gql`
-              mutation {
-                signinUser(auth0: { idToken: "${idToken}" }) {
-                  token
-                  user {
-                    id
-                    name
-                  }
-                }
-              }
-            `,
-            refetchQueries: [{ query: userQuery }],
+            mutation: mutations.signInUser,
+            variables: { idToken },
+            refetchQueries: [{ query: queries.currentUser }],
           });
           window.localStorage.setItem(LOCAL_STORAGE_AUTH_KEY, idToken);
         } catch (e) {
