@@ -54,7 +54,7 @@ export default {
     new webpack.LoaderOptionsPlugin({
       options: {
         eslint: {
-          configFile: path.join(directories.dev, 'js-lint/dev.rc'),
+          configFile: path.join(directories.dev, 'js-lint/dev.js'),
         },
         postcss: [
           autoprefixer({
