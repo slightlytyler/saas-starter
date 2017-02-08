@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { capitalize } from 'lodash/fp';
+import { capitalize, isUndefined } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import { Field as FormalField } from 'react-formal';
 
@@ -7,7 +7,7 @@ const FormField = ({ className, floatingLabelText, name, ...props }) => (
   <FormalField
     {...props}
     className={cx('FormField', className)}
-    floatingLabelText={floatingLabelText || capitalize(name)}
+    floatingLabelText={isUndefined(floatingLabelText) ? capitalize(name) : floatingLabelText}
     name={name}
   />
 );

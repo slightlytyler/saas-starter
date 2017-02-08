@@ -23,6 +23,7 @@
     "connected-react-router": "^4.0.0-beta.2",
     "element-resize-detector": "^1.1.10",
     "graphql-tag": "^1.2.4",
+    "immutability-helper": "^2.1.1",
     "invariant": "^2.2.2",
     "lodash": "^4.17.2",
     "material-ui": "^0.16.7",

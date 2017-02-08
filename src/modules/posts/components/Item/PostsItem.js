@@ -1,7 +1,14 @@
-import React from 'react';
+import MultiLineText from 'common/components/MultiLineText';
+import React, { PropTypes } from 'react';
 
-const PostsItem = () => (
-  <div>Posts Item</div>
+const PostsItem = ({ body }) => (
+  <div>
+    <MultiLineText>{body}</MultiLineText>
+  </div>
 );
+
+PostsItem.propTypes = {
+  body: PropTypes.string.isRequired,
+};
 
 export default PostsItem;

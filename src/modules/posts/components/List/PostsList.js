@@ -1,11 +1,24 @@
-import React from 'react';
+import { map } from 'lodash/fp';
+import React, { PropTypes } from 'react';
+import { graphql } from 'react-apollo';
 import Item from '../Item';
+import { allPosts } from '../../queries';
 
-const PostsList = () => (
+const PostsList = ({ data }) => (
   <div>
-    Posts List
-    <Item />
+    {map(
+      record => <Item key={record.id} {...record} />,
+      data.allPosts,
+    )}
   </div>
 );
 
-export default PostsList;
+PostsList.propTypes = {
+  data: PropTypes.shape({
+    allPosts: PropTypes.array,
+  }).isRequired,
+};
+
+const container = graphql(allPosts);
+
+export default container(PostsList);

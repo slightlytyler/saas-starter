@@ -41,6 +41,7 @@ class LoginButton extends Component {
           });
           window.localStorage.setItem(LOCAL_STORAGE_AUTH_KEY, idToken);
         } catch (e) {
+          // eslint-disable-next-line no-console
           console.log(e);
         }
       }
