@@ -25,20 +25,30 @@ class LoginButton extends Component {
       if (!error) {
         try {
           const { data: { User: user } } = await this.props.client.query({
-            query: queries.user,
+            query: queries.User,
             variables: { auth0UserId: profile.user_id },
           });
           if (!user) {
             this.props.client.mutate({
-              mutation: mutations.signUpUser,
-              refetchQueries: [{ query: queries.currentUser }],
+              mutation: mutations.SignUpUser,
+              updateQueries: {
+                CurrentUser: (prev, { mutationResult }) => ({
+                  user: mutationResult.data.createUser,
+                }),
+              },
+              variables: { idToken, name: '@@placeholder' },
+            });
+          } else {
+            this.props.client.mutate({
+              mutation: mutations.SignInUser,
+              updateQueries: {
+                CurrentUser: (prev, { mutationResult }) => ({
+                  user: mutationResult.data.signinUser.user,
+                }),
+              },
+              variables: { idToken },
             });
           }
-          this.props.client.mutate({
-            mutation: mutations.signInUser,
-            variables: { idToken },
-            refetchQueries: [{ query: queries.currentUser }],
-          });
           window.localStorage.setItem(LOCAL_STORAGE_AUTH_KEY, idToken);
         } catch (e) {
           // eslint-disable-next-line no-console

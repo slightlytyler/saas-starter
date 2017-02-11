@@ -15,7 +15,7 @@ AuthenticationButton.propTypes = {
 };
 
 const container = compose(
-  graphql(queries.currentUser, { options: { forceFetch: true } }),
+  graphql(queries.CurrentUser, { options: { forceFetch: true } }),
   mapProps(props => ({ isAuthenticated: Boolean(props.data.user) })),
 );
 

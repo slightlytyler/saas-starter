@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
-export const currentUser = gql`
-  query currentUser {
+export const CurrentUser = gql`
+  query CurrentUser {
     user {
       id,
       name
@@ -9,8 +9,8 @@ export const currentUser = gql`
   }
 `;
 
-export const user = gql`
-  query user($auth0UserId: String!) {
+export const User = gql`
+  query User($auth0UserId: String!) {
     User(auth0UserId: $auth0UserId) {
       id
       name

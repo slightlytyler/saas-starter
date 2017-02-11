@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
-export const signInUser = gql`
-  mutation signInUser($idToken: String!) {
+export const SignInUser = gql`
+  mutation SignInUser($idToken: String!) {
     signinUser(auth0: { idToken: $idToken }) {
       token
       user {
@@ -12,8 +12,8 @@ export const signInUser = gql`
   }
 `;
 
-export const signUpUser = gql`
-  mutation signUpUser($idToken: String!, $name: String!) {
+export const SignUpUser = gql`
+  mutation SignUpUser($idToken: String!, $name: String!) {
     createUser(
       authProvider: { auth0: { idToken: $idToken } }
       name: $name
