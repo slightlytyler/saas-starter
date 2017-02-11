@@ -7,12 +7,13 @@ import { ConnectedRouter as Router } from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import { compose, get } from 'lodash/fp';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { getToken } from 'modules/auth/helpers';
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { withAsyncComponents } from 'react-async-component';
 import ReactDOM from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
-import { API_URI, LOCAL_STORAGE_AUTH_KEY } from './config';
+import { API_URI } from './config';
 import Root from './Root';
 import createStore from './store';
 
@@ -30,10 +31,10 @@ networkInterface.use([{
       // eslint-disable-next-line no-param-reassign
       req.options.headers = {};
     }
-
-    if (localStorage.getItem(LOCAL_STORAGE_AUTH_KEY)) {
+    const token = getToken();
+    if (token) {
       // eslint-disable-next-line no-param-reassign
-      req.options.headers.authorization = `Bearer ${localStorage.getItem(LOCAL_STORAGE_AUTH_KEY)}`;
+      req.options.headers.authorization = `Bearer ${token}`;
     }
     next();
   },

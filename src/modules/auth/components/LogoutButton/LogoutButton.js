@@ -1,16 +1,17 @@
-import withActions from 'common/containers/withActions';
 import { RaisedButton } from 'material-ui';
-import React, { PropTypes } from 'react';
-import * as actions from '../../actions';
+import React from 'react';
+import { withProps } from 'recompose';
+import { clearToken } from '../../helpers';
 
-const LogoutButton = ({ logout }) => (
-  <RaisedButton label="Logout" onTouchTap={logout} />
+const LogoutButton = props => (
+  <RaisedButton label="Logout" {...props} />
 );
 
-LogoutButton.propTypes = {
-  logout: PropTypes.func.isRequired,
-};
-
-const container = withActions({ logout: actions.logout });
+const container = withProps({
+  onTouchTap: () => {
+    clearToken();
+    location.reload();
+  },
+});
 
 export default container(LogoutButton);

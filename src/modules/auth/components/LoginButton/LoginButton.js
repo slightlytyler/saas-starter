@@ -2,7 +2,7 @@ import Auth0LockPasswordless from 'auth0-lock-passwordless';
 import { RaisedButton } from 'material-ui';
 import React, { Component, PropTypes } from 'react';
 import { withApollo } from 'react-apollo';
-import { LOCAL_STORAGE_AUTH_KEY } from 'src/config';
+import { setToken } from '../../helpers';
 import * as mutations from '../../mutations';
 import * as queries from '../../queries';
 
@@ -49,7 +49,7 @@ class LoginButton extends Component {
               variables: { idToken },
             });
           }
-          window.localStorage.setItem(LOCAL_STORAGE_AUTH_KEY, idToken);
+          setToken(idToken);
         } catch (e) {
           // eslint-disable-next-line no-console
           console.log(e);
