@@ -1,10 +1,23 @@
 import gql from 'graphql-tag';
 
-export const createPost = gql`
-  mutation createPost ($body: String!){
+export const CreatePost = gql`
+  mutation CreatePost ($body: String!){
     createPost(body: $body) {
       id
       body
+      createdAt
+      author {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const DeletePost = gql`
+  mutation DeletePost ($id: ID!){
+    deletePost(id: $id) {
+      id
     }
   }
 `;

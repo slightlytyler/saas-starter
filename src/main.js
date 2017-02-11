@@ -1,6 +1,6 @@
 import 'common/styles/index.styl';
 import 'whatwg-fetch';
-import ApolloClient, { createNetworkInterface } from 'apollo-client';
+import ApolloClient, { createNetworkInterface, toIdValue } from 'apollo-client';
 import ReactHotLoader from 'common/components/ReactHotLoader';
 import ibmTheme from 'common/styles/mui/theme';
 import { ConnectedRouter as Router } from 'connected-react-router';
@@ -17,6 +17,10 @@ import Root from './Root';
 import createStore from './store';
 
 injectTapEventPlugin();
+
+const dataIdFromObject = get('id');
+
+const resolveRecordFromCache = (_, { id }) => toIdValue(dataIdFromObject({ id }));
 
 const networkInterface = createNetworkInterface({ uri: API_URI });
 
@@ -35,7 +39,18 @@ networkInterface.use([{
   },
 }]);
 
-const client = new ApolloClient({ networkInterface });
+const client = new ApolloClient({
+  customResolvers: {
+    Query: {
+      User: resolveRecordFromCache,
+      Comment: resolveRecordFromCache,
+      Group: resolveRecordFromCache,
+      Post: resolveRecordFromCache,
+    },
+  },
+  dataIdFromObject,
+  networkInterface,
+});
 
 const history = createBrowserHistory();
 
