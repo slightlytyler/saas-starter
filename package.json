@@ -1,6 +1,6 @@
 {
   "name": "advance-client",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A toolset for building service oriented JavaScript applications with React, Redux, and AWS.",
   "main": "index.js",
   "scripts": {
