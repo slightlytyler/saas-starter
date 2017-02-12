@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "babel-node --presets es2015 $(npm bin)/webpack --config dev/build/prod.config.js",
-    "dev": "babel-node --presets es2015 $(npm bin)/webpack-dev-server --config dev/build/dev.config.js",
+    "dev": "npm run fetch-schema && babel-node --presets es2015 $(npm bin)/webpack-dev-server --config dev/build/dev.config.js",
     "prod": "babel-node --presets es2015 $(npm bin)/webpack --config dev/build/prod.config.js --watch",
     "test": "echo \"Error: no test specified\" && exit 1",
     "fetch-schema": "node dev/scripts/fetchSchema https://api.graph.cool/simple/v1/ciyp5mu7q47df0132db4vojmp > schema.json"

@@ -25,7 +25,7 @@ const GRAPHQL_URL = process.argv.slice(-1)[0];
 const query = parse(introspectionQuery);
 
 const graphql = new ApolloClient({
-  networkInterface: createNetworkInterface(GRAPHQL_URL),
+  networkInterface: createNetworkInterface({ uri: GRAPHQL_URL }),
   queryTransformer: addTypename,
 });
 
