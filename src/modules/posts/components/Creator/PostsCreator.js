@@ -1,6 +1,8 @@
 import Form from 'common/components/Form';
 import update from 'immutability-helper';
+import { compose } from 'lodash/fp';
 import { Paper } from 'material-ui';
+import withCurrentUser from 'modules/auth/containers/withCurrentUser';
 import React, { PropTypes } from 'react';
 import { graphql } from 'react-apollo';
 import generateId from 'shortid';
@@ -30,29 +32,35 @@ PostsCreator.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-const container = graphql(mutations.CreatePost, {
-  props: ({ mutate }) => ({
-    onSubmit: data => mutate({
-      optimisticResponse: {
-        __typename: 'Mutation',
-        createPost: {
-          __typename: 'Post',
-          id: generateId(),
-          ...data,
-          author: null,
-          createdAt: '2017-02-11T22:49:36.000Z',
-        },
-      },
-      updateQueries: {
-        GlobalFeed: (prev, { mutationResult }) => update(prev, {
-          allPosts: {
-            $unshift: [mutationResult.data.createPost],
+const container = compose(
+  withCurrentUser,
+  graphql(mutations.CreatePost, {
+    props: ({ mutate, ownProps }) => ({
+      onSubmit: data => mutate({
+        optimisticResponse: {
+          __typename: 'Mutation',
+          createPost: {
+            __typename: 'Post',
+            id: generateId(),
+            ...data,
+            author: ownProps.currentUser,
+            createdAt: '2017-02-11T22:49:36.000Z',
           },
-        }),
-      },
-      variables: data,
+        },
+        updateQueries: {
+          GlobalFeed: (prev, { mutationResult }) => update(prev, {
+            allPosts: {
+              $unshift: [mutationResult.data.createPost],
+            },
+          }),
+        },
+        variables: {
+          ...data,
+          authorId: ownProps.currentUser.id,
+        },
+      }),
     }),
   }),
-});
+);
 
 export default container(PostsCreator);
