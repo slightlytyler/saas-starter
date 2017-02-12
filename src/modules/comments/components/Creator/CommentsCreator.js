@@ -1,5 +1,5 @@
 import update from 'immutability-helper';
-import { compose, get } from 'lodash/fp';
+import { compose, eq, findIndex, get } from 'lodash/fp';
 import { TextField } from 'material-ui';
 import CurrentUserAvatar from 'modules/auth/components/CurrentUserAvatar';
 import withCurrentUser from 'modules/auth/containers/withCurrentUser';
@@ -52,7 +52,7 @@ const container = compose(
         updateQueries: {
           GlobalFeed: (prev, { mutationResult }) => update(prev, {
             allPosts: {
-              0: {
+              [findIndex(compose(eq(ownProps.parentPostId), get('id')), prev.allPosts)]: {
                 comments: {
                   $push: [mutationResult.data.createComment],
                 },

@@ -10,6 +10,18 @@ export const CreatePost = gql`
         id
         name
       }
+      comments {
+        id
+        body
+        createdAt
+        author {
+          id
+          name
+        }
+        parentPost {
+          id
+        }
+      }
     }
   }
 `;
