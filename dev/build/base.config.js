@@ -55,6 +55,7 @@ export default {
       options: {
         eslint: {
           configFile: path.join(directories.dev, 'js-lint/dev.js'),
+          emitWarning: true,
         },
         postcss: [
           autoprefixer({
@@ -97,7 +98,7 @@ export default {
         include: directories.src,
       },
       {
-        test: /\.jpg|\.png$/,
+        test: /\.jpg|\.jpeg|\.png$/,
         use: 'url-loader?limit=10000',
         include: directories.assets,
       },

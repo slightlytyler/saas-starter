@@ -23,7 +23,7 @@ const PostsCreator = ({ onSubmit }) => (
         multiLine
         name="body"
       />
-      <Form.SubmitButton label="Share" />
+      <Form.SubmitButton label="Post It" />
     </Form>
   </Paper>
 );

@@ -21,3 +21,17 @@ export const DeletePost = gql`
     }
   }
 `;
+
+export const UpdatePost = gql`
+  mutation UpdatePost ($body: String!, $id: ID!){
+    updatePost(body: $body, id: $id) {
+      id
+      body
+      createdAt
+      author {
+        id
+        name
+      }
+    }
+  }
+`;

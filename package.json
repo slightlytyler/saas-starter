@@ -27,6 +27,7 @@
     "invariant": "^2.2.2",
     "lodash": "^4.17.4",
     "material-ui": "^0.16.7",
+    "moment": "^2.17.1",
     "qs": "^6.3.0",
     "react": "^16.0.0-alpha.2",
     "react-apollo": "^0.10.0",
