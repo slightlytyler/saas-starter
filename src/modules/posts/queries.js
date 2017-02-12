@@ -10,6 +10,21 @@ export const GlobalFeed = gql`
         id
         name
       }
+      comments {
+        id
+        body
+        createdAt
+        author {
+          id
+          name
+        }
+        parentComment {
+          id
+        }
+        parentPost {
+          id
+        }
+      }
     }
   }
 `;

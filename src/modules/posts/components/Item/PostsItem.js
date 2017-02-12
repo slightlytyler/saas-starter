@@ -1,10 +1,10 @@
-import colors from 'colors';
 import MultiLineText from 'common/components/MultiLineText';
+import Timestamp from 'common/components/Timestamp';
 import update from 'immutability-helper';
 import { capitalize, compose, eq, findIndex, first, get } from 'lodash/fp';
 import { Avatar, Divider, Paper } from 'material-ui';
 import withCurrentUser from 'modules/auth/containers/withCurrentUser';
-import moment from 'moment';
+import Comments from 'modules/comments/components/Root';
 import React, { PropTypes } from 'react';
 import { graphql } from 'react-apollo';
 import { Box } from 'react-layout-components';
@@ -23,33 +23,42 @@ const renderEditor = ({ defaultValue, onSubmit }) => (
 );
 
 const PostsItem = props => (
-  <Paper style={{ marginTop: '16px', padding: '16px' }}>
-    <Box alignItems="flex-start" justifyContent="space-between">
-      <Box alignItems="center">
-        <Avatar>{compose(capitalize, first)(props.record.author.name)}</Avatar>
-        <Box column style={{ marginLeft: '16px' }}>
-          <div>{props.record.author.name}</div>
-          <div style={{ color: colors.grey30, fontSize: '12px' }}>
-            {moment(props.record.createdAt).fromNow()}
-          </div>
+  <Paper style={{ marginTop: '16px' }}>
+    <Box column style={{ padding: '16px' }}>
+      <Box
+        alignItems="flex-start"
+        justifyContent="space-between"
+        style={{ marginBottom: '6px' }}
+      >
+        <Box alignItems="center">
+          <Avatar>{compose(capitalize, first)(props.record.author.name)}</Avatar>
+          <Box column style={{ marginLeft: '16px' }}>
+            <div>{props.record.author.name}</div>
+            <Timestamp>{props.record.createdAt}</Timestamp>
+          </Box>
         </Box>
+        {props.record.author.id === get('id', props.currentUser)
+          ? <AuthorMenu onDelete={props.onDelete} onEdit={props.onEditStart} />
+          : <ReaderMenu />
+        }
       </Box>
-      {props.record.author.id === get('id', props.currentUser)
-        ? <AuthorMenu onDelete={props.onDelete} onEdit={props.onEditStart} />
-        : <ReaderMenu />
+      {props.isEditing
+        ? renderEditor({
+          defaultValue: props.record,
+          onSubmit: data => {
+            props.onEditEnd();
+            props.onUpdate(data);
+          },
+        })
+        : renderBody({ text: props.record.body })
       }
+      <Divider style={{ marginTop: '6px' }} />
     </Box>
-    <Divider style={{ marginBottom: '16px', marginTop: '6px' }} />
-    {props.isEditing
-      ? renderEditor({
-        defaultValue: props.record,
-        onSubmit: data => {
-          props.onEditEnd();
-          props.onUpdate(data);
-        },
-      })
-      : renderBody({ text: props.record.body })
-    }
+    <Divider />
+    <Comments
+      parentPostId={props.record.id}
+      records={props.record.comments}
+    />
   </Paper>
 );
 
@@ -70,6 +79,8 @@ PostsItem.propTypes = {
     }).isRequired,
     body: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
+    comments: PropTypes.array.isRequired,
+    id: PropTypes.string.isRequired,
   }).isRequired,
 };
 
