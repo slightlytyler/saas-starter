@@ -1,15 +1,16 @@
-import avatarPlaceholder from 'assets/images/avatar-placeholder.jpeg';
 import colors from 'colors';
-import MaterialIcon from 'common/components/MaterialIcon';
 import MultiLineText from 'common/components/MultiLineText';
 import update from 'immutability-helper';
-import { compose, eq, findIndex, get } from 'lodash/fp';
-import { Avatar, Divider, IconButton, IconMenu, MenuItem, Paper } from 'material-ui';
+import { capitalize, compose, eq, findIndex, first, get } from 'lodash/fp';
+import { Avatar, Divider, Paper } from 'material-ui';
+import withCurrentUser from 'modules/auth/containers/withCurrentUser';
 import moment from 'moment';
 import React, { PropTypes } from 'react';
 import { graphql } from 'react-apollo';
 import { Box } from 'react-layout-components';
 import { mapProps, withState } from 'recompose';
+import AuthorMenu from './PostsItemAuthorMenu';
+import ReaderMenu from './PostsItemReaderMenu';
 import Editor from '../Editor';
 import * as mutations from '../../mutations';
 
@@ -25,34 +26,18 @@ const PostsItem = props => (
   <Paper style={{ marginTop: '16px', padding: '16px' }}>
     <Box alignItems="flex-start" justifyContent="space-between">
       <Box alignItems="center">
-        <Avatar src={avatarPlaceholder} />
+        <Avatar>{compose(capitalize, first)(props.record.author.name)}</Avatar>
         <Box column style={{ marginLeft: '16px' }}>
           <div>{props.record.author.name}</div>
-          <div style={{ color: colors.grey30, fontSize: '12px' }}>{moment(props.record.createdAt).fromNow()}</div>
+          <div style={{ color: colors.grey30, fontSize: '12px' }}>
+            {moment(props.record.createdAt).fromNow()}
+          </div>
         </Box>
       </Box>
-      <IconMenu
-        iconButtonElement={
-          <IconButton>
-            <MaterialIcon>more_vert</MaterialIcon>
-          </IconButton>
-        }
-      >
-        <MenuItem
-          leftIcon={<MaterialIcon>mode_edit</MaterialIcon>}
-          onTouchTap={props.onEditStart}
-          primaryText="Edit"
-        />
-        <MenuItem
-          leftIcon={<MaterialIcon>shuffle</MaterialIcon>}
-          primaryText="Crosspost"
-        />
-        <MenuItem
-          leftIcon={<MaterialIcon>delete</MaterialIcon>}
-          onTouchTap={props.onDelete}
-          primaryText="Delete"
-        />
-      </IconMenu>
+      {props.record.author.id === get('id', props.currentUser)
+        ? <AuthorMenu onDelete={props.onDelete} onEdit={props.onEditStart} />
+        : <ReaderMenu />
+      }
     </Box>
     <Divider style={{ marginBottom: '16px', marginTop: '6px' }} />
     {props.isEditing
@@ -65,11 +50,14 @@ const PostsItem = props => (
       })
       : renderBody({ text: props.record.body })
     }
-
   </Paper>
 );
 
 PostsItem.propTypes = {
+  currentUser: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+  }),
   isEditing: PropTypes.bool.isRequired,
   onDelete: PropTypes.func.isRequired,
   onEditEnd: PropTypes.func.isRequired,
@@ -77,6 +65,7 @@ PostsItem.propTypes = {
   onUpdate: PropTypes.func.isRequired,
   record: PropTypes.shape({
     author: PropTypes.shape({
+      id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,
     body: PropTypes.string.isRequired,
@@ -85,6 +74,7 @@ PostsItem.propTypes = {
 };
 
 const container = compose(
+  withCurrentUser,
   graphql(mutations.DeletePost, {
     props: ({ mutate, ownProps }) => ({
       onDelete: () => mutate({
@@ -123,6 +113,7 @@ const container = compose(
   }),
   withState('isEditing', 'setEditing', false),
   mapProps(props => ({
+    currentUser: props.currentUser,
     isEditing: props.isEditing,
     onDelete: props.onDelete,
     onEditStart: () => setTimeout(() => props.setEditing(true), 800),
