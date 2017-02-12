@@ -1,6 +1,5 @@
 import 'common/styles/index.styl';
 import 'whatwg-fetch';
-import ApolloClient, { createNetworkInterface, toIdValue } from 'apollo-client';
 import ReactHotLoader from 'common/components/ReactHotLoader';
 import ibmTheme from 'common/styles/mui/theme';
 import { ConnectedRouter as Router } from 'connected-react-router';
@@ -8,54 +7,57 @@ import { createBrowserHistory } from 'history';
 import { compose, get } from 'lodash/fp';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { getToken } from 'modules/auth/helpers';
+import dialogsReducer from 'common/modules/dialogs/reducer';
+import toastsReducer from 'common/modules/toasts/reducer';
 import React from 'react';
 import { ApolloProvider } from 'react-apollo';
 import { withAsyncComponents } from 'react-async-component';
 import ReactDOM from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import { API_URI } from './config';
+import createClient from './createClient';
+import createStore from './createStore';
 import Root from './Root';
-import createStore from './store';
 
 injectTapEventPlugin();
 
-const dataIdFromObject = get('id');
-
-const resolveRecordFromCache = (_, { id }) => toIdValue(dataIdFromObject({ id }));
-
-const networkInterface = createNetworkInterface({ uri: API_URI });
-
-networkInterface.use([{
-  applyMiddleware: (req, next) => {
-    if (!req.options.headers) {
-      // eslint-disable-next-line no-param-reassign
-      req.options.headers = {};
-    }
-    const token = getToken();
-    if (token) {
-      // eslint-disable-next-line no-param-reassign
-      req.options.headers.authorization = `Bearer ${token}`;
-    }
-    next();
-  },
-}]);
-
-const client = new ApolloClient({
-  customResolvers: {
+const client = createClient({
+  customResolversFactory: ({ resolveObjectFromCache }) => ({
     Query: {
-      User: resolveRecordFromCache,
-      Comment: resolveRecordFromCache,
-      Group: resolveRecordFromCache,
-      Post: resolveRecordFromCache,
+      User: resolveObjectFromCache,
+      Comment: resolveObjectFromCache,
+      Group: resolveObjectFromCache,
+      Post: resolveObjectFromCache,
     },
-  },
-  dataIdFromObject,
-  networkInterface,
+  }),
+  dataIdFromObject: get('id'),
+  middleware: [{
+    applyMiddleware: (req, next) => {
+      if (!req.options.headers) {
+        // eslint-disable-next-line no-param-reassign
+        req.options.headers = {};
+      }
+      const token = getToken();
+      if (token) {
+        // eslint-disable-next-line no-param-reassign
+        req.options.headers.authorization = `Bearer ${token}`;
+      }
+      next();
+    },
+  }],
+  uri: API_URI,
 });
 
 const history = createBrowserHistory();
 
-const store = createStore({ history, reducers: { apollo: client.reducer() } });
+const store = createStore({
+  history,
+  reducers: {
+    apollo: client.reducer(),
+    dialogs: dialogsReducer,
+    toasts: toastsReducer,
+  },
+});
 
 const container = document.getElementById('root');
 
