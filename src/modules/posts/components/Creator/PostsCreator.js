@@ -44,7 +44,7 @@ const container = compose(
             id: generateId(),
             ...data,
             author: ownProps.currentUser,
-            createdAt: new Date().toString(),
+            createdAt: new Date().toISOString(),
           },
         },
         updateQueries: {

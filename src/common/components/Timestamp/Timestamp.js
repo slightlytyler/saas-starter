@@ -1,9 +1,11 @@
-import colors from 'colors';
 import moment from 'moment';
 import React, { PropTypes } from 'react';
 
 const Timestamp = ({ children, style, ...props }) => (
-  <div {...props} style={{ color: colors.grey30, fontSize: '12px', ...style }}>
+  <div
+    {...props}
+    style={{ color: 'rgba(0, 0, 0, 0.4)', fontSize: '12px', ...style }}
+  >
     {moment(children).fromNow()}
   </div>
 );

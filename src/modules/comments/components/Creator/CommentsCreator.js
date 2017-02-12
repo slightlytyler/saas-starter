@@ -1,3 +1,4 @@
+import update from 'immutability-helper';
 import { compose, get } from 'lodash/fp';
 import { TextField } from 'material-ui';
 import CurrentUserAvatar from 'modules/auth/components/CurrentUserAvatar';
@@ -38,6 +39,27 @@ const container = compose(
   graphql(mutations.CreateComment, {
     props: ({ mutate, ownProps }) => ({
       onSubmit: body => mutate({
+        optimisticResponse: {
+          __typename: 'Mutation',
+          createComment: {
+            __typename: 'Comment',
+            id: generateId(),
+            author: ownProps.currentUser,
+            body,
+            createdAt: new Date().toISOString(),
+          },
+        },
+        updateQueries: {
+          GlobalFeed: (prev, { mutationResult }) => update(prev, {
+            allPosts: {
+              0: {
+                comments: {
+                  $push: [mutationResult.data.createComment],
+                },
+              },
+            },
+          }),
+        },
         variables: {
           authorId: ownProps.currentUser.id,
           body,

@@ -23,6 +23,7 @@ PostsFeed.defaultProps = {
 };
 
 const container = graphql(queries.GlobalFeed, {
+  options: { returnPartialData: true },
   props: ({ data }) => ({
     posts: data.allPosts,
   }),
