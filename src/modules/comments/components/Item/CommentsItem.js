@@ -5,7 +5,7 @@ import findObjectIndex from 'common/data/findObjectIndex';
 import update from 'immutability-helper';
 import { compose, get } from 'lodash/fp';
 import withCurrentUser from 'modules/auth/containers/withCurrentUser';
-import UsersAvatar from 'modules/users/components/Avatar';
+import UserAvatar from 'modules/user/components/Avatar';
 import React, { PropTypes } from 'react';
 import { graphql } from 'react-apollo';
 import { Box } from 'react-layout-components';
@@ -17,7 +17,7 @@ import * as mutations from '../../mutations';
 const CommentsItem = props => (
   <Box className={props.classes.wrapper} justifyContent="space-between">
     <Box style={{ marginTop: '12px' }}>
-      <UsersAvatar
+      <UserAvatar
         size={30}
         style={{ marginRight: '16px' }}
         user={props.comment.author}

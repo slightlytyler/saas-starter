@@ -1,10 +1,9 @@
-import { Avatar } from 'material-ui';
-import { capitalize, compose, first } from 'lodash/fp';
+import UserAvatar from 'modules/user/components/Avatar';
 import React, { PropTypes } from 'react';
 import withCurrentUser from '../../containers/withCurrentUser';
 
 const AuthCurrentUserAvatar = ({ currentUser, ...props }) => (
-  <Avatar {...props}>{compose(capitalize, first)(currentUser.name)}</Avatar>
+  <UserAvatar {...props} user={currentUser} />
 );
 
 AuthCurrentUserAvatar.propTypes = {
