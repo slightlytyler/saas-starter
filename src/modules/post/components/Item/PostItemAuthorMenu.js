@@ -2,7 +2,7 @@ import MaterialIcon from 'common/components/MaterialIcon';
 import { IconButton, IconMenu, MenuItem } from 'material-ui';
 import React, { PropTypes } from 'react';
 
-const PostsItemAuthorMenu = props => (
+const PostItemAuthorMenu = props => (
   <IconMenu
     iconButtonElement={
       <IconButton>
@@ -27,9 +27,9 @@ const PostsItemAuthorMenu = props => (
   </IconMenu>
 );
 
-PostsItemAuthorMenu.propTypes = {
+PostItemAuthorMenu.propTypes = {
   onDeletePost: PropTypes.func.isRequired,
   onEditPost: PropTypes.func.isRequired,
 };
 
-export default PostsItemAuthorMenu;
+export default PostItemAuthorMenu;

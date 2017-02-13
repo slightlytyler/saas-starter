@@ -7,7 +7,7 @@ const schema = yup.object({
   body: yup.string().required('A post cannot be empty.'),
 });
 
-const PostsCreator = props => (
+const PostCreator = props => (
   <Paper style={{ padding: '16px' }}>
     <Form onSubmit={props.onSubmit} schema={schema}>
       <Form.Field
@@ -22,8 +22,8 @@ const PostsCreator = props => (
   </Paper>
 );
 
-PostsCreator.propTypes = {
+PostCreator.propTypes = {
   onSubmit: PropTypes.func.isRequired,
 };
 
-export default PostsCreator;
+export default PostCreator;

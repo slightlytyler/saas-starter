@@ -1,3 +1,4 @@
+import AuthenticationButton from 'modules/auth/components/AuthenticationButton';
 import React, { PropTypes } from 'react';
 import { Box, Page, ScrollView } from 'react-layout-components';
 
@@ -6,6 +7,10 @@ const AppLayout = ({ children }) => (
     <Box fit>
       <Box column flex="1">
         <ScrollView flex="1" style={{ padding: '1em 3em 2em' }}>
+          <Box justifyContent="space-between">
+            <div>Logo</div>
+            <AuthenticationButton />
+          </Box>
           {children}
         </ScrollView>
       </Box>

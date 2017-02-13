@@ -10,12 +10,12 @@ import UserAvatar from 'modules/users/components/Avatar';
 import React, { PropTypes } from 'react';
 import { Box } from 'react-layout-components';
 import { mapProps, withState } from 'recompose';
-import AuthorMenu from './PostsItemAuthorMenu';
-import ReaderMenu from './PostsItemReaderMenu';
+import AuthorMenu from './PostItemAuthorMenu';
+import ReaderMenu from './PostItemReaderMenu';
 import Editor from '../Editor';
 import * as fragments from '../../fragments';
 
-const PostsItem = props => (
+const PostItem = props => (
   <Paper style={{ marginTop: '16px' }}>
     <Box column style={{ padding: '16px' }}>
       <Box
@@ -60,7 +60,7 @@ const PostsItem = props => (
   </Paper>
 );
 
-PostsItem.propTypes = {
+PostItem.propTypes = {
   isEditingPost: PropTypes.bool.isRequired,
   // eslint-disable-next-line react/no-unused-prop-types
   onDeletePost: PropTypes.func.isRequired,
@@ -82,4 +82,4 @@ const container = compose(
   })),
 );
 
-export default container(PostsItem);
+export default container(PostItem);

@@ -8,7 +8,7 @@ const schema = yup.object({
   body: yup.string().required('A post cannot be empty.'),
 });
 
-const PostsEditor = ({ defaultValue, onSubmit }) => (
+const PostEditor = ({ defaultValue, onSubmit }) => (
   <Form defaultValue={defaultValue} onSubmit={onSubmit} schema={schema}>
     <Form.Field
       autoFocus
@@ -21,9 +21,9 @@ const PostsEditor = ({ defaultValue, onSubmit }) => (
   </Form>
 );
 
-PostsEditor.propTypes = {
+PostEditor.propTypes = {
   defaultValue: propType(fragments.PostObject).isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 
-export default PostsEditor;
+export default PostEditor;

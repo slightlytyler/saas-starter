@@ -2,7 +2,7 @@ import MaterialIcon from 'common/components/MaterialIcon';
 import { IconButton, IconMenu, MenuItem } from 'material-ui';
 import React from 'react';
 
-const PostsItemReaderMenu = () => (
+const PostItemReaderMenu = () => (
   <IconMenu
     iconButtonElement={
       <IconButton>
@@ -21,4 +21,4 @@ const PostsItemReaderMenu = () => (
   </IconMenu>
 );
 
-export default PostsItemReaderMenu;
+export default PostItemReaderMenu;

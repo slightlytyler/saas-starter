@@ -15,7 +15,7 @@ import * as fragments from '../../fragments';
 import * as mutations from '../../mutations';
 import * as queries from '../../queries';
 
-const PostsFeed = props => (
+const PostFeed = props => (
   <Box alignItems="center" column fit>
     <Box column style={{ width: '45em' }}>
       <AuthenticatedRoute leftRender={() => <Creator onSubmit={props.onCreatePost} />} />
@@ -28,7 +28,7 @@ const PostsFeed = props => (
   </Box>
 );
 
-PostsFeed.propTypes = {
+PostFeed.propTypes = {
   onCreatePost: PropTypes.func.isRequired,
   onDeletePost: PropTypes.func.isRequired,
   onUpdatePost: PropTypes.func.isRequired,
@@ -110,4 +110,4 @@ const container = compose(
 );
 
 
-export default container(PostsFeed);
+export default container(PostFeed);
