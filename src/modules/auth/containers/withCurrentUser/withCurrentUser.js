@@ -1,11 +1,6 @@
-import { graphql } from 'react-apollo';
-import * as queries from '../../queries';
+import { PropTypes } from 'react';
+import { getContext } from 'recompose';
 
-const withCurrentUser = graphql(queries.CurrentUser, {
-  options: { noFetch: true },
-  props: ({ data }) => ({
-    currentUser: data.user,
-  }),
-});
+const withCurrentUser = getContext({ currentUser: PropTypes.object });
 
 export default withCurrentUser;
