@@ -1,10 +1,11 @@
 import Branch from 'common/components/Branch';
 import MultiLineText from 'common/components/MultiLineText';
 import Timestamp from 'common/components/Timestamp';
-import { capitalize, compose, first } from 'lodash/fp';
-import { Avatar, Divider, Paper } from 'material-ui';
+import { compose } from 'lodash/fp';
+import { Divider, Paper } from 'material-ui';
 import OwnedRoute from 'modules/auth/components/OwnedRoute';
 import Comments from 'modules/comments/components/Root';
+import UserAvatar from 'modules/users/components/Avatar';
 import React, { PropTypes } from 'react';
 import { Box } from 'react-layout-components';
 import { mapProps, withState } from 'recompose';
@@ -21,7 +22,7 @@ const PostsItem = props => (
         style={{ marginBottom: '6px' }}
       >
         <Box alignItems="center">
-          <Avatar>{compose(capitalize, first)(props.post.author.name)}</Avatar>
+          <UserAvatar user={props.post.author} />
           <Box column style={{ marginLeft: '16px' }}>
             <div>{props.post.author.name}</div>
             <Timestamp>{props.post.createdAt}</Timestamp>
@@ -51,7 +52,6 @@ const PostsItem = props => (
         )}
         rightRender={() => <MultiLineText>{props.post.body}</MultiLineText>}
       />
-      <Divider style={{ marginTop: '6px' }} />
     </Box>
     <Divider />
     <Comments postId={props.post.id} />
