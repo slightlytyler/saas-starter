@@ -1,4 +1,4 @@
-import { compose, noop, omit } from 'lodash/fp';
+import { compose, omit } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import { Route } from 'react-router-dom';
 import { mapProps } from 'recompose';
@@ -15,8 +15,8 @@ AuthenticatedRoute.propTypes = {
 };
 
 AuthenticatedRoute.defaultProps = {
-  leftRender: noop,
-  rightRender: noop,
+  leftRender: () => null,
+  rightRender: () => null,
 };
 
 
