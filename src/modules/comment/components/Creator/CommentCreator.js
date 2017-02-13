@@ -10,7 +10,7 @@ import { withState } from 'recompose';
 import generateId from 'shortid';
 import * as mutations from '../../mutations';
 
-const CommentsCreator = props => (
+const CommentCreator = props => (
   <Box alignItems="center">
     <CurrentUserAvatar size={30} style={{ marginRight: '16px' }} />
     <TextField
@@ -28,7 +28,7 @@ const CommentsCreator = props => (
   </Box>
 );
 
-CommentsCreator.propTypes = {
+CommentCreator.propTypes = {
   onSubmit: PropTypes.func.isRequired,
   setValue: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
@@ -68,4 +68,4 @@ const container = compose(
   withState('value', 'setValue', ''),
 );
 
-export default container(CommentsCreator);
+export default container(CommentCreator);

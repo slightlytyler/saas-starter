@@ -2,7 +2,7 @@ import MaterialIcon from 'common/components/MaterialIcon';
 import { IconButton, IconMenu, MenuItem } from 'material-ui';
 import React from 'react';
 
-const CommentsItemReaderMenu = () => (
+const CommentItemReaderMenu = () => (
   <IconMenu
     iconButtonElement={
       <IconButton>
@@ -21,4 +21,4 @@ const CommentsItemReaderMenu = () => (
   </IconMenu>
 );
 
-export default CommentsItemReaderMenu;
+export default CommentItemReaderMenu;

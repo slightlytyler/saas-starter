@@ -3,14 +3,14 @@ import React, { PropTypes } from 'react';
 import { Box } from 'react-layout-components';
 import Item from '../Item';
 
-const CommentsList = props => (
+const CommentList = props => (
   <Box column>
     {map(comment => <Item comment={comment} key={comment.id} />, props.comments)}
   </Box>
 );
 
-CommentsList.propTypes = {
+CommentList.propTypes = {
   comments: PropTypes.array.isRequired,
 };
 
-export default CommentsList;
+export default CommentList;

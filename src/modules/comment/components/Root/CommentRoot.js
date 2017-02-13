@@ -9,20 +9,20 @@ import Creator from '../Creator';
 import List from '../List';
 import * as queries from '../../queries';
 
-const CommentsRoot = props => (
+const CommentRoot = props => (
   <Box column style={{ backgroundColor: colors.white4, padding: '16px' }}>
     {props.currentUser && <Creator postId={props.postId} />}
     <List comments={props.comments} />
   </Box>
 );
 
-CommentsRoot.propTypes = {
+CommentRoot.propTypes = {
   comments: PropTypes.array.isRequired,
   currentUser: PropTypes.object,
   postId: PropTypes.string.isRequired,
 };
 
-CommentsRoot.defaultProps = {
+CommentRoot.defaultProps = {
   currentUser: null,
 };
 
@@ -41,4 +41,4 @@ const container = compose(
   compose(spinnerWhile, get)('loading'),
 );
 
-export default container(CommentsRoot);
+export default container(CommentRoot);

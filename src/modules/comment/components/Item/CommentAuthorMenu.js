@@ -2,7 +2,7 @@ import MaterialIcon from 'common/components/MaterialIcon';
 import { IconButton, IconMenu, MenuItem } from 'material-ui';
 import React, { PropTypes } from 'react';
 
-const CommentsItemAuthorMenu = props => (
+const CommentItemAuthorMenu = props => (
   <IconMenu
     className={props.className}
     iconButtonElement={
@@ -26,14 +26,14 @@ const CommentsItemAuthorMenu = props => (
   </IconMenu>
 );
 
-CommentsItemAuthorMenu.propTypes = {
+CommentItemAuthorMenu.propTypes = {
   className: PropTypes.string,
   onDelete: PropTypes.func.isRequired,
   onEdit: PropTypes.func.isRequired,
 };
 
-CommentsItemAuthorMenu.defaultProps = {
+CommentItemAuthorMenu.defaultProps = {
   className: undefined,
 };
 
-export default CommentsItemAuthorMenu;
+export default CommentItemAuthorMenu;

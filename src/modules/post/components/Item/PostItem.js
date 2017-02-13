@@ -5,7 +5,7 @@ import { propType } from 'graphql-anywhere';
 import { compose } from 'lodash/fp';
 import { Divider, Paper } from 'material-ui';
 import OwnedRoute from 'modules/auth/components/OwnedRoute';
-import Comments from 'modules/comments/components/Root';
+import CommentRoot from 'modules/comment/components/Root';
 import UserAvatar from 'modules/user/components/Avatar';
 import React, { PropTypes } from 'react';
 import { Box } from 'react-layout-components';
@@ -56,7 +56,7 @@ const PostItem = props => (
       />
     </Box>
     <Divider />
-    <Comments postId={props.post.id} />
+    <CommentRoot postId={props.post.id} />
   </Paper>
 );
 

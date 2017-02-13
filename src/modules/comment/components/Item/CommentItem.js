@@ -10,11 +10,11 @@ import React, { PropTypes } from 'react';
 import { graphql } from 'react-apollo';
 import { Box } from 'react-layout-components';
 import { withState } from 'recompose';
-import AuthorMenu from './CommentsAuthorMenu';
-import ReaderMenu from './CommentsReaderMenu';
+import AuthorMenu from './CommentAuthorMenu';
+import ReaderMenu from './CommentReaderMenu';
 import * as mutations from '../../mutations';
 
-const CommentsItem = props => (
+const CommentItem = props => (
   <Box className={props.classes.wrapper} justifyContent="space-between">
     <Box style={{ marginTop: '12px' }}>
       <UserAvatar
@@ -43,7 +43,7 @@ const CommentsItem = props => (
   </Box>
 );
 
-CommentsItem.propTypes = {
+CommentItem.propTypes = {
   classes: PropTypes.shape({
     menu: PropTypes.string.isRequired,
     wrapper: PropTypes.string.isRequired,
@@ -60,7 +60,7 @@ CommentsItem.propTypes = {
   onEditStart: PropTypes.func.isRequired,
 };
 
-CommentsItem.defaultProps = {
+CommentItem.defaultProps = {
   currentUser: null,
 };
 
@@ -120,4 +120,4 @@ const container = compose(
   }),
 );
 
-export default container(CommentsItem);
+export default container(CommentItem);
