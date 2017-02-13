@@ -12,7 +12,7 @@ const PostsItemAuthorMenu = props => (
   >
     <MenuItem
       leftIcon={<MaterialIcon>mode_edit</MaterialIcon>}
-      onTouchTap={props.onEdit}
+      onTouchTap={props.onEditPost}
       primaryText="Edit"
     />
     <MenuItem
@@ -21,15 +21,15 @@ const PostsItemAuthorMenu = props => (
     />
     <MenuItem
       leftIcon={<MaterialIcon>delete</MaterialIcon>}
-      onTouchTap={props.onDelete}
+      onTouchTap={props.onDeletePost}
       primaryText="Delete"
     />
   </IconMenu>
 );
 
 PostsItemAuthorMenu.propTypes = {
-  onDelete: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
+  onDeletePost: PropTypes.func.isRequired,
+  onEditPost: PropTypes.func.isRequired,
 };
 
 export default PostsItemAuthorMenu;

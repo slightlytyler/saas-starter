@@ -1,19 +1,15 @@
 import MultiLineText from 'common/components/MultiLineText';
 import Timestamp from 'common/components/Timestamp';
-import findObjectIndex from 'common/data/findObjectIndex';
-import update from 'immutability-helper';
 import { capitalize, compose, first, get } from 'lodash/fp';
 import { Avatar, Divider, Paper } from 'material-ui';
 import withCurrentUser from 'modules/auth/containers/withCurrentUser';
 import Comments from 'modules/comments/components/Root';
 import React, { PropTypes } from 'react';
-import { graphql } from 'react-apollo';
 import { Box } from 'react-layout-components';
 import { mapProps, withState } from 'recompose';
 import AuthorMenu from './PostsItemAuthorMenu';
 import ReaderMenu from './PostsItemReaderMenu';
 import Editor from '../Editor';
-import * as mutations from '../../mutations';
 
 const PostsItem = props => (
   <Paper style={{ marginTop: '16px' }}>
@@ -31,16 +27,16 @@ const PostsItem = props => (
           </Box>
         </Box>
         {props.post.author.id === get('id', props.currentUser)
-          ? <AuthorMenu onDelete={props.onDelete} onEdit={props.onEditStart} />
+          ? <AuthorMenu onDeletePost={props.onDeletePost} onEditPost={props.onEditPostStart} />
           : <ReaderMenu />
         }
       </Box>
-      {props.isEditing
+      {props.isEditingPost
         ? <Editor
           defaultValue={props.post}
           onSubmit={data => {
-            props.onEditEnd();
-            props.onUpdate(data);
+            props.onEditPostEnd();
+            props.onUpdatePost(data);
           }}
         />
         : <MultiLineText>{props.post.body}</MultiLineText>
@@ -55,13 +51,12 @@ const PostsItem = props => (
 PostsItem.propTypes = {
   currentUser: PropTypes.shape({
     id: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
   }),
-  isEditing: PropTypes.bool.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onEditEnd: PropTypes.func.isRequired,
-  onEditStart: PropTypes.func.isRequired,
-  onUpdate: PropTypes.func.isRequired,
+  isEditingPost: PropTypes.bool.isRequired,
+  onDeletePost: PropTypes.func.isRequired,
+  onEditPostEnd: PropTypes.func.isRequired,
+  onEditPostStart: PropTypes.func.isRequired,
+  onUpdatePost: PropTypes.func.isRequired,
   post: PropTypes.shape({
     author: PropTypes.shape({
       id: PropTypes.string.isRequired,
@@ -79,51 +74,11 @@ PostsItem.defaultProps = {
 
 const container = compose(
   withCurrentUser,
-  graphql(mutations.DeletePost, {
-    props: ({ mutate, ownProps }) => ({
-      onDelete: () => mutate({
-        optimisticResponse: {
-          __typename: 'Mutation',
-          deletePost: {
-            __typename: 'Post',
-            id: ownProps.post.id,
-          },
-        },
-        updateQueries: {
-          GlobalFeed: prev => update(prev, {
-            allPosts: {
-              $splice: [[findObjectIndex(ownProps.post.id, prev.allPosts), 1]],
-            },
-          }),
-        },
-        variables: { id: ownProps.post.id },
-      }),
-    }),
-  }),
-  graphql(mutations.UpdatePost, {
-    props: ({ mutate, ownProps }) => ({
-      onUpdate: data => mutate({
-        optimisticResponse: {
-          __typename: 'Mutation',
-          updatePost: {
-            __typename: 'Post',
-            ...ownProps.post,
-            ...data,
-          },
-        },
-        variables: { id: ownProps.post.id, ...data },
-      }),
-    }),
-  }),
-  withState('isEditing', 'setEditing', false),
+  withState('isEditingPost', 'setEditingPost', false),
   mapProps(props => ({
-    currentUser: props.currentUser,
-    isEditing: props.isEditing,
-    onDelete: props.onDelete,
-    onEditStart: () => setTimeout(() => props.setEditing(true), 800),
-    onEditEnd: () => props.setEditing(false),
-    onUpdate: props.onUpdate,
-    post: props.post,
+    ...props,
+    onEditPostStart: () => setTimeout(() => props.setEditingPost(true), 800),
+    onEditPostEnd: () => props.setEditingPost(false),
   })),
 );
 

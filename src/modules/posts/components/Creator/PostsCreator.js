@@ -1,21 +1,15 @@
 import Form from 'common/components/Form';
-import update from 'immutability-helper';
-import { compose } from 'lodash/fp';
 import { Paper } from 'material-ui';
-import withCurrentUser from 'modules/auth/containers/withCurrentUser';
 import React, { PropTypes } from 'react';
-import { graphql } from 'react-apollo';
-import generateId from 'shortid';
 import yup from 'yup';
-import * as mutations from '../../mutations';
 
 const schema = yup.object({
   body: yup.string().required('A post cannot be empty.'),
 });
 
-const PostsCreator = ({ onSubmit }) => (
+const PostsCreator = props => (
   <Paper style={{ padding: '16px' }}>
-    <Form onSubmit={onSubmit} schema={schema}>
+    <Form onSubmit={props.onCreatePost} schema={schema}>
       <Form.Field
         floatingLabelText={null}
         fullWidth
@@ -29,38 +23,7 @@ const PostsCreator = ({ onSubmit }) => (
 );
 
 PostsCreator.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
+  onCreatePost: PropTypes.func.isRequired,
 };
 
-const container = compose(
-  withCurrentUser,
-  graphql(mutations.CreatePost, {
-    props: ({ mutate, ownProps }) => ({
-      onSubmit: data => mutate({
-        optimisticResponse: {
-          __typename: 'Mutation',
-          createPost: {
-            __typename: 'Post',
-            id: generateId(),
-            ...data,
-            author: ownProps.currentUser,
-            createdAt: new Date().toISOString(),
-          },
-        },
-        updateQueries: {
-          GlobalFeed: (prev, { mutationResult }) => update(prev, {
-            allPosts: {
-              $unshift: [mutationResult.data.createPost],
-            },
-          }),
-        },
-        variables: {
-          ...data,
-          authorId: ownProps.currentUser.id,
-        },
-      }),
-    }),
-  }),
-);
-
-export default container(PostsCreator);
+export default PostsCreator;
