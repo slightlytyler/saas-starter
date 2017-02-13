@@ -1,29 +1,56 @@
 import MultiLineText from 'common/components/MultiLineText';
 import Timestamp from 'common/components/Timestamp';
+import injectStyles from 'common/containers/injectStyles';
+import { compose, get } from 'lodash/fp';
+import withCurrentUser from 'modules/auth/containers/withCurrentUser';
 import UsersAvatar from 'modules/users/components/Avatar';
 import React, { PropTypes } from 'react';
+import { graphql } from 'react-apollo';
 import { Box } from 'react-layout-components';
+import { withState } from 'recompose';
+import AuthorMenu from './CommentsAuthorMenu';
+import ReaderMenu from './CommentsReaderMenu';
+import * as mutations from '../../mutations';
 
 const CommentsItem = props => (
-  <Box style={{ marginTop: '12px' }}>
-    <UsersAvatar
-      size={30}
-      style={{ marginRight: '16px' }}
-      user={props.record.author}
-    />
-    <Box column>
-      <Box style={{ fontSize: '14px' }}>
-        <span>{props.record.author.name}</span>&nbsp;
-        <MultiLineText>{props.record.body}</MultiLineText>
-      </Box>
-      <Box>
-        <Timestamp>{props.record.createdAt}</Timestamp>
+  <Box className={props.classes.wrapper} justifyContent="space-between">
+    <Box style={{ marginTop: '12px' }}>
+      <UsersAvatar
+        size={30}
+        style={{ marginRight: '16px' }}
+        user={props.record.author}
+      />
+      <Box column>
+        <Box style={{ fontSize: '14px' }}>
+          <span>{props.record.author.name}</span>&nbsp;
+          <MultiLineText>{props.record.body}</MultiLineText>
+        </Box>
+        <Box>
+          <Timestamp>{props.record.createdAt}</Timestamp>
+        </Box>
       </Box>
     </Box>
+    {props.record.author.id === get('id', props.currentUser)
+      ? <AuthorMenu
+        className={props.classes.menu}
+        onDelete={props.onDelete}
+        onEdit={props.onEditStart}
+      />
+      : <ReaderMenu className={props.classes.menu} />
+    }
   </Box>
 );
 
 CommentsItem.propTypes = {
+  classes: PropTypes.shape({
+    menu: PropTypes.string.isRequired,
+    wrapper: PropTypes.string.isRequired,
+  }).isRequired,
+  currentUser: PropTypes.shape({
+    id: PropTypes.string.isRequired,
+  }),
+  onDelete: PropTypes.func.isRequired,
+  onEditStart: PropTypes.func.isRequired,
   record: PropTypes.shape({
     author: PropTypes.object.isRequired,
     body: PropTypes.string.isRequired,
@@ -31,4 +58,47 @@ CommentsItem.propTypes = {
   }).isRequired,
 };
 
-export default CommentsItem;
+CommentsItem.defaultProps = {
+  currentUser: null,
+};
+
+const styles = {
+  wrapper: {
+    '&:hover $menu': {
+      opacity: 1,
+    },
+  },
+  menu: {
+    opacity: 0,
+    transition: 'all 450ms cubic-bezier(0.23, 1, 0.32, 1) 0ms',
+  },
+};
+
+const container = compose(
+  injectStyles(styles),
+  withCurrentUser,
+  graphql(mutations.DeleteComment, {
+    props: ({ mutate, ownProps }) => ({
+      onDelete: () => mutate({
+        variables: { id: ownProps.record.id },
+      }),
+    }),
+  }),
+  withState('isEditing', 'setEditing', false),
+  graphql(mutations.UpdateComment, {
+    props: ({ mutate, ownProps }) => ({
+      onEditStart: () => ownProps.setEditing(true),
+      onEditEnd: data => {
+        ownProps.setEditing(false);
+        mutate({
+          variables: {
+            id: ownProps.record.id,
+            ...data,
+          },
+        });
+      },
+    }),
+  }),
+);
+
+export default container(CommentsItem);

@@ -19,3 +19,31 @@ export const CreateComment = gql`
     }
   }
 `;
+
+export const DeleteComment = gql`
+  mutation DeleteComment($id: ID!) {
+    deleteComment(id: $id) {
+      id
+    }
+  }
+`;
+
+export const UpdateComment = gql`
+  mutation UpdateComment($body: String!, $id: ID!) {
+    updateComment(body: $body, id: $id) {
+      id
+      body
+      createdAt
+      parentComment {
+        id
+      }
+      parentPost {
+        id
+      }
+      author {
+        id
+        name
+      }
+    }
+  }
+`;

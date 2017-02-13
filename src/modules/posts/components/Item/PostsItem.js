@@ -14,14 +14,6 @@ import ReaderMenu from './PostsItemReaderMenu';
 import Editor from '../Editor';
 import * as mutations from '../../mutations';
 
-// eslint-disable-next-line react/prop-types
-const renderBody = ({ text }) => <MultiLineText>{text}</MultiLineText>;
-
-// eslint-disable-next-line react/prop-types
-const renderEditor = ({ defaultValue, onSubmit }) => (
-  <Editor defaultValue={defaultValue} onSubmit={onSubmit} />
-);
-
 const PostsItem = props => (
   <Paper style={{ marginTop: '16px' }}>
     <Box column style={{ padding: '16px' }}>
@@ -43,14 +35,14 @@ const PostsItem = props => (
         }
       </Box>
       {props.isEditing
-        ? renderEditor({
-          defaultValue: props.record,
-          onSubmit: data => {
+        ? <Editor
+          defaultValue={props.record}
+          onSubmit={data => {
             props.onEditEnd();
             props.onUpdate(data);
-          },
-        })
-        : renderBody({ text: props.record.body })
+          }}
+        />
+        : <MultiLineText>{props.record.body}</MultiLineText>
       }
       <Divider style={{ marginTop: '6px' }} />
     </Box>
@@ -82,6 +74,10 @@ PostsItem.propTypes = {
     comments: PropTypes.array.isRequired,
     id: PropTypes.string.isRequired,
   }).isRequired,
+};
+
+PostsItem.defaultProps = {
+  currentUser: null,
 };
 
 const container = compose(
