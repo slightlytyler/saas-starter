@@ -9,7 +9,7 @@ const schema = yup.object({
 
 const PostsCreator = props => (
   <Paper style={{ padding: '16px' }}>
-    <Form onSubmit={props.onCreatePost} schema={schema}>
+    <Form onSubmit={props.onSubmit} schema={schema}>
       <Form.Field
         floatingLabelText={null}
         fullWidth
@@ -23,7 +23,7 @@ const PostsCreator = props => (
 );
 
 PostsCreator.propTypes = {
-  onCreatePost: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
 };
 
 export default PostsCreator;

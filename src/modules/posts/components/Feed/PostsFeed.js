@@ -2,6 +2,7 @@ import spinnerWhile from 'common/containers/spinnerWhile';
 import findObjectIndex from 'common/data/findObjectIndex';
 import update from 'immutability-helper';
 import { compose, get } from 'lodash/fp';
+import AuthenticatedRoute from 'modules/auth/components/AuthenticatedRoute';
 import withCurrentUser from 'modules/auth/containers/withCurrentUser';
 import React, { PropTypes } from 'react';
 import { graphql } from 'react-apollo';
@@ -15,7 +16,7 @@ import * as queries from '../../queries';
 const PostsFeed = props => (
   <Box alignItems="center" column fit>
     <Box column style={{ width: '45em' }}>
-      <Creator onCreatePost={props.onCreatePost} />
+      <AuthenticatedRoute leftRender={() => <Creator onSubmit={props.onCreatePost} />} />
       <List
         onDeletePost={props.onDeletePost}
         onUpdatePost={props.onUpdatePost}
@@ -62,19 +63,19 @@ const container = compose(
     }),
   }),
   graphql(mutations.DeletePost, {
-    props: ({ mutate, ownProps }) => ({
+    props: ({ mutate }) => ({
       onDeletePost: data => mutate({
         optimisticResponse: {
           __typename: 'Mutation',
           deletePost: {
             __typename: 'Post',
-            id: ownProps.post.id,
+            id: data.id,
           },
         },
         updateQueries: {
           GlobalFeed: prev => update(prev, {
             allPosts: {
-              $splice: [[findObjectIndex(ownProps.post.id, prev.allPosts), 1]],
+              $splice: [[findObjectIndex(data.id, prev.allPosts), 1]],
             },
           }),
         },
@@ -83,13 +84,12 @@ const container = compose(
     }),
   }),
   graphql(mutations.UpdatePost, {
-    props: ({ mutate, ownProps }) => ({
+    props: ({ mutate }) => ({
       onUpdatePost: data => mutate({
         optimisticResponse: {
           __typename: 'Mutation',
           updatePost: {
             __typename: 'Post',
-            ...ownProps.post,
             ...data,
           },
         },

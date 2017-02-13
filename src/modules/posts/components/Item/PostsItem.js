@@ -1,8 +1,8 @@
 import MultiLineText from 'common/components/MultiLineText';
 import Timestamp from 'common/components/Timestamp';
-import { capitalize, compose, first, get } from 'lodash/fp';
+import { capitalize, compose, first } from 'lodash/fp';
 import { Avatar, Divider, Paper } from 'material-ui';
-import withCurrentUser from 'modules/auth/containers/withCurrentUser';
+import OwnedRoute from 'modules/auth/components/OwnedRoute';
 import Comments from 'modules/comments/components/Root';
 import React, { PropTypes } from 'react';
 import { Box } from 'react-layout-components';
@@ -26,10 +26,16 @@ const PostsItem = props => (
             <Timestamp>{props.post.createdAt}</Timestamp>
           </Box>
         </Box>
-        {props.post.author.id === get('id', props.currentUser)
-          ? <AuthorMenu onDeletePost={props.onDeletePost} onEditPost={props.onEditPostStart} />
-          : <ReaderMenu />
-        }
+        <OwnedRoute
+          leftRender={() => (
+            <AuthorMenu
+              onDeletePost={() => props.onDeletePost(props.post)}
+              onEditPost={props.onEditPostStart}
+            />
+          )}
+          rightRender={() => <ReaderMenu />}
+          userId={props.post.author.id}
+        />
       </Box>
       {props.isEditingPost
         ? <Editor
@@ -49,12 +55,11 @@ const PostsItem = props => (
 );
 
 PostsItem.propTypes = {
-  currentUser: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-  }),
   isEditingPost: PropTypes.bool.isRequired,
+  // eslint-disable-next-line react/no-unused-prop-types
   onDeletePost: PropTypes.func.isRequired,
   onEditPostEnd: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/no-unused-prop-types
   onEditPostStart: PropTypes.func.isRequired,
   onUpdatePost: PropTypes.func.isRequired,
   post: PropTypes.shape({
@@ -68,12 +73,7 @@ PostsItem.propTypes = {
   }).isRequired,
 };
 
-PostsItem.defaultProps = {
-  currentUser: null,
-};
-
 const container = compose(
-  withCurrentUser,
   withState('isEditingPost', 'setEditingPost', false),
   mapProps(props => ({
     ...props,

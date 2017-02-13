@@ -1,33 +1,31 @@
-import gql from 'graphql-tag';
+import { compose, noop, omit } from 'lodash/fp';
 import React, { PropTypes } from 'react';
-import { graphql } from 'react-apollo';
-import { Route, Redirect } from 'react-router-dom';
+import { Route } from 'react-router-dom';
+import { mapProps } from 'recompose';
+import withCurrentUser from '../../containers/withCurrentUser';
 
-const AuthenticatedRoute = ({ data, render, ...rest }) => {
-  console.log(data);
-  return (
-    <Route
-      {...rest}
-      render={props => (data.user ? render(props) : <Redirect to="/auth/login" />)}
-    />
-  );
-};
+const AuthenticatedRoute = ({ isAuthenticated, leftRender, rightRender, ...rest }) => (
+  <Route {...rest} render={isAuthenticated ? leftRender : rightRender} />
+);
 
 AuthenticatedRoute.propTypes = {
-  data: PropTypes.shape({
-    user: PropTypes.object,
-  }).isRequired,
-  render: PropTypes.func.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
+  leftRender: PropTypes.func,
+  rightRender: PropTypes.func,
 };
 
-const userQuery = gql`
-  query {
-    user {
-      id
-    }
-  }
-`;
+AuthenticatedRoute.defaultProps = {
+  leftRender: noop,
+  rightRender: noop,
+};
 
-const container = graphql(userQuery, { options: { forceFetch: true } });
+
+const container = compose(
+  withCurrentUser,
+  mapProps(props => ({
+    ...omit('currentUser', props),
+    isAuthenticated: Boolean(props.currentUser),
+  })),
+);
 
 export default container(AuthenticatedRoute);
