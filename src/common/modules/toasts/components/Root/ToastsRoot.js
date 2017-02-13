@@ -1,10 +1,10 @@
-import colors from 'colors';
 import connect from 'common/containers/connect';
-import hexToRgb from 'common/styles/helpers/hexToRgb';
 import { compose, get, head, size } from 'lodash/fp';
 import { Snackbar } from 'material-ui';
 import React, { PropTypes } from 'react';
 import { lifecycle, withState } from 'recompose';
+import * as colors from 'styles/colors';
+import hexToRgb from 'styles/helpers/hexToRgb';
 import * as actions from '../../actions';
 import { selectSubstate } from '../../selectors';
 

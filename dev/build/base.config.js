@@ -1,11 +1,8 @@
-import autoprefixer from 'autoprefixer';
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import InlineManifestWebpackPlugin from 'inline-manifest-webpack-plugin';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
-import WebpackShellPlugin from 'webpack-shell-plugin';
-import yargs from 'yargs';
 
 const __root = path.join(__dirname, '../../');
 const __dev = path.join(__root, 'dev');
@@ -27,22 +24,33 @@ export default {
   entry: {
     polyfills: ['whatwg-fetch'],
     vendor: [
+      'apollo-client',
+      'auth0-lock-passwordless',
       'connected-react-router',
+      'element-resize-detector',
+      'graphql-tag',
+      'immutability-helper',
+      'jss',
+      'jss-preset-default',
       'lodash',
       'material-ui',
+      'moment',
       'qs',
       'react',
+      'react-apollo',
+      'react-async-component',
       'react-dom',
       'react-formal',
+      'react-jss',
       'react-layout-components',
+      'react-motion',
       'react-redux',
       'react-router-dom',
       'react-tap-event-plugin',
+      'recompose',
       'redux',
-      'redux-saga',
-      'redux-storage',
-      'redux-storage-decorator-filter',
-      'redux-storage-engine-localstorage',
+      'reselect',
+      'shortid',
       'yup',
     ],
   },
@@ -54,20 +62,10 @@ export default {
     new webpack.LoaderOptionsPlugin({
       options: {
         eslint: {
-          configFile: path.join(directories.dev, 'js-lint/dev.js'),
+          configFile: path.join(directories.dev, 'lint/dev.js'),
           emitWarning: true,
         },
-        postcss: [
-          autoprefixer({
-            browsers: ['last 2 version'],
-          }),
-        ],
       },
-    }),
-    new WebpackShellPlugin({
-      onBuildExit: [
-        `stylint ${path.join(directories.src, 'common/styles')} --config ${path.join(directories.dev, 'styl-lint/dev.rc')}`,
-      ],
     }),
     new webpack.optimize.CommonsChunkPlugin({
       names: ['polyfills', 'vendor', 'manifest'],
@@ -107,10 +105,10 @@ export default {
   resolve: {
     alias: {
       assets: directories.assets,
-      colors: path.join(directories.src, 'common/styles/base/colors.js'),
       common: path.join(directories.src, 'common'),
       modules: path.join(directories.src, 'modules'),
       src: path.join(directories.src),
+      styles: path.join(directories.src, 'common/styles'),
     },
   },
 };

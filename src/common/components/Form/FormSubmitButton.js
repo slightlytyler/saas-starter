@@ -1,4 +1,5 @@
 import cx from 'classnames';
+import injectStyles from 'common/containers/injectStyles';
 import { CircularProgress, RaisedButton } from 'material-ui';
 import React, { PropTypes } from 'react';
 import { Box } from 'react-layout-components';
@@ -9,10 +10,10 @@ const renderSpinner = () => (
   </Box>
 );
 
-const FormSubmitButton = ({ className, label, loading, ...props }) => (
+const FormSubmitButton = ({ classes, className, label, loading, ...props }) => (
   <RaisedButton
     {...props}
-    className={cx('FormSubmitButton', className)}
+    className={cx(className, classes.root)}
     disabled={loading}
     label={loading ? null : label}
     primary
@@ -23,6 +24,9 @@ const FormSubmitButton = ({ className, label, loading, ...props }) => (
 );
 
 FormSubmitButton.propTypes = {
+  classes: PropTypes.shape({
+    root: PropTypes.string.isRequired,
+  }).isRequired,
   className: PropTypes.string,
   label: PropTypes.string.isRequired,
   loading: PropTypes.bool,
@@ -33,4 +37,13 @@ FormSubmitButton.defaultProps = {
   loading: false,
 };
 
-export default FormSubmitButton;
+const styles = {
+  root: {
+    marginBottom: '1em',
+    marginTop: '2em',
+  },
+};
+
+const container = injectStyles(styles);
+
+export default container(FormSubmitButton);

@@ -43,14 +43,6 @@ export default webpackMerge(baseConfig, {
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
   ],
-  module: {
-    rules: [
-      {
-        test: /\.styl$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader', 'stylus-loader'],
-      },
-    ],
-  },
   performance: {
     hints: false,
   },

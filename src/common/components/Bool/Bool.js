@@ -1,5 +1,5 @@
-import colors from 'colors';
 import React, { PropTypes } from 'react';
+import * as colors from 'styles/colors';
 import MaterialIcon from '../MaterialIcon';
 
 const selectColor = value => (value ? colors.green50 : colors.red50);

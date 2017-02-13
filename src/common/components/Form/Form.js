@@ -1,4 +1,3 @@
-import cx from 'classnames';
 import cloneElement from 'common/react/cloneElement';
 import mapChildren from 'common/react/mapChildren';
 import { compose, get, identity, keys, memoize, pickBy } from 'lodash/fp';
@@ -35,18 +34,13 @@ const renderChildren = ({ children, errors, events }) => mapChildren(
 
 const Form = ({
   children,
-  className,
   errors,
   setErrors,
   validateOnBlur,
   validateOnChange,
   ...props
 }) => (
-  <Formal
-    {...props}
-    className={cx('Form', className)}
-    onError={handleError(setErrors)}
-  >
+  <Formal {...props} onError={handleError(setErrors)}>
     <Box alignItems="flex-start" column justifyContent="flex-start">
       {renderChildren({
         children,
@@ -62,7 +56,6 @@ const Form = ({
 
 Form.propTypes = {
   children: PropTypes.node.isRequired,
-  className: PropTypes.string,
   errors: PropTypes.object.isRequired,
   setErrors: PropTypes.func.isRequired,
   validateOnBlur: PropTypes.bool,
@@ -70,7 +63,6 @@ Form.propTypes = {
 };
 
 Form.defaultProps = {
-  className: undefined,
   validateOnBlur: true,
   validateOnChange: false,
 };

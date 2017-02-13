@@ -1,7 +1,6 @@
-import 'common/styles/index.styl';
 import 'whatwg-fetch';
 import ReactHotLoader from 'common/components/ReactHotLoader';
-import ibmTheme from 'common/styles/mui/theme';
+import theme from 'styles/theme';
 import {
   ConnectedRouter as Router,
   connectRouter,
@@ -74,7 +73,7 @@ const renderToDOM = element => ReactDOM.render(element, container);
 const renderApp = Component => {
   const App = (
     <ReactHotLoader>
-      <MuiThemeProvider muiTheme={ibmTheme}>
+      <MuiThemeProvider muiTheme={theme}>
         <ApolloProvider client={client} store={store}>
           <Router history={history}>
             <Component />

@@ -1,10 +1,10 @@
-import colors from 'colors';
 import spinnerWhile from 'common/containers/spinnerWhile';
 import withCurrentUser from 'modules/auth/containers/withCurrentUser';
 import { compose, get } from 'lodash/fp';
 import React, { PropTypes } from 'react';
 import { graphql } from 'react-apollo';
 import { Box } from 'react-layout-components';
+import * as colors from 'styles/colors';
 import Creator from '../Creator';
 import List from '../List';
 import * as queries from '../../queries';

@@ -1,7 +1,7 @@
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import spacing from 'material-ui/styles/spacing';
 import { fade } from 'material-ui/utils/colorManipulator';
-import colors from 'colors';
+import * as colors from './colors';
 
 const config = {
   spacing,
@@ -25,4 +25,6 @@ const config = {
   },
 };
 
-export default getMuiTheme(config);
+const theme = getMuiTheme(config);
+
+export default theme;

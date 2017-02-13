@@ -1,4 +1,3 @@
-import ExtractTextPlugin from 'extract-text-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
 import webpackMerge from 'webpack-merge'
@@ -34,22 +33,7 @@ export default webpackMerge(baseConfig, {
       },
       comments: false,
     }),
-    new ExtractTextPlugin({
-      filename: "[name].css",
-      allChunks: true,
-    }),
   ],
-  module: {
-    rules: [
-      {
-        test: /\.styl$/,
-        use: ExtractTextPlugin.extract({
-          use: ['css-loader', 'postcss-loader', 'stylus-loader'],
-          fallback: 'style-loader',
-        }),
-      },
-    ],
-  },
   performance: {
     hints: "warning",
   },

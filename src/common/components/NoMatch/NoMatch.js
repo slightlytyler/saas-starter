@@ -1,12 +1,12 @@
-import Panel from 'common/components/Panel';
+import { Paper } from 'material-ui';
 import React from 'react';
 import { Box } from 'react-layout-components';
 
 const NoMatch = () => (
   <Box center fit>
-    <Panel>
+    <Paper style={{ padding: '16px' }}>
       404 no match found :(
-    </Panel>
+    </Paper>
   </Box>
 );
 
