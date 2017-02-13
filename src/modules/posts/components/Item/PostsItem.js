@@ -1,3 +1,4 @@
+import Branch from 'common/components/Branch';
 import MultiLineText from 'common/components/MultiLineText';
 import Timestamp from 'common/components/Timestamp';
 import { capitalize, compose, first } from 'lodash/fp';
@@ -37,16 +38,19 @@ const PostsItem = props => (
           userId={props.post.author.id}
         />
       </Box>
-      {props.isEditingPost
-        ? <Editor
-          defaultValue={props.post}
-          onSubmit={data => {
-            props.onEditPostEnd();
-            props.onUpdatePost(data);
-          }}
-        />
-        : <MultiLineText>{props.post.body}</MultiLineText>
-      }
+      <Branch
+        condition={props.isEditingPost}
+        leftRender={() => (
+          <Editor
+            defaultValue={props.post}
+            onSubmit={data => {
+              props.onEditPostEnd();
+              props.onUpdatePost(data);
+            }}
+          />
+        )}
+        rightRender={() => <MultiLineText>{props.post.body}</MultiLineText>}
+      />
       <Divider style={{ marginTop: '6px' }} />
     </Box>
     <Divider />
@@ -58,9 +62,11 @@ PostsItem.propTypes = {
   isEditingPost: PropTypes.bool.isRequired,
   // eslint-disable-next-line react/no-unused-prop-types
   onDeletePost: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/no-unused-prop-types
   onEditPostEnd: PropTypes.func.isRequired,
   // eslint-disable-next-line react/no-unused-prop-types
   onEditPostStart: PropTypes.func.isRequired,
+  // eslint-disable-next-line react/no-unused-prop-types
   onUpdatePost: PropTypes.func.isRequired,
   post: PropTypes.shape({
     author: PropTypes.shape({
