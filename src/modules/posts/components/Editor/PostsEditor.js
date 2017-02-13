@@ -1,6 +1,8 @@
 import Form from 'common/components/Form';
+import { propType } from 'graphql-anywhere';
 import React, { PropTypes } from 'react';
 import yup from 'yup';
+import * as fragments from '../../fragments';
 
 const schema = yup.object({
   body: yup.string().required('A post cannot be empty.'),
@@ -20,9 +22,7 @@ const PostsEditor = ({ defaultValue, onSubmit }) => (
 );
 
 PostsEditor.propTypes = {
-  defaultValue: PropTypes.shape({
-    body: PropTypes.string.isRequired,
-  }).isRequired,
+  defaultValue: propType(fragments.PostObject).isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
 

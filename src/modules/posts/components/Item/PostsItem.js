@@ -1,6 +1,7 @@
 import Branch from 'common/components/Branch';
 import MultiLineText from 'common/components/MultiLineText';
 import Timestamp from 'common/components/Timestamp';
+import { propType } from 'graphql-anywhere';
 import { compose } from 'lodash/fp';
 import { Divider, Paper } from 'material-ui';
 import OwnedRoute from 'modules/auth/components/OwnedRoute';
@@ -12,6 +13,7 @@ import { mapProps, withState } from 'recompose';
 import AuthorMenu from './PostsItemAuthorMenu';
 import ReaderMenu from './PostsItemReaderMenu';
 import Editor from '../Editor';
+import * as fragments from '../../fragments';
 
 const PostsItem = props => (
   <Paper style={{ marginTop: '16px' }}>
@@ -68,15 +70,7 @@ PostsItem.propTypes = {
   onEditPostStart: PropTypes.func.isRequired,
   // eslint-disable-next-line react/no-unused-prop-types
   onUpdatePost: PropTypes.func.isRequired,
-  post: PropTypes.shape({
-    author: PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      name: PropTypes.string.isRequired,
-    }).isRequired,
-    body: PropTypes.string.isRequired,
-    createdAt: PropTypes.string.isRequired,
-    id: PropTypes.string.isRequired,
-  }).isRequired,
+  post: propType(fragments.PostObject).isRequired,
 };
 
 const container = compose(

@@ -1,5 +1,6 @@
 import spinnerWhile from 'common/containers/spinnerWhile';
 import findObjectIndex from 'common/data/findObjectIndex';
+import { propType } from 'graphql-anywhere';
 import update from 'immutability-helper';
 import { compose, get } from 'lodash/fp';
 import AuthenticatedRoute from 'modules/auth/components/AuthenticatedRoute';
@@ -10,6 +11,7 @@ import { Box } from 'react-layout-components';
 import generateId from 'shortid';
 import Creator from '../Creator';
 import List from '../List';
+import * as fragments from '../../fragments';
 import * as mutations from '../../mutations';
 import * as queries from '../../queries';
 
@@ -30,7 +32,7 @@ PostsFeed.propTypes = {
   onCreatePost: PropTypes.func.isRequired,
   onDeletePost: PropTypes.func.isRequired,
   onUpdatePost: PropTypes.func.isRequired,
-  posts: PropTypes.arrayOf(PropTypes.object).isRequired,
+  posts: PropTypes.arrayOf(propType(fragments.PostObject)).isRequired,
 };
 
 const container = compose(
