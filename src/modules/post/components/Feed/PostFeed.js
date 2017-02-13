@@ -16,8 +16,8 @@ import * as mutations from '../../mutations';
 import * as queries from '../../queries';
 
 const PostFeed = props => (
-  <Box alignItems="center" column fit>
-    <Box column style={{ width: '45em' }}>
+  <Box fit justifyContent="center">
+    <Box column justifyContent="flex-start" style={{ width: '45em' }}>
       <AuthenticatedRoute leftRender={() => <Creator onSubmit={props.onCreatePost} />} />
       <List
         onDeletePost={props.onDeletePost}
