@@ -2,7 +2,11 @@ import 'common/styles/index.styl';
 import 'whatwg-fetch';
 import ReactHotLoader from 'common/components/ReactHotLoader';
 import ibmTheme from 'common/styles/mui/theme';
-import { ConnectedRouter as Router } from 'connected-react-router';
+import {
+  ConnectedRouter as Router,
+  connectRouter,
+  routerMiddleware,
+} from 'connected-react-router';
 import { createBrowserHistory } from 'history';
 import { compose, get } from 'lodash/fp';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -14,6 +18,7 @@ import { ApolloProvider } from 'react-apollo';
 import { withAsyncComponents } from 'react-async-component';
 import ReactDOM from 'react-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import { combineReducers } from 'redux';
 import { API_URI } from './config';
 import createClient from './createClient';
 import createStore from './createStore';
@@ -51,13 +56,15 @@ const client = createClient({
 const history = createBrowserHistory();
 
 const store = createStore({
-  history,
-  reducers: {
+  middleware: [routerMiddleware(history)],
+  reducer: compose(connectRouter(history), combineReducers)({
     apollo: client.reducer(),
     dialogs: dialogsReducer,
     toasts: toastsReducer,
-  },
+  }),
 });
+
+client.setStore(store);
 
 const container = document.getElementById('root');
 
