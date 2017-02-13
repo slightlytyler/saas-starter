@@ -1,6 +1,8 @@
 import MultiLineText from 'common/components/MultiLineText';
 import Timestamp from 'common/components/Timestamp';
 import injectStyles from 'common/containers/injectStyles';
+import findObjectIndex from 'common/data/findObjectIndex';
+import update from 'immutability-helper';
 import { compose, get } from 'lodash/fp';
 import withCurrentUser from 'modules/auth/containers/withCurrentUser';
 import UsersAvatar from 'modules/users/components/Avatar';
@@ -18,19 +20,19 @@ const CommentsItem = props => (
       <UsersAvatar
         size={30}
         style={{ marginRight: '16px' }}
-        user={props.record.author}
+        user={props.comment.author}
       />
       <Box column>
         <Box style={{ fontSize: '14px' }}>
-          <span>{props.record.author.name}</span>&nbsp;
-          <MultiLineText>{props.record.body}</MultiLineText>
+          <span>{props.comment.author.name}</span>&nbsp;
+          <MultiLineText>{props.comment.body}</MultiLineText>
         </Box>
         <Box>
-          <Timestamp>{props.record.createdAt}</Timestamp>
+          <Timestamp>{props.comment.createdAt}</Timestamp>
         </Box>
       </Box>
     </Box>
-    {props.record.author.id === get('id', props.currentUser)
+    {props.comment.author.id === get('id', props.currentUser)
       ? <AuthorMenu
         className={props.classes.menu}
         onDelete={props.onDelete}
@@ -46,16 +48,16 @@ CommentsItem.propTypes = {
     menu: PropTypes.string.isRequired,
     wrapper: PropTypes.string.isRequired,
   }).isRequired,
+  comment: PropTypes.shape({
+    author: PropTypes.object.isRequired,
+    body: PropTypes.string.isRequired,
+    createdAt: PropTypes.string.isRequired,
+  }).isRequired,
   currentUser: PropTypes.shape({
     id: PropTypes.string.isRequired,
   }),
   onDelete: PropTypes.func.isRequired,
   onEditStart: PropTypes.func.isRequired,
-  record: PropTypes.shape({
-    author: PropTypes.object.isRequired,
-    body: PropTypes.string.isRequired,
-    createdAt: PropTypes.string.isRequired,
-  }).isRequired,
 };
 
 CommentsItem.defaultProps = {
@@ -80,7 +82,24 @@ const container = compose(
   graphql(mutations.DeleteComment, {
     props: ({ mutate, ownProps }) => ({
       onDelete: () => mutate({
-        variables: { id: ownProps.record.id },
+        optimisticResponse: {
+          __typename: 'Mutation',
+          deleteComment: {
+            __typename: 'Comment',
+            id: ownProps.comment.id,
+          },
+        },
+        updateQueries: {
+          CommentsOnPost: (prev, { queryVariables }) => {
+            if (queryVariables.postId !== ownProps.comment.parentPost.id) return null;
+            return update(prev, {
+              allComments: {
+                $splice: [[findObjectIndex(ownProps.comment.id, prev.allComments), 1]],
+              },
+            });
+          },
+        },
+        variables: { id: ownProps.comment.id },
       }),
     }),
   }),
@@ -92,7 +111,7 @@ const container = compose(
         ownProps.setEditing(false);
         mutate({
           variables: {
-            id: ownProps.record.id,
+            id: ownProps.comment.id,
             ...data,
           },
         });

@@ -5,12 +5,12 @@ import Item from '../Item';
 
 const CommentsList = props => (
   <Box column>
-    {map(record => <Item key={record.id} record={record} />, props.records)}
+    {map(comment => <Item comment={comment} key={comment.id} />, props.comments)}
   </Box>
 );
 
 CommentsList.propTypes = {
-  records: PropTypes.array.isRequired,
+  comments: PropTypes.array.isRequired,
 };
 
 export default CommentsList;

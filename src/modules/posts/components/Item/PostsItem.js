@@ -1,7 +1,8 @@
 import MultiLineText from 'common/components/MultiLineText';
 import Timestamp from 'common/components/Timestamp';
+import findObjectIndex from 'common/data/findObjectIndex';
 import update from 'immutability-helper';
-import { capitalize, compose, eq, findIndex, first, get } from 'lodash/fp';
+import { capitalize, compose, first, get } from 'lodash/fp';
 import { Avatar, Divider, Paper } from 'material-ui';
 import withCurrentUser from 'modules/auth/containers/withCurrentUser';
 import Comments from 'modules/comments/components/Root';
@@ -23,34 +24,31 @@ const PostsItem = props => (
         style={{ marginBottom: '6px' }}
       >
         <Box alignItems="center">
-          <Avatar>{compose(capitalize, first)(props.record.author.name)}</Avatar>
+          <Avatar>{compose(capitalize, first)(props.post.author.name)}</Avatar>
           <Box column style={{ marginLeft: '16px' }}>
-            <div>{props.record.author.name}</div>
-            <Timestamp>{props.record.createdAt}</Timestamp>
+            <div>{props.post.author.name}</div>
+            <Timestamp>{props.post.createdAt}</Timestamp>
           </Box>
         </Box>
-        {props.record.author.id === get('id', props.currentUser)
+        {props.post.author.id === get('id', props.currentUser)
           ? <AuthorMenu onDelete={props.onDelete} onEdit={props.onEditStart} />
           : <ReaderMenu />
         }
       </Box>
       {props.isEditing
         ? <Editor
-          defaultValue={props.record}
+          defaultValue={props.post}
           onSubmit={data => {
             props.onEditEnd();
             props.onUpdate(data);
           }}
         />
-        : <MultiLineText>{props.record.body}</MultiLineText>
+        : <MultiLineText>{props.post.body}</MultiLineText>
       }
       <Divider style={{ marginTop: '6px' }} />
     </Box>
     <Divider />
-    <Comments
-      parentPostId={props.record.id}
-      records={props.record.comments}
-    />
+    <Comments postId={props.post.id} />
   </Paper>
 );
 
@@ -64,14 +62,13 @@ PostsItem.propTypes = {
   onEditEnd: PropTypes.func.isRequired,
   onEditStart: PropTypes.func.isRequired,
   onUpdate: PropTypes.func.isRequired,
-  record: PropTypes.shape({
+  post: PropTypes.shape({
     author: PropTypes.shape({
       id: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
     }).isRequired,
     body: PropTypes.string.isRequired,
     createdAt: PropTypes.string.isRequired,
-    comments: PropTypes.array.isRequired,
     id: PropTypes.string.isRequired,
   }).isRequired,
 };
@@ -89,17 +86,17 @@ const container = compose(
           __typename: 'Mutation',
           deletePost: {
             __typename: 'Post',
-            id: ownProps.record.id,
+            id: ownProps.post.id,
           },
         },
         updateQueries: {
           GlobalFeed: prev => update(prev, {
             allPosts: {
-              $splice: [[findIndex(compose(eq(ownProps.record.id), get('id')), prev.allPosts), 1]],
+              $splice: [[findObjectIndex(ownProps.post.id, prev.allPosts), 1]],
             },
           }),
         },
-        variables: { id: ownProps.record.id },
+        variables: { id: ownProps.post.id },
       }),
     }),
   }),
@@ -110,11 +107,11 @@ const container = compose(
           __typename: 'Mutation',
           updatePost: {
             __typename: 'Post',
-            ...ownProps.record,
+            ...ownProps.post,
             ...data,
           },
         },
-        variables: { id: ownProps.record.id, ...data },
+        variables: { id: ownProps.post.id, ...data },
       }),
     }),
   }),
@@ -126,7 +123,7 @@ const container = compose(
     onEditStart: () => setTimeout(() => props.setEditing(true), 800),
     onEditEnd: () => props.setEditing(false),
     onUpdate: props.onUpdate,
-    record: props.record,
+    post: props.post,
   })),
 );
 

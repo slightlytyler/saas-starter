@@ -5,7 +5,7 @@ import Item from '../Item';
 const PostsList = ({ posts }) => (
   <div>
     {map(
-      record => <Item key={record.id} record={record} />,
+      post => <Item key={post.id} post={post} />,
       posts,
     )}
   </div>
