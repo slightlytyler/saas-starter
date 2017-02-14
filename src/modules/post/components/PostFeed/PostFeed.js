@@ -9,8 +9,8 @@ import React, { PropTypes } from 'react';
 import { graphql } from 'react-apollo';
 import { Box } from 'react-layout-components';
 import generateId from 'shortid';
-import Creator from '../Creator';
-import List from '../List';
+import PostCreator from '../PostCreator';
+import PostList from '../PostList';
 import * as fragments from '../../fragments';
 import * as mutations from '../../mutations';
 import * as queries from '../../queries';
@@ -18,8 +18,8 @@ import * as queries from '../../queries';
 const PostFeed = props => (
   <Box fit justifyContent="center">
     <Box column justifyContent="flex-start" style={{ width: '45em' }}>
-      <AuthenticatedRoute renderLeft={() => <Creator onSubmit={props.onCreatePost} />} />
-      <List
+      <AuthenticatedRoute renderLeft={() => <PostCreator onSubmit={props.onCreatePost} />} />
+      <PostList
         onDeletePost={props.onDeletePost}
         onUpdatePost={props.onUpdatePost}
         posts={props.posts}

@@ -10,9 +10,9 @@ import UserAvatar from 'modules/user/components/UserAvatar';
 import React, { PropTypes } from 'react';
 import { Box } from 'react-layout-components';
 import { mapProps, withState } from 'recompose';
-import AuthorMenu from './PostItemAuthorMenu';
-import ReaderMenu from './PostItemReaderMenu';
-import Editor from '../Editor';
+import PostAuthorMenu from './PostItemAuthorMenu';
+import PostReaderMenu from './PostItemReaderMenu';
+import PostEditor from '../PostEditor';
 import * as fragments from '../../fragments';
 
 const PostItem = props => (
@@ -32,19 +32,20 @@ const PostItem = props => (
         </Box>
         <OwnedRoute
           renderLeft={() => (
-            <AuthorMenu
-              onDeletePost={() => props.onDeletePost(props.post)}
+            <PostAuthorMenu
+              onDeletePost={props.onDeletePost}
               onEditPost={props.onEditPostStart}
+              post={props.post}
             />
           )}
-          renderRight={() => <ReaderMenu />}
+          renderRight={() => <PostReaderMenu />}
           userId={props.post.author.id}
         />
       </Box>
       <Branch
         condition={props.isEditingPost}
         renderLeft={() => (
-          <Editor
+          <PostEditor
             defaultValue={props.post}
             onSubmit={data => {
               props.onEditPostEnd();
