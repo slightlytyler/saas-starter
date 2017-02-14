@@ -5,7 +5,7 @@ import findObjectIndex from 'common/data/findObjectIndex';
 import update from 'immutability-helper';
 import { compose, get } from 'lodash/fp';
 import withCurrentUser from 'modules/auth/containers/withCurrentUser';
-import UserAvatar from 'modules/user/components/Avatar';
+import UserAvatar from 'modules/user/components/UserAvatar';
 import React, { PropTypes } from 'react';
 import { graphql } from 'react-apollo';
 import { Box } from 'react-layout-components';

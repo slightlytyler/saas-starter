@@ -6,7 +6,7 @@ import { compose } from 'lodash/fp';
 import { Divider, Paper } from 'material-ui';
 import OwnedRoute from 'modules/auth/components/OwnedRoute';
 import CommentRoot from 'modules/comment/components/Root';
-import UserAvatar from 'modules/user/components/Avatar';
+import UserAvatar from 'modules/user/components/UserAvatar';
 import React, { PropTypes } from 'react';
 import { Box } from 'react-layout-components';
 import { mapProps, withState } from 'recompose';

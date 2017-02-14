@@ -1,4 +1,4 @@
-import UserAvatar from 'modules/user/components/Avatar';
+import UserAvatar from 'modules/user/components/UserAvatar';
 import React, { PropTypes } from 'react';
 import withCurrentUser from '../../containers/withCurrentUser';
 
