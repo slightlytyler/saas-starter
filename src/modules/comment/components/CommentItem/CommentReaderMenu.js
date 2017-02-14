@@ -1,9 +1,10 @@
 import MaterialIcon from 'common/components/MaterialIcon';
 import { IconButton, IconMenu, MenuItem } from 'material-ui';
-import React from 'react';
+import React, { PropTypes } from 'react';
 
-const CommentItemReaderMenu = () => (
+const CommentItemReaderMenu = props => (
   <IconMenu
+    className={props.className}
     iconButtonElement={
       <IconButton>
         <MaterialIcon>more_vert</MaterialIcon>
@@ -20,5 +21,14 @@ const CommentItemReaderMenu = () => (
     />
   </IconMenu>
 );
+
+CommentItemReaderMenu.propTypes = {
+  className: PropTypes.string,
+};
+
+CommentItemReaderMenu.defaultProps = {
+  className: null,
+};
+
 
 export default CommentItemReaderMenu;

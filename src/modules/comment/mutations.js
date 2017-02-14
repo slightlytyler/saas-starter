@@ -1,23 +1,13 @@
 import gql from 'graphql-tag';
+import * as fragments from './fragments';
 
 export const CreateComment = gql`
   mutation CreateComment($authorId: ID!, $body: String!, $parentPostId: ID!) {
     createComment(authorId: $authorId, body: $body, parentPostId: $parentPostId) {
-      id
-      body
-      createdAt
-      parentComment {
-        id
-      }
-      parentPost {
-        id
-      }
-      author {
-        id
-        name
-      }
+      ...CommentObject
     }
   }
+  ${fragments.CommentObject}
 `;
 
 export const DeleteComment = gql`
@@ -31,19 +21,8 @@ export const DeleteComment = gql`
 export const UpdateComment = gql`
   mutation UpdateComment($body: String!, $id: ID!) {
     updateComment(body: $body, id: $id) {
-      id
-      body
-      createdAt
-      parentComment {
-        id
-      }
-      parentPost {
-        id
-      }
-      author {
-        id
-        name
-      }
+      ...CommentObject
     }
   }
+  ${fragments.CommentObject}
 `;

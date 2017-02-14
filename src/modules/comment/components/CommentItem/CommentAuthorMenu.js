@@ -1,6 +1,8 @@
 import MaterialIcon from 'common/components/MaterialIcon';
+import { propType } from 'graphql-anywhere';
 import { IconButton, IconMenu, MenuItem } from 'material-ui';
 import React, { PropTypes } from 'react';
+import * as fragments from '../../fragments';
 
 const CommentItemAuthorMenu = props => (
   <IconMenu
@@ -15,12 +17,11 @@ const CommentItemAuthorMenu = props => (
   >
     <MenuItem
       leftIcon={<MaterialIcon>mode_edit</MaterialIcon>}
-      onTouchTap={props.onEdit}
       primaryText="Edit"
     />
     <MenuItem
       leftIcon={<MaterialIcon>delete</MaterialIcon>}
-      onTouchTap={props.onDelete}
+      onTouchTap={() => props.onDelete(props.comment)}
       primaryText="Delete"
     />
   </IconMenu>
@@ -28,12 +29,12 @@ const CommentItemAuthorMenu = props => (
 
 CommentItemAuthorMenu.propTypes = {
   className: PropTypes.string,
+  comment: propType(fragments.CommentObject).isRequired,
   onDelete: PropTypes.func.isRequired,
-  onEdit: PropTypes.func.isRequired,
 };
 
 CommentItemAuthorMenu.defaultProps = {
-  className: undefined,
+  className: null,
 };
 
 export default CommentItemAuthorMenu;
