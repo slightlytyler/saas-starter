@@ -3,7 +3,7 @@ import NoMatch from 'common/components/NoMatch';
 import injectStyles from 'common/containers/injectStyles';
 import DialogsRoot from 'common/modules/dialogs/components/Root';
 import ToastsRoot from 'common/modules/toasts/components/Root';
-import AuthProvider from 'modules/auth/components/Provider';
+import AuthProvider from 'modules/auth/components/AuthProvider';
 import PostFeed from 'modules/post/components/Feed';
 import React from 'react';
 import { Page } from 'react-layout-components';

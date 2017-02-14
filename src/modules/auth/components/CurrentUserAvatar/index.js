@@ -1,1 +1,1 @@
-export default from './AuthCurrentUserAvatar';
+export default from './CurrentUserAvatar';
