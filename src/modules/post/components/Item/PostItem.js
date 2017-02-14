@@ -31,19 +31,19 @@ const PostItem = props => (
           </Box>
         </Box>
         <OwnedRoute
-          leftRender={() => (
+          renderLeft={() => (
             <AuthorMenu
               onDeletePost={() => props.onDeletePost(props.post)}
               onEditPost={props.onEditPostStart}
             />
           )}
-          rightRender={() => <ReaderMenu />}
+          renderRight={() => <ReaderMenu />}
           userId={props.post.author.id}
         />
       </Box>
       <Branch
         condition={props.isEditingPost}
-        leftRender={() => (
+        renderLeft={() => (
           <Editor
             defaultValue={props.post}
             onSubmit={data => {
@@ -52,7 +52,7 @@ const PostItem = props => (
             }}
           />
         )}
-        rightRender={() => <MultiLineText>{props.post.body}</MultiLineText>}
+        renderRight={() => <MultiLineText>{props.post.body}</MultiLineText>}
       />
     </Box>
     <Divider />

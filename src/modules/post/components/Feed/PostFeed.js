@@ -18,7 +18,7 @@ import * as queries from '../../queries';
 const PostFeed = props => (
   <Box fit justifyContent="center">
     <Box column justifyContent="flex-start" style={{ width: '45em' }}>
-      <AuthenticatedRoute leftRender={() => <Creator onSubmit={props.onCreatePost} />} />
+      <AuthenticatedRoute renderLeft={() => <Creator onSubmit={props.onCreatePost} />} />
       <List
         onDeletePost={props.onDeletePost}
         onUpdatePost={props.onUpdatePost}

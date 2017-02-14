@@ -1,28 +1,23 @@
-import { compose, get, omit } from 'lodash/fp';
+import BranchRoute from 'common/components/BranchRoute';
+import { compose, get } from 'lodash/fp';
 import React, { PropTypes } from 'react';
-import { Route } from 'react-router-dom';
-import { mapProps } from 'recompose';
+import { setPropTypes, withProps } from 'recompose';
 import withCurrentUser from '../../containers/withCurrentUser';
 
-const OwnedRoute = ({ isOwned, leftRender, rightRender, ...rest }) => (
-  <Route {...rest} render={isOwned ? leftRender : rightRender} />
+const OwnedRoute = ({ isOwned, ...props }) => (
+  <BranchRoute {...props} condition={isOwned} />
 );
 
 OwnedRoute.propTypes = {
   isOwned: PropTypes.bool.isRequired,
-  leftRender: PropTypes.func,
-  rightRender: PropTypes.func,
-};
-
-OwnedRoute.defaultProps = {
-  leftRender: () => null,
-  rightRender: () => null,
 };
 
 const container = compose(
+  setPropTypes({
+    userId: PropTypes.string.isRequired,
+  }),
   withCurrentUser,
-  mapProps(props => ({
-    ...omit('currentUser', props),
+  withProps(props => ({
     isOwned: get('currentUser.id', props) === props.userId,
   })),
 );

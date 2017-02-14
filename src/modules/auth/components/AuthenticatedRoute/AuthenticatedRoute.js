@@ -1,29 +1,20 @@
-import { compose, omit } from 'lodash/fp';
+import BranchRoute from 'common/components/BranchRoute';
+import { compose } from 'lodash/fp';
 import React, { PropTypes } from 'react';
-import { Route } from 'react-router-dom';
-import { mapProps } from 'recompose';
+import { withProps } from 'recompose';
 import withCurrentUser from '../../containers/withCurrentUser';
 
-const AuthenticatedRoute = ({ isAuthenticated, leftRender, rightRender, ...rest }) => (
-  <Route {...rest} render={isAuthenticated ? leftRender : rightRender} />
+const AuthenticatedRoute = ({ isAuthenticated, ...props }) => (
+  <BranchRoute {...props} condition={isAuthenticated} />
 );
 
 AuthenticatedRoute.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
-  leftRender: PropTypes.func,
-  rightRender: PropTypes.func,
 };
-
-AuthenticatedRoute.defaultProps = {
-  leftRender: () => null,
-  rightRender: () => null,
-};
-
 
 const container = compose(
   withCurrentUser,
-  mapProps(props => ({
-    ...omit('currentUser', props),
+  withProps(props => ({
     isAuthenticated: Boolean(props.currentUser),
   })),
 );

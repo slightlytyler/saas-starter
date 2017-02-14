@@ -1,16 +1,16 @@
 import { PropTypes } from 'react';
 
-const Branch = props => (props.condition ? props.leftRender() : props.rightRender());
+const Branch = props => (props.condition ? props.renderLeft() : props.renderRight());
 
 Branch.propTypes = {
   condition: PropTypes.bool.isRequired,
-  leftRender: PropTypes.func,
-  rightRender: PropTypes.func,
+  renderLeft: PropTypes.func,
+  renderRight: PropTypes.func,
 };
 
 Branch.defaultProps = {
-  leftRender: () => null,
-  rightRender: () => null,
+  renderLeft: () => null,
+  renderRight: () => null,
 };
 
 export default Branch;
