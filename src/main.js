@@ -55,15 +55,13 @@ const client = createClient({
 const history = createBrowserHistory();
 
 const store = createStore({
-  middleware: [routerMiddleware(history)],
+  middleware: [client.middleware(), routerMiddleware(history)],
   reducer: compose(connectRouter(history), combineReducers)({
     apollo: client.reducer(),
     dialogs: dialogsReducer,
     toasts: toastsReducer,
   }),
 });
-
-client.setStore(store);
 
 const container = document.getElementById('root');
 

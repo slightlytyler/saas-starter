@@ -7,7 +7,9 @@ const CommentItemReaderMenu = props => (
     className={props.className}
     iconButtonElement={
       <IconButton>
-        <MaterialIcon>more_vert</MaterialIcon>
+        <MaterialIcon color="rgba(0, 0, 0, 0.15)" hoverColor="rgba(0, 0, 0, 0.3)">
+          fiber_manual_record
+        </MaterialIcon>
       </IconButton>
     }
   >
