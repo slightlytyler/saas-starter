@@ -15,7 +15,7 @@ const Root = () => (
     <Page>
       <AppLayout>
         <Switch>
-          <Route component={PostFeed} exact path="/" />
+          <Route component={PostFeed} exact path="/g/:groupSlug" />
           <Route component={NoMatch} />
         </Switch>
       </AppLayout>

@@ -2,8 +2,8 @@ import gql from 'graphql-tag';
 import * as fragments from './fragments';
 
 export const CreatePost = gql`
-  mutation CreatePost ($authorId: ID!, $body: String!){
-    createPost(authorId: $authorId, body: $body) {
+  mutation CreatePost ($authorId: ID!, $body: String!, $groupId: ID!){
+    createPost(authorId: $authorId, body: $body, groupId: $groupId) {
       ...PostObject
     }
   }

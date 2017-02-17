@@ -9,3 +9,16 @@ export const GlobalFeed = gql`
   }
   ${fragments.PostObject}
 `;
+
+export const GroupFeed = gql`
+  query GroupFeed($slug: String!) {
+    Group(slug: $slug) {
+      id
+      name
+      posts {
+        ...PostObject
+      }
+    }
+  }
+  ${fragments.PostObject}
+`;

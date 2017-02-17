@@ -5,6 +5,7 @@ import update from 'immutability-helper';
 import { compose, get } from 'lodash/fp';
 import AuthenticatedRoute from 'modules/auth/components/AuthenticatedRoute';
 import withCurrentUser from 'modules/auth/containers/withCurrentUser';
+import GroupList from 'modules/group/components/GroupList';
 import React, { PropTypes } from 'react';
 import { graphql } from 'react-apollo';
 import { Box } from 'react-layout-components';
@@ -16,7 +17,8 @@ import * as mutations from '../../mutations';
 import * as queries from '../../queries';
 
 const PostFeed = props => (
-  <Box fit justifyContent="center">
+  <Box alignItems="flex-start" fit justifyContent="center">
+    <GroupList />
     <Box column justifyContent="flex-start" style={{ width: '45em' }}>
       <AuthenticatedRoute renderLeft={() => <PostCreator onSubmit={props.onCreatePost} />} />
       <PostList
@@ -37,6 +39,17 @@ PostFeed.propTypes = {
 
 const container = compose(
   withCurrentUser,
+  graphql(queries.GroupFeed, {
+    props: ({ data }) => ({
+      currentGroup: data.Group,
+      loading: data.loading,
+      posts: get('posts', data.Group),
+    }),
+    options: props => ({
+      returnPartialData: true,
+      variables: { slug: props.match.params.groupSlug },
+    }),
+  }),
   graphql(mutations.CreatePost, {
     props: ({ mutate, ownProps }) => ({
       onCreatePost: data => mutate({
@@ -48,18 +61,22 @@ const container = compose(
             ...data,
             author: ownProps.currentUser,
             createdAt: new Date().toISOString(),
+            group: ownProps.currentGroup,
           },
         },
         updateQueries: {
-          GlobalFeed: (prev, { mutationResult }) => update(prev, {
-            allPosts: {
-              $unshift: [mutationResult.data.createPost],
+          GroupFeed: (prev, { mutationResult }) => update(prev, {
+            Group: {
+              posts: {
+                $unshift: [mutationResult.data.createPost],
+              },
             },
           }),
         },
         variables: {
           ...data,
           authorId: ownProps.currentUser.id,
+          groupId: ownProps.currentGroup.id,
         },
       }),
     }),
@@ -99,15 +116,7 @@ const container = compose(
       }),
     }),
   }),
-  graphql(queries.GlobalFeed, {
-    options: { returnPartialData: true },
-    props: ({ data }) => ({
-      loading: data.loading,
-      posts: data.allPosts,
-    }),
-  }),
   compose(spinnerWhile, get)('loading'),
 );
-
 
 export default container(PostFeed);
