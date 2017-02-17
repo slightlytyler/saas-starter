@@ -4,9 +4,10 @@ import injectStyles from 'common/containers/injectStyles';
 import DialogsRoot from 'common/modules/dialogs/components/Root';
 import ToastsRoot from 'common/modules/toasts/components/Root';
 import AuthProvider from 'modules/auth/components/AuthProvider';
-import PostFeed from 'modules/post/components/PostFeed';
+import GroupFeed from 'modules/feed/components/GroupFeed';
+import GroupList from 'modules/group/components/GroupList';
 import React from 'react';
-import { Page } from 'react-layout-components';
+import { Box, Page } from 'react-layout-components';
 import { Route, Switch } from 'react-router-dom';
 import * as colors from 'styles/colors';
 
@@ -15,7 +16,15 @@ const Root = () => (
     <Page>
       <AppLayout>
         <Switch>
-          <Route component={PostFeed} exact path="/g/:groupSlug" />
+          <Route
+            path="/g"
+            render={routeProps => (
+              <Box alignItems="flex-start" center fit>
+                <GroupList {...routeProps} />
+                <Route component={GroupFeed} path={`${routeProps.match.url}/:groupSlug`} />
+              </Box>
+            )}
+          />
           <Route component={NoMatch} />
         </Switch>
       </AppLayout>
