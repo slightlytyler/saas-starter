@@ -1,3 +1,4 @@
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
 import webpackMerge from 'webpack-merge'
@@ -42,6 +43,11 @@ export default webpackMerge(baseConfig, {
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
+    new HtmlWebpackPlugin({
+      template: path.join(directories.src, 'index.ejs'),
+      inject: 'body',
+      chunksSortMode: 'dependency',
+    }),
   ],
   performance: {
     hints: false,

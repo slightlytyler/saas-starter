@@ -1,6 +1,5 @@
 import CopyWebpackPlugin from 'copy-webpack-plugin';
 import InlineManifestWebpackPlugin from 'inline-manifest-webpack-plugin';
-import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
 
@@ -69,11 +68,6 @@ export default {
     }),
     new webpack.optimize.CommonsChunkPlugin({
       names: ['polyfills', 'vendor', 'manifest'],
-    }),
-    new HtmlWebpackPlugin({
-      template: path.join(directories.src, 'index.ejs'),
-      inject: 'body',
-      chunksSortMode: 'dependency',
     }),
     new InlineManifestWebpackPlugin({
       name: 'webpackManifest',

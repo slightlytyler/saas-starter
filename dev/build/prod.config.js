@@ -1,3 +1,4 @@
+import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
 import webpackMerge from 'webpack-merge'
@@ -22,11 +23,16 @@ export default webpackMerge(baseConfig, {
         'NODE_ENV': JSON.stringify('production'),
       },
     }),
+    new HtmlWebpackPlugin({
+      template: path.join(directories.src, 'index.ejs'),
+      filename: '200.html',
+      inject: 'body',
+      chunksSortMode: 'dependency',
+    }),
     new webpack.optimize.UglifyJsPlugin({
       beautify: false,
       mangle: {
         screw_ie8: true,
-        keep_fnames: true,
       },
       compress: {
         screw_ie8: true,
