@@ -10,7 +10,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "deploy": "npm run clean && npm run build && surge ./dist",
     "clean": "rimraf ./dist",
-    "fetch-schema": "node dev/scripts/fetchSchema https://api.graph.cool/simple/v1/ciyp5mu7q47df0132db4vojmp > schema.json"
+    "fetch-schema": "apollo-codegen introspect-schema https://api.graph.cool/simple/v1/ciyp5mu7q47df0132db4vojmp --output schema.json"
   },
   "author": "Tyler Martinez",
   "license": "MIT",
@@ -19,11 +19,11 @@
     "url": "git@github.com:slightlytyler/advance-client.git"
   },
   "dependencies": {
-    "apollo-client": "^0.8.5",
+    "apollo-client": "^1.0.0-rc.2",
     "auth0-lock-passwordless": "^2.2.3",
     "connected-react-router": "^4.0.0-beta.3",
     "element-resize-detector": "^1.1.10",
-    "graphql-tag": "^1.2.4",
+    "graphql-tag": "^1.3.1",
     "immutability-helper": "^2.1.1",
     "invariant": "^2.2.2",
     "jss": "^6.2.0",
@@ -33,7 +33,7 @@
     "moment": "^2.17.1",
     "qs": "^6.3.0",
     "react": "^15.4.2",
-    "react-apollo": "^0.10.1",
+    "react-apollo": "^1.0.0-rc.2",
     "react-async-component": "^0.2.2",
     "react-dom": "^15.4.2",
     "react-formal": "^0.24.3",
@@ -41,7 +41,7 @@
     "react-layout-components": "^3.0.4",
     "react-motion": "^0.4.7",
     "react-redux": "^5.0.2",
-    "react-router-dom": "^4.0.0-beta.4",
+    "react-router-dom": "^4.0.0",
     "react-tap-event-plugin": "^2.0.1",
     "recompose": "^0.22.0",
     "redux": "^3.6.0",
@@ -52,6 +52,7 @@
     "yup": "^0.21.3"
   },
   "devDependencies": {
+    "apollo-codegen": "^0.10.9",
     "babel-cli": "^6.22.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
@@ -73,9 +74,9 @@
     "eslint-plugin-lodash-fp": "^2.1.3",
     "eslint-plugin-react": "^6.9.0",
     "file-loader": "^0.10.0",
+    "graphql": "^0.9.1",
     "html-webpack-plugin": "^2.28.0",
     "inline-manifest-webpack-plugin": "^3.0.1",
-    "isomorphic-fetch": "^2.2.1",
     "raw-loader": "^0.5.1",
     "react-hot-loader": "^3.0.0-beta.6",
     "rimraf": "^2.6.0",
@@ -84,6 +85,6 @@
     "url-loader": "^0.5.7",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0",
-    "webpack-merge": "^2.6.1"
+    "webpack-merge": "^4.0.0"
   }
 }
