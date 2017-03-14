@@ -116,7 +116,6 @@ const container = compose(
   }),
   graphql(queries.CommentsOnPost, {
     options: ({ postId }) => ({
-      returnPartialData: true,
       variables: { postId },
     }),
     props: ({ data }) => ({

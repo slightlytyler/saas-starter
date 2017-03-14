@@ -10,7 +10,7 @@ const container = compose(
     props: ({ data }) => ({
       currentUser: data.user,
     }),
-    options: { forceFetch: true },
+    options: { fetchPolicy: 'network-only' },
   }),
   withContext(
     { currentUser: PropTypes.object },

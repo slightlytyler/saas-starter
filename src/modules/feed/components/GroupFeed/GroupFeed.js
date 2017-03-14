@@ -18,7 +18,6 @@ const container = compose(
       posts: get('posts', data.Group),
     }),
     options: props => ({
-      returnPartialData: true,
       variables: { slug: props.match.params.groupSlug },
     }),
   }),
