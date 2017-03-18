@@ -23,7 +23,7 @@ deploy to dev:
   script:
     - npm run deploy -- --dev
   except:
-    master
+    - master
   environment:
     name: dev
 
@@ -32,6 +32,6 @@ deploy to production:
   script:
     - npm run deploy -- --prod
   only:
-    master
+    - master
   environment:
     name: prod
