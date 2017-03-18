@@ -1,0 +1,6 @@
+image: node:7
+
+pages:
+  script:
+    - npm install
+    - npm run build
