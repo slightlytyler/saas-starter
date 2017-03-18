@@ -1,6 +1,37 @@
-image: node:7
+image: node:
+
+before_script:
+  - npm install
+
+stages:
+  - build
+  - test
+  - deploy
 
 build:
+  stage: build
   script:
-    - npm install
     - npm run build
+
+unit tests:
+  stage: test
+  script:
+    - npm run unit-tests
+
+deploy to dev:
+  stage: deploy
+  script:
+    - npm run deploy -- --dev
+  except:
+    master
+  environment:
+    name: dev
+
+deploy to production:
+  stage: deploy
+  script:
+    - npm run deploy -- --prod
+  only:
+    master
+  environment:
+    name: prod
