@@ -46,12 +46,26 @@ deploy to dev:
   script:
     - npm run deploy
   except:
+    - develop
     - master
   variables:
     CI_ENVIRONMENT_URL: http://saas-starter-$CI_BUILD_REF_NAME.surge.sh
   environment:
     name: dev/$CI_BUILD_REF_NAME
     url: http://saas-starter-$CI_BUILD_REF_NAME.surge.sh
+
+deploy to qa:
+  stage: deploy
+  script:
+    - npm run deploy
+  only:
+    - develop
+  variables:
+    CI_ENVIRONMENT_URL: http://saas-starter-qa.surge.sh
+  environment:
+    name: qa
+    url: http://saas-starter-qa.surge.sh
+
 
 deploy to production:
   stage: deploy
