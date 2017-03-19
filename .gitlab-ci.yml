@@ -18,6 +18,8 @@ download graphql schema:
   stage: prepare
   script:
     - npm run fetch-schema
+  dependencies:
+    - install node modules
   artifacts:
     paths:
       - schema.json
