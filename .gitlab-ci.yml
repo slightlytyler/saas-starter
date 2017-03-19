@@ -6,22 +6,14 @@ stages:
   - test
   - deploy
 
-install node modules:
+install dependencies:
   stage: prepare
   script:
     - npm install
+    - npm run fetch-schema
   artifacts:
     paths:
       - node_modules/
-
-download graphql schema:
-  stage: prepare
-  script:
-    - npm run fetch-schema
-  dependencies:
-    - install node modules
-  artifacts:
-    paths:
       - schema.json
 
 build:
