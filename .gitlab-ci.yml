@@ -1,8 +1,5 @@
 image: node:7
 
-before_script:
-  - npm install
-
 stages:
   - build
   - test
@@ -11,7 +8,12 @@ stages:
 build:
   stage: build
   script:
+    - npm install
     - npm run build
+  artifacts:
+    paths:
+      - node_modules/
+  expire_in: 1 week
 
 unit tests:
   stage: test
