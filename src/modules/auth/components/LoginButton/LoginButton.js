@@ -16,12 +16,14 @@ class LoginButton extends Component {
 
   constructor(props) {
     super(props);
-    this.auth0lock = new Auth0LockPasswordless('zjmX61BWhXdXf8erFCIoGwe8XHAM3cCw', 'paep.auth0.com');
+    this.auth0lock = new Auth0LockPasswordless(
+      'zjmX61BWhXdXf8erFCIoGwe8XHAM3cCw',
+      'paep.auth0.com',
+    );
   }
 
-  start = () => this.auth0lock.sms(
-    { autoclose: true },
-    async (error, profile, idToken) => {
+  start = () =>
+    this.auth0lock.sms({ autoclose: true }, async (error, profile, idToken) => {
       if (!error) {
         try {
           const { data: { User: user } } = await this.props.client.query({
@@ -55,12 +57,9 @@ class LoginButton extends Component {
           console.log(e);
         }
       }
-    },
-  );
+    });
 
-  render = () => (
-    <RaisedButton label="Login" onTouchTap={this.start} />
-  );
+  render = () => <RaisedButton label="Login" onTouchTap={this.start} />;
 }
 
 export default withApollo(LoginButton);

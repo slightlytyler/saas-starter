@@ -1,8 +1,8 @@
 import CopyWebpackPlugin from 'copy-webpack-plugin';
+import FlowtypePlugin from 'flowtype-loader/plugin';
 import InlineManifestWebpackPlugin from 'inline-manifest-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
-import WebpackShellPlugin from 'webpack-shell-plugin';
 
 const __root = path.join(__dirname, '../../');
 const __scripts = path.join(__root, 'scripts');
@@ -59,11 +59,13 @@ export default {
     publicPath: '/',
   },
   plugins: [
+    new FlowtypePlugin(),
     new webpack.LoaderOptionsPlugin({
       options: {
         eslint: {
           configFile: path.join(directories.scripts, 'lint/dev.js'),
           emitWarning: true,
+          fix: true,
         },
       },
     }),
@@ -76,14 +78,15 @@ export default {
     new CopyWebpackPlugin(
       [{ from: directories.static, ignore: '.DS_Store' }]
     ),
-    new WebpackShellPlugin({
-      onBuildEnd:[
-        'npm run flow',
-      ],
-    }),
   ],
   module: {
     rules: [
+      {
+        enforce: 'pre',
+        test: /\.js$/,
+        use: 'flowtype-loader',
+        include: directories.src,
+      },
       {
         enforce: 'pre',
         test: /\.js$/,

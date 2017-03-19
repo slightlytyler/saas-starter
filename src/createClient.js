@@ -1,11 +1,13 @@
 import ApolloClient, { createNetworkInterface, toIdValue } from 'apollo-client';
 
-const createClient = ({
-  customResolversFactory = () => ({}),
-  dataIdFromObject,
-  middleware,
-  uri,
-}) => {
+const createClient = (
+  {
+    customResolversFactory = () => ({}),
+    dataIdFromObject,
+    middleware,
+    uri,
+  },
+) => {
   const networkInterface = createNetworkInterface({ uri });
   networkInterface.use(middleware);
   const resolveObjectFromCache = (_, args) => toIdValue(dataIdFromObject(args));

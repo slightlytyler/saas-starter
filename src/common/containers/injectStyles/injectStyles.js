@@ -10,9 +10,6 @@ jss.setup(preset());
 
 const injectSheet = createInjectSheet(jss);
 
-const injectStyles = styles => compose(
-  injectSheet(styles),
-  omitProps('sheet'),
-);
+const injectStyles = styles => compose(injectSheet(styles), omitProps('sheet'));
 
 export default injectStyles;

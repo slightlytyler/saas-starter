@@ -9,13 +9,19 @@ import * as actions from '../../actions';
 import { selectSubstate } from '../../selectors';
 
 const selectBodyStyle = type => {
-  if (type === 'failure') return { backgroundColor: `rgba(${hexToRgb(colors.red30)}, 0.870588)` };
-  if (type === 'success') return { backgroundColor: `rgba(${hexToRgb(colors.green30)}, 0.870588)` };
+  if (type === 'failure') {
+    return { backgroundColor: `rgba(${hexToRgb(colors.red30)}, 0.870588)` };
+  }
+  if (type === 'success') {
+    return { backgroundColor: `rgba(${hexToRgb(colors.green30)}, 0.870588)` };
+  }
   return {};
 };
 
 const selectContentStyle = type => {
-  if (type === 'failure' || type === 'success') return { color: colors.grey100 };
+  if (type === 'failure' || type === 'success') {
+    return { color: colors.grey100 };
+  }
   return {};
 };
 
@@ -31,10 +37,11 @@ const ToastsRoot = ({ currentToast, setCurrentToast }) => (
         record: currentToast.record,
       });
       setTimeout(
-        () => setCurrentToast({
-          open: false,
-          record: null,
-        }),
+        () =>
+          setCurrentToast({
+            open: false,
+            record: null,
+          }),
         500,
       );
     }}

@@ -3,11 +3,15 @@ module.exports = {
   extends: [
     'airbnb',
     'plugin:lodash-fp/recommended',
+    'prettier',
+    'prettier/flowtype',
+    'prettier/react',
   ],
   plugins: [
     'class-property',
     'graphql',
     'lodash-fp',
+    'prettier',
   ],
   env: {
     browser: true,
@@ -30,6 +34,7 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'jsx-a11y/no-static-element-interactions': 'off',
     'no-underscore-dangle': 'off',
+    'prettier/prettier':  ['error', { singleQuote: true, trailingComma: 'all' }],
     'react/forbid-prop-types': 'off',
     'react/jsx-filename-extension': 'off',
     'react/jsx-sort-props': 2,

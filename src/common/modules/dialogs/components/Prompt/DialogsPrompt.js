@@ -7,10 +7,7 @@ import * as actions from '../../actions';
 const DialogsPrompt = ({ confirm, deny, ...props }) => (
   <Item
     actions={[
-      <FlatButton
-        label="Deny"
-        onTouchTap={deny}
-      />,
+      <FlatButton label="Deny" onTouchTap={deny} />,
       <FlatButton
         keyboardFocused
         label="Confirm"

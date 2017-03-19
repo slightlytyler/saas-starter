@@ -11,14 +11,17 @@ const selectMapStateToProps = mapStateToProps => {
   return mapStateToProps;
 };
 
-const connect = ({
-  mapStateToProps,
-  mapDispatchToProps = defaultMapDispatchToProps,
-  mergeProps,
-}) => baseConnect(
-  selectMapStateToProps(mapStateToProps),
-  mapDispatchToProps,
-  mergeProps,
-);
+const connect = (
+  {
+    mapStateToProps,
+    mapDispatchToProps = defaultMapDispatchToProps,
+    mergeProps,
+  },
+) =>
+  baseConnect(
+    selectMapStateToProps(mapStateToProps),
+    mapDispatchToProps,
+    mergeProps,
+  );
 
 export default connect;

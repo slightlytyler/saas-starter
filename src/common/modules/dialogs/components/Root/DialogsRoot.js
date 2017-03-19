@@ -11,10 +11,7 @@ const renderDialog = ({ id, message, type, ...props }) => {
   switch (type) {
     case 'prompt': {
       return (
-        <Prompt
-          key={id}
-          {...props}
-        >
+        <Prompt key={id} {...props}>
           {message}
         </Prompt>
       );
@@ -22,10 +19,7 @@ const renderDialog = ({ id, message, type, ...props }) => {
 
     default: {
       return (
-        <Item
-          key={id}
-          {...props}
-        >
+        <Item key={id} {...props}>
           {message}
         </Item>
       );
@@ -45,12 +39,14 @@ const DialogsRoot = ({ dialogs }) => {
 };
 
 DialogsRoot.propTypes = {
-  dialogs: PropTypes.arrayOf(PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    message: PropTypes.string.isRequired,
-    modal: PropTypes.bool,
-    title: PropTypes.string.isRequired,
-  })).isRequired,
+  dialogs: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string.isRequired,
+      message: PropTypes.string.isRequired,
+      modal: PropTypes.bool,
+      title: PropTypes.string.isRequired,
+    }),
+  ).isRequired,
 };
 
 const container = compose(
@@ -73,10 +69,14 @@ const container = compose(
             ...dropRight(1, this.props.dialogsBuffer),
             { ...last(this.props.dialogsBuffer), open: false },
           ],
-          () => setTimeout(
-            () => this.props.setDialogsBuffer(dropRight(1, this.props.dialogsBuffer)),
-            500,
-          ),
+          () =>
+            setTimeout(
+              () =>
+                this.props.setDialogsBuffer(
+                  dropRight(1, this.props.dialogsBuffer),
+                ),
+              500,
+            ),
         );
       }
     },

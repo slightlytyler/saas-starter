@@ -35,20 +35,22 @@ const client = createClient({
     },
   }),
   dataIdFromObject: get('id'),
-  middleware: [{
-    applyMiddleware: (req, next) => {
-      if (!req.options.headers) {
-        // eslint-disable-next-line no-param-reassign
-        req.options.headers = {};
-      }
-      const token = getToken();
-      if (token) {
-        // eslint-disable-next-line no-param-reassign
-        req.options.headers.authorization = `Bearer ${token}`;
-      }
-      next();
+  middleware: [
+    {
+      applyMiddleware: (req, next) => {
+        if (!req.options.headers) {
+          // eslint-disable-next-line no-param-reassign
+          req.options.headers = {};
+        }
+        const token = getToken();
+        if (token) {
+          // eslint-disable-next-line no-param-reassign
+          req.options.headers.authorization = `Bearer ${token}`;
+        }
+        next();
+      },
     },
-  }],
+  ],
   uri: API_URI,
 });
 
@@ -80,7 +82,9 @@ const renderApp = Component => {
       </MuiThemeProvider>
     </ReactHotLoader>
   );
-  withAsyncComponents(App).then(compose(renderToDOM, get('appWithAsyncComponents')));
+  withAsyncComponents(App).then(
+    compose(renderToDOM, get('appWithAsyncComponents')),
+  );
 };
 
 renderApp(Root);

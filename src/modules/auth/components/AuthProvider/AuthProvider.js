@@ -12,10 +12,7 @@ const container = compose(
     }),
     options: { fetchPolicy: 'network-only' },
   }),
-  withContext(
-    { currentUser: PropTypes.object },
-    pick('currentUser'),
-  ),
+  withContext({ currentUser: PropTypes.object }, pick('currentUser')),
 );
 
 export default container(Identity);
