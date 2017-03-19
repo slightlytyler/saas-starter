@@ -17,7 +17,6 @@ install node modules:
 build:
   stage: build
   script:
-    - npm install
     - npm run build
 
 unit tests:
