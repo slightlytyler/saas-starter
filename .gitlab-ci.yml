@@ -1,19 +1,24 @@
 image: node:7
 
 stages:
+  - install
   - build
   - test
   - deploy
+
+install node modules:
+    stage: install
+    script:
+      - npm install
+    cache:
+      paths:
+        - node_modules/
 
 build:
   stage: build
   script:
     - npm install
     - npm run build
-  artifacts:
-    paths:
-      - node_modules/
-  expire_in: 1 week
 
 unit tests:
   stage: test
