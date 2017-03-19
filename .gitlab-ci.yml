@@ -1,18 +1,26 @@
 image: node:7
 
 stages:
-  - install
+  - prepare
   - build
   - test
   - deploy
 
 install node modules:
-    stage: install
-    script:
-      - npm install
-    artifacts:
-      paths:
-        - node_modules/
+  stage: prepare
+  script:
+    - npm install
+  artifacts:
+    paths:
+      - node_modules/
+
+download graphql schema:
+  state: prepare
+  script:
+    - npm run fetch-schema
+  artifacts:
+    paths:
+      - schema.json
 
 build:
   stage: build
@@ -27,7 +35,7 @@ unit tests:
 deploy to dev:
   stage: deploy
   script:
-    - npm run deploy -- --dev
+    - npm run deploy
   except:
     - master
   environment:
@@ -36,7 +44,7 @@ deploy to dev:
 deploy to production:
   stage: deploy
   script:
-    - npm run deploy -- --prod
+    - npm run deploy
   only:
     - master
   environment:

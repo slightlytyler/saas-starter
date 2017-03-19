@@ -4,7 +4,7 @@
   "description": "A toolset for building service oriented JavaScript applications with React, Redux, and AWS.",
   "main": "index.js",
   "scripts": {
-    "build": "npm run fetch-schema && babel-node --presets es2015 $(npm bin)/webpack --config dev/build/prod.config.js",
+    "build": "babel-node --presets es2015 $(npm bin)/webpack --config dev/build/prod.config.js",
     "dev": "npm run fetch-schema && babel-node --presets es2015 $(npm bin)/webpack-dev-server --config dev/build/dev.config.js",
     "prod": "babel-node --presets es2015 $(npm bin)/webpack --config dev/build/prod.config.js --watch",
     "unit-tests": "echo \"Write some tests!\"",
