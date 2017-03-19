@@ -63,9 +63,8 @@ export default {
     new webpack.LoaderOptionsPlugin({
       options: {
         eslint: {
-          configFile: path.join(directories.scripts, 'lint/dev.js'),
-          emitWarning: true,
           fix: true,
+          warn: true,
         },
       },
     }),
@@ -75,9 +74,7 @@ export default {
     new InlineManifestWebpackPlugin({
       name: 'webpackManifest',
     }),
-    new CopyWebpackPlugin(
-      [{ from: directories.static, ignore: '.DS_Store' }]
-    ),
+    new CopyWebpackPlugin([{ from: directories.static, ignore: '.DS_Store' }]),
   ],
   module: {
     rules: [

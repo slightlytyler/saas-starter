@@ -24,7 +24,7 @@ module.exports = {
     'class-property/class-property-semicolon': 2,
     'graphql/template-strings': ['error', {
       env: 'apollo',
-      schemaJson: require('../../schema.json'),
+      schemaJson: require('./schema.json'),
     }],
     'import/extensions': 'off',
     'import/imports-first': 'off',
