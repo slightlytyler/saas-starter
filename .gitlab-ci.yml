@@ -27,7 +27,17 @@ build:
 unit tests:
   stage: test
   script:
-    - npm run unit-tests
+    - npm run test:unit
+
+integration tests:
+  stage: test
+  script:
+    - npm run test:integration
+
+acceptance tests:
+  stage: test
+  script:
+    - npm run test:acceptance
 
 deploy to dev:
   stage: deploy
