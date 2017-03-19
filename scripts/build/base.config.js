@@ -12,7 +12,7 @@ const __static = path.join(__src, 'static');
 
 export const directories = {
   root: __root,
-  dev: __scripts,
+  scripts: __scripts,
   dist: __dist,
   src: __src,
   assets: __assets,
