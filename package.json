@@ -4,11 +4,11 @@
   "description": "A toolset for building service oriented JavaScript applications with React, Redux, and AWS.",
   "main": "index.js",
   "scripts": {
-    "build": "babel-node --presets es2015 $(npm bin)/webpack --config dev/build/prod.config.js",
-    "dev": "npm run fetch-schema && babel-node --presets es2015 $(npm bin)/webpack-dev-server --config dev/build/dev.config.js",
-    "prod": "babel-node --presets es2015 $(npm bin)/webpack --config dev/build/prod.config.js --watch",
-    "unit-tests": "echo \"Write some tests!\"",
-    "deploy": "echo \"Write a deploy script!\"",
+    "build": "babel-node --presets es2015 $(npm bin)/webpack --config scripts/build/prod.config.js",
+    "dev": "npm run fetch-schema && babel-node --presets es2015 $(npm bin)/webpack-dev-server --config scripts/build/dev.config.js",
+    "prod": "babel-node --presets es2015 $(npm bin)/webpack --config scripts/build/prod.config.js --watch",
+    "unit-tests": "babel-node --presets es2015 scripts/test/unit",
+    "deploy": "babel-node --presets es2015 scripts/deploy",
     "clean": "rimraf ./dist",
     "fetch-schema": "apollo-codegen introspect-schema https://api.graph.cool/simple/v1/ciyp5mu7q47df0132db4vojmp --output schema.json"
   },
