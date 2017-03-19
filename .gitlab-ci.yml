@@ -10,7 +10,7 @@ install node modules:
     stage: install
     script:
       - npm install
-    cache:
+    artifacts:
       paths:
         - node_modules/
 
