@@ -4,7 +4,7 @@ import path from 'path';
 import webpack from 'webpack';
 
 const __root = path.join(__dirname, '../../');
-const __dev = path.join(__root, 'dev');
+const __scripts = path.join(__root, 'scripts');
 const __dist = path.join(__root, 'dist');
 const __src = path.join(__root, 'src');
 const __assets = path.join(__src, 'assets');
@@ -12,7 +12,7 @@ const __static = path.join(__src, 'static');
 
 export const directories = {
   root: __root,
-  dev: __dev,
+  dev: __scripts,
   dist: __dist,
   src: __src,
   assets: __assets,
@@ -61,7 +61,7 @@ export default {
     new webpack.LoaderOptionsPlugin({
       options: {
         eslint: {
-          configFile: path.join(directories.dev, 'lint/dev.js'),
+          configFile: path.join(directories.scripts, 'lint/dev.js'),
           emitWarning: true,
         },
       },
