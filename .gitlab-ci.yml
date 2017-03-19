@@ -15,7 +15,7 @@ install node modules:
       - node_modules/
 
 download graphql schema:
-  state: prepare
+  stage: prepare
   script:
     - npm run fetch-schema
   artifacts:
