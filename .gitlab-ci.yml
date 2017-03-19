@@ -39,7 +39,8 @@ deploy to dev:
   except:
     - master
   environment:
-    name: dev
+    name: dev/$CI_BUILD_REF_NAME
+    url: http://saas-starter-$CI_BUILD_REF_NAME.surge.sh
 
 deploy to production:
   stage: deploy
@@ -49,3 +50,4 @@ deploy to production:
     - master
   environment:
     name: prod
+    url: http://saas-starter.surge.sh
