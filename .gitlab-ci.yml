@@ -44,7 +44,6 @@ acceptance tests:
 deploy to dev:
   stage: deploy
   script:
-    - surge login
     - npm run deploy
   except:
     - master
