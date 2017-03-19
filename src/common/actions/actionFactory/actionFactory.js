@@ -1,7 +1,8 @@
+// @flow
 import invariant from 'invariant';
 import { compose, curry, isFunction, isPlainObject, keys, reduce } from 'lodash/fp';
 
-const createType = name => (base, sub) => `@@${name}/${base}${sub ? `/${sub}` : ''}`;
+const createType = (name: string): Function => (base: string, sub: string): string => `@@${name}/${base}${sub ? `/${sub}` : ''}`;
 
 const actionFactory = curry((name, { type: basetype, creator: creatorSelector }) => {
   invariant(

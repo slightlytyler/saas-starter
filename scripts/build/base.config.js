@@ -2,6 +2,7 @@ import CopyWebpackPlugin from 'copy-webpack-plugin';
 import InlineManifestWebpackPlugin from 'inline-manifest-webpack-plugin';
 import path from 'path';
 import webpack from 'webpack';
+import WebpackShellPlugin from 'webpack-shell-plugin';
 
 const __root = path.join(__dirname, '../../');
 const __scripts = path.join(__root, 'scripts');
@@ -75,6 +76,11 @@ export default {
     new CopyWebpackPlugin(
       [{ from: directories.static, ignore: '.DS_Store' }]
     ),
+    new WebpackShellPlugin({
+      onBuildEnd:[
+        'npm run flow',
+      ],
+    }),
   ],
   module: {
     rules: [

@@ -11,6 +11,7 @@
     "react"
   ],
   "plugins": [
+    "transform-flow-strip-types",
     "dev-expression",
     [
       "transform-runtime",
