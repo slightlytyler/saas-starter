@@ -11,6 +11,9 @@ install dependencies:
   script:
     - npm install
     - npm run fetch-schema
+  only:
+    - master
+    - merge-requests
   artifacts:
     paths:
       - node_modules/
@@ -21,6 +24,9 @@ build:
   stage: build
   script:
     - npm run build
+  only:
+    - master
+    - merge-requests
   artifacts:
     paths:
       - dist/
@@ -28,25 +34,35 @@ build:
 
 unit tests:
   stage: test
+  only:
+    - master
+    - merge-requests
   script:
     - npm run test:unit
 
 integration tests:
   stage: test
+  only:
+    - master
+    - merge-requests
   script:
     - npm run test:integration
 
 acceptance tests:
   stage: test
+  only:
+    - master
+    - merge-requests
   script:
     - npm run test:acceptance
 
 deploy to dev:
   stage: deploy
   script:
+    - surge login
     - npm run deploy
-  except:
-    - master
+  only:
+    - merge-requests
   variables:
     CI_ENVIRONMENT_URL: http://saas-starter-$CI_BUILD_REF_NAME.surge.sh
   environment:
