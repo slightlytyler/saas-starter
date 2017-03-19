@@ -10,7 +10,7 @@
     "test:unit": "babel-node --presets es2015 scripts/test/unit",
     "test:integration": "babel-node --presets es2015 scripts/test/integration",
     "test:acceptance": "babel-node --presets es2015 scripts/test/acceptance",
-    "deploy": "babel-node --presets es2015 scripts/deploy",
+    "deploy": "node scripts/deploy",
     "clean": "rimraf ./dist",
     "fetch-schema": "apollo-codegen introspect-schema https://api.graph.cool/simple/v1/ciyp5mu7q47df0132db4vojmp --output schema.json"
   },

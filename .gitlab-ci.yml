@@ -48,7 +48,7 @@ deploy to dev:
   except:
     - master
   variables:
-    ENVIRONMENT_URL: http://saas-starter-$CI_BUILD_REF_NAME.surge.sh
+    CI_ENVIRONMENT_URL: http://saas-starter-$CI_BUILD_REF_NAME.surge.sh
   environment:
     name: dev/$CI_BUILD_REF_NAME
     url: http://saas-starter-$CI_BUILD_REF_NAME.surge.sh
@@ -60,7 +60,7 @@ deploy to production:
   only:
     - master
   variables:
-    ENVIRONMENT_URL: http://saas-starter.surge.sh
+    CI_ENVIRONMENT_URL: http://saas-starter.surge.sh
   environment:
     name: prod
     url: http://saas-starter.surge.sh
