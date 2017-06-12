@@ -1,8 +1,6 @@
 {
   "name": "saas-starter",
-  "scripts": {
-    "dev": ""
-  },
+  "license": "MIT",
   "dependencies": {
 
   },

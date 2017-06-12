@@ -1,0 +1,27 @@
+version: '3'
+services:
+  ui:
+    image: node:8.1.0-alpine
+    volumes:
+      - ./packages/ui/:/usr/app
+    working_dir: /usr/app/
+    command: yarn dev
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    ports:
+      - "3000:3000"
+    links:
+      - gateway
+
+  gateway:
+    image: node:8.1.0-alpine
+    volumes:
+      - ./packages/gateway/:/usr/app
+    working_dir: /usr/app/
+    command: yarn dev
+    environment:
+      - NODE_ENV=development
+      - PORT=4000
+    ports:
+      - "4000:4000"
