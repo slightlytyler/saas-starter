@@ -1,0 +1,12 @@
+{
+  "name": "saas-starter",
+  "scripts": {
+    "dev": ""
+  },
+  "dependencies": {
+
+  },
+  "devDependencies": {
+    "lerna": "^2.0.0-rc.5"
+  }
+}
