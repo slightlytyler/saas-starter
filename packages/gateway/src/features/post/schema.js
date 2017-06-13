@@ -7,14 +7,21 @@ const PostTypeDef = `
 
 const PostRootExt = `
   extend type Query {
-    post: Post
+    posts: [Post]
   }
 `;
 
-export const typeDefs = () => [PostTypeDef, PostRootExt];
+const typeDefs = () => [PostTypeDef, PostRootExt];
 
-export const resolvers = {
+const resolvers = {
   queries: {
-    post: () => ({id: 'a', name: 'b'}),
+    posts: (_, __, ctx) => ctx.models.post.findList(),
   },
 };
+
+const PostSchema = {
+  typeDefs,
+  resolvers,
+};
+
+export default PostSchema;

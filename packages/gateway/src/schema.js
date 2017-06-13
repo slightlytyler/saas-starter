@@ -1,6 +1,6 @@
 import {merge} from 'lodash/fp';
 import {makeExecutableSchema} from 'graphql-tools';
-import * as Post from 'features/post/schema';
+import PostSchema from 'features/post/schema';
 
 const SchemaDefinition = `
   schema {
@@ -25,12 +25,12 @@ const typeDefs = [
   SchemaDefinition,
   QueryTypeDef,
   MutationTypeDef,
-  Post.typeDefs,
+  PostSchema.typeDefs,
 ];
 
 const resolvers = {
-  Query: merge({}, Post.resolvers.queries),
-  Mutation: merge({}, Post.resolvers.mutations),
+  Query: merge({}, PostSchema.resolvers.queries),
+  Mutation: merge({}, PostSchema.resolvers.mutations),
 };
 
 const schema = makeExecutableSchema({
