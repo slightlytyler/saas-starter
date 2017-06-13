@@ -1,3 +1,5 @@
+import {isAuthenticatedResolver} from 'features/auth/resolvers';
+
 const PostTypeDef = `
   type Post {
     id: ID!
@@ -14,8 +16,10 @@ const PostRootExt = `
 const typeDefs = () => [PostTypeDef, PostRootExt];
 
 const resolvers = {
-  queries: {
-    posts: (_, __, ctx) => ctx.models.post.findList(),
+  Query: {
+    posts: isAuthenticatedResolver.createResolver((_, __, ctx) =>
+      ctx.models.post.findList(),
+    ),
   },
 };
 

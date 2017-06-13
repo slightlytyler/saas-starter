@@ -1,6 +1,8 @@
 class Model {
   constructor(connector) {
     const {modelName, schema} = this.constructor;
+    this.modelName = modelName;
+    this.schema = schema;
     this.connector = connector;
     this.findList = connector.findList.bind(connector, modelName);
     this.findObjectById = connector.findObjectById.bind(connector, modelName);

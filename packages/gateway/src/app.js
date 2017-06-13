@@ -9,7 +9,13 @@ const app = express();
 app.use(
   '/graphql',
   bodyParser.json(),
-  graphqlExpress({context: {models}, schema}),
+  graphqlExpress({
+    context: {
+      models,
+      user: {id: 'user1', email: 'slightlytyler@gmail.com', token: 'abc123'},
+    },
+    schema,
+  }),
 );
 
 app.use(

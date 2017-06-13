@@ -1,3 +1,4 @@
+import {combineResolvers} from 'apollo-resolvers';
 import {merge} from 'lodash/fp';
 import {makeExecutableSchema} from 'graphql-tools';
 import PostSchema from 'features/post/schema';
@@ -28,10 +29,7 @@ const typeDefs = [
   PostSchema.typeDefs,
 ];
 
-const resolvers = {
-  Query: merge({}, PostSchema.resolvers.queries),
-  Mutation: merge({}, PostSchema.resolvers.mutations),
-};
+const resolvers = combineResolvers([PostSchema.resolvers]);
 
 const schema = makeExecutableSchema({
   typeDefs,
