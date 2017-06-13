@@ -1,11 +1,13 @@
 const path = require('path');
+const StartServerPlugin = require('start-server-webpack-plugin');
+const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
 
 const __root = path.join(__dirname, '../../');
 
 const config = {
   entry: {
-    main: path.join(__root, 'src/main.js'),
+    server: ['webpack/hot/poll?1000', path.join(__root, 'src/server.js')],
   },
   output: {
     libraryTarget: 'commonjs2',
@@ -13,7 +15,12 @@ const config = {
     path: path.join(__root, 'dist'),
   },
   target: 'node',
-  externals: [nodeExternals()],
+  externals: [nodeExternals({whitelist: 'webpack/hot/poll?1000'})],
+  plugins: [
+    new webpack.NamedModulesPlugin(),
+    new webpack.HotModuleReplacementPlugin(),
+    new StartServerPlugin('server.js'),
+  ],
   module: {
     rules: [
       {
@@ -22,6 +29,9 @@ const config = {
         use: 'babel-loader',
       },
     ],
+  },
+  resolve: {
+    modules: ['node_modules', path.join(__root, 'src')],
   },
   stats: {
     colors: true,

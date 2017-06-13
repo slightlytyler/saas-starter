@@ -1,54 +1,19 @@
-const Module = require('module');
-const path = require('path');
-const express = require('express');
-const MemoryFS = require('memory-fs');
-const webpack = require('webpack');
-const webpackConfig = require('../config/webpack/webpack-dev-config');
+import http from 'http';
+import app from './app';
 
 const HOSTNAME = process.env.HOSTNAME || 'localhost';
 const PORT = process.env.PORT || 4000;
+const server = http.createServer(app);
+let currentApp = app;
 
-const app = express();
-
-const devMiddleware = compiler => {
-  const fs = new MemoryFS();
-  let main;
-  compiler.outputFileSystem = fs;
-  compiler.watch({}, (err, stats) => {
-    if (err) {
-      console.error(err.stack || err);
-      if (err.details) {
-        console.error(err.details);
-      }
-      return;
-    }
-
-    const info = stats.toJson(webpackConfig.stats);
-
-    if (stats.hasErrors()) {
-      console.error(info.errors);
-    }
-
-    if (stats.hasWarnings()) {
-      console.warn(info.warnings);
-    }
-
-    console.log(stats.toString(webpackConfig.stats));
-
-    const mainFilePath = path.join(
-      stats.compilation.compiler.outputPath,
-      'main.js',
-    );
-    const mainModule = new Module();
-    mainModule.paths = module.paths;
-    mainModule._compile(fs.readFileSync(mainFilePath, 'utf8'), mainFilePath);
-    main = mainModule.exports.default;
-  });
-  return (...args) => main(...args);
-};
-
-app.use(devMiddleware(webpack(webpackConfig)));
-
-const server = app.listen(PORT, () => {
-  console.log(`### Gateway is running at ${HOSTNAME}:${PORT} ###`);
+server.listen(PORT, () => {
+  console.log(`\nGateway running at ${HOSTNAME}:${PORT}\n`);
 });
+
+if (module.hot) {
+  module.hot.accept('./app', () => {
+    server.removeListener('request', currentApp);
+    server.on('request', app);
+    currentApp = app;
+  });
+}
