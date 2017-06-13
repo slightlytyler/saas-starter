@@ -2,6 +2,7 @@ version: '3'
 services:
   ui:
     image: node:8.1.0-alpine
+    tty: true
     volumes:
       - ./packages/ui/:/usr/app
     working_dir: /usr/app/
@@ -17,6 +18,7 @@ services:
 
   gateway:
     image: node:8.1.0-alpine
+    tty: true
     volumes:
       - ./packages/gateway/:/usr/app
     working_dir: /usr/app/

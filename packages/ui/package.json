@@ -4,5 +4,9 @@
   "license": "MIT",
   "scripts": {
     "server:dev": "node src/server.js"
+  },
+  "devDependencies": {},
+  "dependencies": {
+    "colors": "^1.1.2"
   }
 }
