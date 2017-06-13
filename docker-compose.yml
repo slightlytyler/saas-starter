@@ -5,9 +5,10 @@ services:
     volumes:
       - ./packages/ui/:/usr/app
     working_dir: /usr/app/
-    command: yarn dev
+    command: yarn server:dev
     environment:
       - NODE_ENV=development
+      - HOSTNAME=dockerhost
       - PORT=3000
     ports:
       - "3000:3000"
@@ -19,9 +20,10 @@ services:
     volumes:
       - ./packages/gateway/:/usr/app
     working_dir: /usr/app/
-    command: yarn dev
+    command: yarn server:dev
     environment:
       - NODE_ENV=development
+      - HOSTNAME=dockerhost
       - PORT=4000
     ports:
       - "4000:4000"

@@ -3,6 +3,6 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "dev": "node src/main.js"
+    "server:dev": "node src/server.js"
   }
 }
