@@ -40,7 +40,7 @@ services:
       - postgres
 
   postgres:
-    image: postgres:9.6.3-alpine
+    build: ./packages/postgres
     environment:
       POSTGRES_DB: saas_starter
       POSTGRES_USER: slightlytyler
