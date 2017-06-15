@@ -11,7 +11,7 @@ class PostgresConnector extends Connector {
     return this.db.select().table(modelName);
   }
 
-  findObjectById() {}
+  findObject() {}
 
   createObject() {}
 

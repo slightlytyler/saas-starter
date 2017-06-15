@@ -1,6 +1,6 @@
 import {combineResolvers} from 'apollo-resolvers';
-import {merge} from 'lodash/fp';
 import {makeExecutableSchema} from 'graphql-tools';
+import {merge} from 'lodash/fp';
 import authResolvers from 'features/auth/resolvers';
 import postResolvers from 'features/post/resolvers';
 import userResolvers from 'features/user/resolvers';

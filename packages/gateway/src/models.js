@@ -1,5 +1,8 @@
 import PostgresConnector from 'core/PostgresConnector';
+import AuthModel from 'features/post/model';
 import PostModel from 'features/post/model';
+import UserModel from 'features/user/model';
+('');
 
 const postgresConnector = new PostgresConnector({
   client: 'pg',
@@ -12,7 +15,9 @@ const postgresConnector = new PostgresConnector({
 });
 
 const models = {
+  auth: new AuthModel(postgresConnector),
   post: new PostModel(postgresConnector),
+  user: new UserModel(postgresConnector),
 };
 
 export default models;
