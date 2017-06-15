@@ -10,6 +10,14 @@ class Model {
     this.deleteObject = connector.deleteObject.bind(connector, modelName);
     this.updateObject = connector.updateObject.bind(connector, modelName);
   }
+
+  static removeDefaultMethods() {
+    delete this.findList;
+    delete this.findObjectById;
+    delete this.createObject;
+    delete this.deleteObject;
+    delete this.updateObject;
+  }
 }
 
 export default Model;

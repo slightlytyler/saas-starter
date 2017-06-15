@@ -1,9 +1,14 @@
 import {combineResolvers} from 'apollo-resolvers';
 import {merge} from 'lodash/fp';
 import {makeExecutableSchema} from 'graphql-tools';
+import authResolvers from 'features/auth/resolvers';
+import postResolvers from 'features/post/resolvers';
+import userResolvers from 'features/user/resolvers';
+import AuthSchema from 'features/auth/schema';
 import PostSchema from 'features/post/schema';
+import UserSchema from 'features/user/schema';
 
-const SchemaDefinition = `
+const SchemaDef = `
   schema {
     query: Query
     mutation: Mutation
@@ -23,17 +28,23 @@ const MutationTypeDef = `
 `;
 
 const typeDefs = [
-  SchemaDefinition,
+  SchemaDef,
   QueryTypeDef,
   MutationTypeDef,
-  PostSchema.typeDefs,
+  AuthSchema,
+  PostSchema,
+  UserSchema,
 ];
 
-const resolvers = combineResolvers([PostSchema.resolvers]);
+const resolvers = combineResolvers([
+  authResolvers,
+  postResolvers,
+  userResolvers,
+]);
 
-const schema = makeExecutableSchema({
+const executableSchema = makeExecutableSchema({
   typeDefs,
   resolvers,
 });
 
-export default schema;
+export default executableSchema;

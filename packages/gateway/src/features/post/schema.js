@@ -1,5 +1,3 @@
-import {isAuthenticatedResolver} from 'features/auth/resolvers';
-
 const PostTypeDef = `
   type Post {
     id: ID!
@@ -10,22 +8,16 @@ const PostTypeDef = `
 const PostRootExt = `
   extend type Query {
     posts: [Post]
+    post: Post
+  }
+
+  extend type Mutation {
+    createPost: Post
+    deletePost: Post
+    updatePost: Post
   }
 `;
 
-const typeDefs = () => [PostTypeDef, PostRootExt];
+const schema = () => [PostTypeDef, PostRootExt];
 
-const resolvers = {
-  Query: {
-    posts: isAuthenticatedResolver.createResolver((_, __, ctx) =>
-      ctx.models.post.findList(),
-    ),
-  },
-};
-
-const PostSchema = {
-  typeDefs,
-  resolvers,
-};
-
-export default PostSchema;
+export default schema;
