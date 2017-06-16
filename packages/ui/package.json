@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "server:dev": "webpack --config config/webpack/webpack.config.dev.js --watch"
+    "start": "node build/server.js",
+    "build": "webpack --config config/webpack/webpack.config.prod.js",
+    "server:dev": "node scripts/start.js"
   },
   "devDependencies": {
     "babel-core": "^6.25.0",
@@ -15,6 +17,8 @@
     "start-server-webpack-plugin": "^2.2.0",
     "webpack": "^2.6.1",
     "webpack-dev-middleware": "^1.10.2",
+    "webpack-hot-middleware": "^2.18.0",
+    "webpack-hot-server-middleware": "^0.1.0",
     "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {

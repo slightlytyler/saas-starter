@@ -2,7 +2,9 @@
   "name": "saas-starter",
   "license": "MIT",
   "scripts": {
-    "eject": "echo I have not built ejection into the project yet, soz >:("
+    "bootstrap": "lerna bootstrap",
+    "configure": "echo 'I have not build configuration into the project yet, soz >:('",
+    "eject": "echo 'I have not built ejection into the project yet, soz >:('"
   },
   "dependencies": {},
   "devDependencies": {

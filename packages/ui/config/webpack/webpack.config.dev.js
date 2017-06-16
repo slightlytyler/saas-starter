@@ -5,37 +5,69 @@ const nodeExternals = require('webpack-node-externals');
 
 const __root = path.join(__dirname, '../../');
 
-const config = {
-  entry: {
-    server: ['webpack/hot/poll?1000', path.join(__root, 'src/server.js')],
-  },
-  output: {
-    libraryTarget: 'commonjs2',
-    filename: '[name].js',
-    path: path.join(__root, 'build'),
-  },
-  target: 'node',
-  externals: [nodeExternals({whitelist: 'webpack/hot/poll?1000'})],
-  plugins: [
-    new webpack.NamedModulesPlugin(),
-    new webpack.HotModuleReplacementPlugin(),
-    new StartServerPlugin('server.js'),
-  ],
-  module: {
-    rules: [
-      {
-        include: path.join(__root, 'src'),
-        test: /\.js$/,
-        use: 'babel-loader',
-      },
+const config = [
+  {
+    name: 'client',
+    entry: [
+      'webpack-hot-middleware/client',
+      path.join(__root, 'src/client.js'),
     ],
+    output: {
+      filename: 'client.js',
+      path: path.join(__root, 'build'),
+    },
+    target: 'web',
+    plugins: [
+      new webpack.NamedModulesPlugin(),
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.NoEmitOnErrorsPlugin(),
+    ],
+    module: {
+      rules: [
+        {
+          include: path.join(__root, 'src'),
+          test: /\.js$/,
+          use: 'babel-loader',
+        },
+      ],
+    },
+    resolve: {
+      modules: ['node_modules', path.join(__root, 'src')],
+    },
+    stats: {
+      colors: true,
+    },
   },
-  resolve: {
-    modules: ['node_modules', path.join(__root, 'src')],
+  {
+    name: 'server',
+    entry: path.join(__root, 'src/server.js'),
+    output: {
+      libraryTarget: 'commonjs2',
+      filename: 'server.js',
+      path: path.join(__root, 'build'),
+    },
+    target: 'node',
+    externals: [nodeExternals({whitelist: 'webpack/hot/poll?1000'})],
+    plugins: [
+      new webpack.NamedModulesPlugin(),
+      new webpack.HotModuleReplacementPlugin(),
+      new webpack.NoEmitOnErrorsPlugin(),
+    ],
+    module: {
+      rules: [
+        {
+          include: path.join(__root, 'src'),
+          test: /\.js$/,
+          use: 'babel-loader',
+        },
+      ],
+    },
+    resolve: {
+      modules: ['node_modules', path.join(__root, 'src')],
+    },
+    stats: {
+      colors: true,
+    },
   },
-  stats: {
-    colors: true,
-  },
-};
-
+];
 module.exports = config;

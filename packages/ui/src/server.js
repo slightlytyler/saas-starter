@@ -1,22 +1,33 @@
-import http from 'http';
-import colors from 'colors/safe';
+import React from 'react';
+import {renderToString as render} from 'react-dom/server';
 import app from './app';
 
-const HOST = process.env.HOST || 'localhost';
-const PORT = process.env.PORT || 4000;
-const server = http.createServer(app);
-let currentApp = app;
+const server = ({clientStats, serverStats}) => (req, res) => {
+  const context = {};
+  const markup = app(render);
+  if (context.url) {
+    res.writeHead(301, {
+      Location: context.url,
+    });
+    res.end();
+  } else {
+    res.write(
+      `
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <title>saas-starter</title>
+          <meta charset="utf-8">
+        </head>
+        <body>
+          <div id="root">${markup}</div>
+          <script src="/client.js"></script>
+        </body>
+      </html>
+    `,
+    );
+    res.end();
+  }
+};
 
-server.listen(80, () => {
-  console.log('\n');
-  console.log(colors.bold.white(`=== UI running at ${HOST}:${PORT} ===`));
-  console.log('\n');
-});
-
-if (module.hot) {
-  module.hot.accept('./app', () => {
-    server.removeListener('request', currentApp);
-    server.on('request', app);
-    currentApp = app;
-  });
-}
+export default server;
