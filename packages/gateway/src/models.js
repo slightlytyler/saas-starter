@@ -2,7 +2,6 @@ import PostgresConnector from 'core/PostgresConnector';
 import AuthModel from 'features/post/model';
 import PostModel from 'features/post/model';
 import UserModel from 'features/user/model';
-('');
 
 const postgresConnector = new PostgresConnector({
   client: 'pg',
