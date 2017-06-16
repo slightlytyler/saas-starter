@@ -1,5 +1,3 @@
-import {UserTypeDef} from 'features/user/schema';
-
 const AuthTypeDef = `
   type Auth {
     id: ID!
@@ -21,6 +19,6 @@ const AuthRootTypeExt = `
   }
 `;
 
-const schema = () => [AuthTypeDef, AuthRootTypeExt, UserTypeDef];
+const schema = () => [AuthTypeDef, AuthRootTypeExt];
 
 export default schema;

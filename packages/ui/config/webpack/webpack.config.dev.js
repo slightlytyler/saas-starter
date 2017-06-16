@@ -12,7 +12,7 @@ const config = {
   output: {
     libraryTarget: 'commonjs2',
     filename: '[name].js',
-    path: path.join(__root, 'dist'),
+    path: path.join(__root, 'build'),
   },
   target: 'node',
   externals: [nodeExternals({whitelist: 'webpack/hot/poll?1000'})],

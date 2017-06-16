@@ -27,7 +27,7 @@ services:
       - NODE_ENV=development
       - HOST=dockerhost
       - PORT=4000
-      - POSTGRES_HOST=postgres
+      - POSTGRES_HOST=store
       - POSTGRES_PORT=5432
       - POSTGRES_DB=saas_starter
       - POSTGRES_USER=slightlytyler
@@ -35,12 +35,12 @@ services:
     ports:
       - 4000:80
     depends_on:
-      - postgres
+      - store
     links:
-      - postgres
+      - store
 
-  postgres:
-    build: ./packages/postgres
+  store:
+    build: ./packages/store
     environment:
       POSTGRES_DB: saas_starter
       POSTGRES_USER: slightlytyler

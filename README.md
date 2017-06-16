@@ -2,12 +2,16 @@
 
 ### Install
 ```
-yarn global add lerna
-lerna bootstrap
+yarn bootstrap
 ```
 
 ### Configure
-[Link]() to the docs.
+Before you run the project for the first time you'll need to configure
+the project with environment variables and secrets.
+```
+yarn configure
+```
+Additional details can be found in the [docs]().
 
 ### Develop
 ```
@@ -15,8 +19,8 @@ docker-compose up
 ```
 
 ### Eject
-Ejecting removes example specific feature code and renames various constants
-and configuration options to match your project's specifications.
+Ejecting removes example specific feature code and prepares the code
+base for fresh development. (Can only be run once, not take backs)
 ```
 yarn eject
 ```
@@ -42,7 +46,7 @@ Blurb about amazon ec2.
 Blurb about amazon s3.
 
 ## Architecture
-[Link]() to the docs.
+Additional details can be found in the [docs]().
 
 ## Contributing
 Blurb about contributing.
