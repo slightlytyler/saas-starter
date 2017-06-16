@@ -1,6 +1,9 @@
 {
   "name": "saas-starter",
   "license": "MIT",
+  "scripts": {
+    "eject": "echo I have not built ejection into the project yet, soz >:("
+  },
   "dependencies": {},
   "devDependencies": {
     "lerna": "^2.0.0-rc.5"
