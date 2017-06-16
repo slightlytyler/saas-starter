@@ -42,7 +42,7 @@ Blurb about amazon ec2.
 Blurb about amazon s3.
 
 ## Architecture
-[Link] to the docs.
+[Link]() to the docs.
 
 ## Contributing
 Blurb about contributing.
