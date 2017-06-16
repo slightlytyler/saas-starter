@@ -1,5 +1,5 @@
 # ui
-##### React UI
+##### Primary UI built with React & Apollo
 
 ### Development
 ```

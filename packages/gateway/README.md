@@ -1,5 +1,5 @@
 # gateway
-##### Graphql API gateway
+##### GraphQL API gateway built with graphql-server
 
 ### Development
 ```

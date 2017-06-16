@@ -1,8 +1,22 @@
-const colors = require('colors/safe');
+import http from 'http';
+import colors from 'colors/safe';
+import app from './app';
 
 const HOST = process.env.HOST || 'localhost';
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 4000;
+const server = http.createServer(app);
+let currentApp = app;
 
-console.log('\n');
-console.log(colors.bold.white(`=== UI running at ${HOST}:${PORT} ===`));
-console.log('\n');
+server.listen(80, () => {
+  console.log('\n');
+  console.log(colors.bold.white(`=== UI running at ${HOST}:${PORT} ===`));
+  console.log('\n');
+});
+
+if (module.hot) {
+  module.hot.accept('./app', () => {
+    server.removeListener('request', currentApp);
+    server.on('request', app);
+    currentApp = app;
+  });
+}
