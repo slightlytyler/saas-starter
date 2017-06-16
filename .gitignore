@@ -1,4 +1,5 @@
 node_modules/
 dist/
+env.yml
 *.log
 *.DS_Store

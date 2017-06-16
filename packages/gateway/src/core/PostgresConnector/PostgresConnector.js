@@ -4,11 +4,11 @@ import Connector from 'core/Connector';
 class PostgresConnector extends Connector {
   constructor(config) {
     super(config);
-    this.db = knex(config);
+    this.store = knex(config);
   }
 
   findList(modelName) {
-    return this.db.select().table(modelName);
+    return this.store.select().table(modelName);
   }
 
   findObject() {}
