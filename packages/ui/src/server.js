@@ -1,16 +1,29 @@
 import React from 'react';
-import {renderToString as render} from 'react-dom/server';
-import app from './app';
+import ReactDOMServer from 'react-dom/server';
+import {StaticRouter} from 'react-router';
+import {flushChunkNames} from 'react-universal-component/server';
+import flushChunks from 'webpack-flush-chunks';
+import Root from './Root';
 
-const server = ({clientStats, serverStats}) => (req, res) => {
+const renderServer = ({clientStats, outputPath}) => (req, res) => {
+  const chunkNames = flushChunkNames();
   const context = {};
-  const markup = app(render);
+  const markup = ReactDOMServer.renderToString(
+    <StaticRouter location={req.url} context={context}>
+      <Root />
+    </StaticRouter>,
+  );
   if (context.url) {
     res.writeHead(301, {
       Location: context.url,
     });
     res.end();
   } else {
+    const {js} = flushChunks(clientStats, {
+      chunkNames,
+      before: ['bootstrap'],
+      after: ['main'],
+    });
     res.write(
       `
       <!DOCTYPE html>
@@ -21,7 +34,7 @@ const server = ({clientStats, serverStats}) => (req, res) => {
         </head>
         <body>
           <div id="root">${markup}</div>
-          <script src="/client.js"></script>
+          ${js}
         </body>
       </html>
     `,
@@ -30,4 +43,4 @@ const server = ({clientStats, serverStats}) => (req, res) => {
   }
 };
 
-export default server;
+export default renderServer;
