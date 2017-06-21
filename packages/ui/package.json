@@ -3,9 +3,12 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "start": "node build/server.js",
-    "build": "webpack --config config/webpack/webpack.config.prod.js",
-    "server:dev": "yarn run clean && NODE_ENV=development babel-watch scripts/start/start.script.dev.js",
+    "start": "yarn start:dev",
+    "start:dev": "yarn run clean && NODE_ENV=development babel-watch scripts/start/start.script.dev.js",
+    "start:prod": "echo 'Write a start:prod script!'",
+    "build": "yarn build:prod",
+    "build:dev": "echo 'Write a build:dev script!'",
+    "build:prod": "echo 'Write a build:prod script!'",
     "clean": "rimraf build"
   },
   "devDependencies": {

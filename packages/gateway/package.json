@@ -3,7 +3,13 @@
   "version": "0.0.0",
   "license": "MIT",
   "scripts": {
-    "server:dev": "webpack --config config/webpack/webpack.config.dev.js --watch"
+    "start": "yarn start:dev",
+    "start:dev": "yarn run clean && NODE_ENV=development babel-watch scripts/start/start.script.dev.js",
+    "start:prod": "echo 'Write a start:prod script!'",
+    "build": "yarn build:prod",
+    "build:dev": "echo 'Write a build:dev script!'",
+    "build:prod": "echo 'Write a build:prod script!'",
+    "clean": "rimraf build"
   },
   "dependencies": {
     "apollo-errors": "^1.4.0",
@@ -16,8 +22,6 @@
     "graphql-tools": "^1.0.0",
     "knex": "^0.13.0",
     "lodash": "^4.17.4",
-    "morgan": "^1.8.2",
-    "node-uuid": "^1.4.8",
     "pg": "^6.2.4"
   },
   "devDependencies": {
@@ -26,7 +30,10 @@
     "babel-loader": "^7.0.0",
     "babel-preset-env": "^1.5.2",
     "babel-preset-stage-0": "^6.24.1",
-    "start-server-webpack-plugin": "^2.2.0",
+    "babel-watch": "^2.0.6",
+    "memory-fs": "^0.4.1",
+    "require-from-string": "^1.2.1",
+    "rimraf": "^2.6.1",
     "webpack": "^2.6.1",
     "webpack-node-externals": "^1.6.0"
   }

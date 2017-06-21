@@ -1,20 +1,13 @@
 import bodyParser from 'body-parser';
 import express from 'express';
 import {graphiqlExpress, graphqlExpress} from 'graphql-server-express';
-import morgan from 'morgan';
-import uuid from 'node-uuid';
 import models from './models';
 import schema from './schema';
 
 const app = express();
-const tagRequest = (req, _, next) => {
-  req.ref = uuid.v4();
-  next();
-};
 
 app.use(
   '/graphql',
-  tagRequest,
   bodyParser.json(),
   graphqlExpress({
     context: {
@@ -23,7 +16,6 @@ app.use(
     },
     schema,
   }),
-  morgan(':ref :method :url :response-time'),
 );
 
 app.use(

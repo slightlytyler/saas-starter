@@ -1,3 +1,4 @@
+const path = require('path');
 const colors = require('colors/safe');
 const express = require('express');
 const webpack = require('webpack');
@@ -13,29 +14,24 @@ const {HOST, NODE_ENV, PORT} = process.env;
 const DEV = NODE_ENV === 'development';
 const publicPath = clientConfig.output.publicPath;
 const outputPath = clientConfig.output.path;
-const app = express();
+const server = express();
 
 if (DEV) {
   const multiCompiler = webpack([clientConfig, serverConfig]);
   const clientCompiler = multiCompiler.compilers[0];
 
-  app.use(webpackDevMiddleware(multiCompiler, {publicPath}));
-  app.use(webpackHotMiddleware(clientCompiler));
-  app.use(
-    // keeps serverRender updated with arg: { clientStats, outputPath }
-    webpackHotServerMiddleware(multiCompiler, {
-      serverRendererOptions: {outputPath},
-    }),
-  );
+  server.use(webpackDevMiddleware(multiCompiler, {publicPath}));
+  server.use(webpackHotMiddleware(clientCompiler));
+  server.use(webpackHotServerMiddleware(multiCompiler));
 } else {
-  const clientStats = require('../build/client/stats.json');
-  const serverRender = require('../build/server/main.js').default;
+  const clientStats = require(path.join(outputPath, 'client/stats.json'));
+  const renderServer = require(path.join(outputPath, 'server/main.js'));
 
-  app.use(publicPath, app.static(outputPath));
-  app.use(serverRender({clientStats, outputPath}));
+  server.use(publicPath, server.static(outputPath));
+  server.use(renderServer({clientStats}));
 }
 
-app.listen(3000, () => {
+server.listen(80, () => {
   console.log('\n');
   console.log(colors.bold.white(`=== UI running at ${HOST}:${PORT} ===`));
   console.log('\n');

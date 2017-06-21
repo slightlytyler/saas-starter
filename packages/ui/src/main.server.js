@@ -5,7 +5,7 @@ import {flushChunkNames} from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import Root from './Root';
 
-const renderServer = ({clientStats, outputPath}) => (req, res) => {
+const renderServer = ({clientStats}) => (req, res) => {
   const chunkNames = flushChunkNames();
   const context = {};
   const markup = ReactDOMServer.renderToString(

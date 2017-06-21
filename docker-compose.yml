@@ -6,13 +6,13 @@ services:
     volumes:
       - ./packages/ui/:/usr/app
     working_dir: /usr/app/
-    command: yarn server:dev
+    command: yarn start
     environment:
       - NODE_ENV=development
       - HOST=dockerhost
       - PORT=3000
     ports:
-      - 3000:3000
+      - 3000:80
     links:
       - gateway
 
@@ -22,7 +22,7 @@ services:
     volumes:
       - ./packages/gateway/:/usr/app
     working_dir: /usr/app/
-    command: yarn server:dev
+    command: yarn start
     environment:
       - NODE_ENV=development
       - HOST=dockerhost

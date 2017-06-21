@@ -12,7 +12,7 @@ const clientConfig = {
   entry: [
     'webpack-hot-middleware/client?path=/__webpack_hmr&timeout=20000&reload=false&quiet=false&noInfo=false',
     'react-hot-loader/patch',
-    path.resolve(__root, 'src/client.js'),
+    path.resolve(__root, 'src/main.client.js'),
   ],
   output: {
     filename: '[name].js',
@@ -48,14 +48,14 @@ const serverConfig = {
   name: 'server',
   target: 'node',
   devtool: 'eval',
-  entry: [path.join(__root, 'src/server.js')],
-  externals: [nodeExternals()],
+  entry: [path.join(__root, 'src/main.server.js')],
   output: {
     path: path.join(__root, 'build/server'),
     filename: '[name].js',
     libraryTarget: 'commonjs2',
     publicPath: '/static/',
   },
+  externals: [nodeExternals()],
   module: {
     rules: [
       {
