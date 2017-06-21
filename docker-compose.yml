@@ -28,7 +28,6 @@ services:
       - HOST=dockerhost
       - PORT=4000
       - POSTGRES_HOST=store
-      - POSTGRES_PORT=5432
       - POSTGRES_DB=saas_starter
       - POSTGRES_USER=slightlytyler
       - POSTGRES_PASSWORD=a1b2c3d4e5
