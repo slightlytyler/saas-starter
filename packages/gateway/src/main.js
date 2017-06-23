@@ -1,4 +1,5 @@
 import bodyParser from 'body-parser';
+import cors from 'cors';
 import express from 'express';
 import {graphiqlExpress, graphqlExpress} from 'graphql-server-express';
 import models from './models';
@@ -8,6 +9,7 @@ const app = express();
 
 app.use(
   '/graphql',
+  cors(),
   bodyParser.json(),
   graphqlExpress({
     context: {

@@ -44,3 +44,5 @@ class AuthModel extends Model {
     return Promise.resolve(true);
   }
 }
+
+export default AuthModel;

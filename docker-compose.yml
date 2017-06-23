@@ -9,6 +9,8 @@ services:
     command: yarn start
     environment:
       - NODE_ENV=development
+      - API_LOCAL_URL=http://gateway/graphql
+      - API_REMOTE_URL=http://dockerhost:4000/graphql
       - HOST=dockerhost
       - PORT=3000
     ports:

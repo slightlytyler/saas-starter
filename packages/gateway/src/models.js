@@ -1,5 +1,5 @@
 import PostgresConnector from 'core/PostgresConnector';
-import AuthModel from 'features/post/model';
+import AuthModel from 'features/auth/model';
 import PostModel from 'features/post/model';
 import UserModel from 'features/user/model';
 

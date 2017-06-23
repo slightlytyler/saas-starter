@@ -13,7 +13,7 @@ const AuthRootTypeExt = `
   }
 
   extend type Mutation {
-    signIn: User
+    signIn(code: String!): User
     signUp: User
     signOut: Boolean
   }
