@@ -42,6 +42,12 @@ const clientConfig = {
       },
     }),
   ],
+  resolve: {
+    modules: ['node_modules', path.join(__root, 'src')],
+  },
+  stats: {
+    colors: true,
+  },
 };
 
 const serverConfig = {

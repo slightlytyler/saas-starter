@@ -4,8 +4,8 @@ services:
     image: node:8.1.1-alpine
     tty: true
     volumes:
-      - ./packages/ui/:/usr/app
-    working_dir: /usr/app/
+      - ./packages/ui/:/usr/src/app
+    working_dir: /usr/src/app/
     command: yarn start
     environment:
       - NODE_ENV=development
@@ -20,8 +20,8 @@ services:
     image: node:8.1.1-alpine
     tty: true
     volumes:
-      - ./packages/gateway/:/usr/app
-    working_dir: /usr/app/
+      - ./packages/gateway/:/usr/src/app
+    working_dir: /usr/src/app/
     command: yarn start
     environment:
       - NODE_ENV=development
