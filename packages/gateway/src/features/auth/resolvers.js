@@ -15,16 +15,12 @@ const selfResolver = isAuthenticatedResolver.createResolver((_, __, ___) =>
   ctx.models.user.findObject(ctx.auth.userId),
 );
 
-const signInResolver = isAuthenticatedResolver.createResolver((_, vars, ctx) =>
-  ctx.models.auth.signIn(vars),
+const authenticateResolver = isAuthenticatedResolver.createResolver(
+  (_, vars, ctx) => ctx.models.auth.authenticate(vars),
 );
 
-const signUpResolver = isAuthenticatedResolver.createResolver((_, vars, ctx) =>
-  ctx.models.auth.signUp(vars),
-);
-
-const signOutResolver = isAuthenticatedResolver.createResolver((_, __, ctx) =>
-  ctx.models.auth.signOut(),
+const deauthenticateResolver = isAuthenticatedResolver.createResolver(
+  (_, __, ctx) => ctx.models.auth.deauthenticate(),
 );
 
 const resolvers = {
@@ -32,9 +28,8 @@ const resolvers = {
     self: selfResolver,
   },
   Mutation: {
-    signIn: signInResolver,
-    signUp: signUpResolver,
-    signOut: signOutResolver,
+    authenticate: authenticateResolver,
+    deauthenticate: deauthenticateResolver,
   },
 };
 

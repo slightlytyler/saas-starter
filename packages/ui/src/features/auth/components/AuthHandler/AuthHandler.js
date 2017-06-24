@@ -6,9 +6,9 @@ import {lifecycle, setDisplayName, setPropTypes} from 'recompose';
 
 export const AuthHandler = () => <div>Logging you in now...</div>;
 
-const signInMutation = gql`
+const authenticateMutation = gql`
   mutation SignIn($code: String!) {
-    signIn(code: $code) {
+    authenticate(code: $code) {
       email
     }
   }
@@ -19,7 +19,7 @@ export const container = compose(
   setPropTypes({
     code: PropTypes.string.isRequired,
   }),
-  graphql(signInMutation, {
+  graphql(authenticateMutation, {
     props: ({mutate, ownProps}) => ({
       onAuthenticate: () => mutate({code: ownProps.code}),
     }),

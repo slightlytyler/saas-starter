@@ -19,7 +19,6 @@ const networkInterface = createNetworkInterface({
   uri: window.env.API_URL,
 });
 const client = new ApolloClient({networkInterface});
-
 const renderClient = () =>
   ReactDOM.render(
     <AppContainer>

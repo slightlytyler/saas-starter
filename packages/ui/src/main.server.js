@@ -19,10 +19,10 @@ const client = new ApolloClient({
   ssrMode: true,
 });
 const stringifyWindowState = compose(replace(/</g, '\\u003c'), JSON.stringify);
-
 const renderServer = ({clientStats}) => (req, res) => {
   const chunkNames = flushChunkNames();
   const routerContext = {};
+
   renderToStringWithData(
     <ApolloProvider client={client}>
       <StaticRouter location={req.url} context={routerContext}>
@@ -45,6 +45,7 @@ const renderServer = ({clientStats}) => (req, res) => {
         before: ['bootstrap'],
         after: ['main'],
       });
+
       res.write(
         `
         <!DOCTYPE html>

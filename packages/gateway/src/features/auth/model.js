@@ -32,15 +32,11 @@ class AuthModel extends Model {
     return Promise.resolve(tmpUserObject);
   }
 
-  signIn() {
+  authenticate() {
     return Promise.resolve(tmpUserObject);
   }
 
-  signUp() {
-    return Promise.resolve(tmpUserObject);
-  }
-
-  signOut() {
+  deauthenticate() {
     return Promise.resolve(true);
   }
 }
