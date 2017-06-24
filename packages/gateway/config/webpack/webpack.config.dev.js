@@ -1,4 +1,6 @@
 const path = require('path');
+const flowBin = require('flow-bin');
+const FlowStatusWebpackPlugin = require('flow-status-webpack-plugin');
 const nodeExternals = require('webpack-node-externals');
 
 const __root = path.join(__dirname, '../../');
@@ -22,6 +24,13 @@ const config = {
       },
     ],
   },
+  plugins: [
+    new FlowStatusWebpackPlugin({
+      binaryPath: flowBin,
+      onError: stdout => console.log(stdout),
+      onSuccess: stdout => console.log(stdout),
+    }),
+  ],
   resolve: {
     modules: ['node_modules', path.join(__root, 'src')],
   },

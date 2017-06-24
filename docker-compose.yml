@@ -1,7 +1,9 @@
 version: '3'
 services:
   ui:
-    image: node:8.1.1-alpine
+    build:
+      context: .
+      dockerfile: ./packages/shared/docker/node.Dockerfile
     tty: true
     volumes:
       - ./packages/ui/:/usr/src/app
@@ -19,7 +21,9 @@ services:
       - gateway
 
   gateway:
-    image: node:8.1.1-alpine
+    build:
+      context: .
+      dockerfile: ./packages/shared/docker/node.Dockerfile
     tty: true
     volumes:
       - ./packages/gateway/:/usr/src/app

@@ -1,3 +1,5 @@
+// @flow
+
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
@@ -6,6 +8,13 @@ import models from './models';
 import schema from './schema';
 
 const app = express();
+
+function foo(x: ?number): string {
+  if (x) {
+    return x;
+  }
+  return 'default string';
+}
 
 app.use(
   '/graphql',
