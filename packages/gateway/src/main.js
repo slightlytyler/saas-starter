@@ -9,13 +9,6 @@ import schema from './schema';
 
 const app = express();
 
-function foo(x: ?number): string {
-  if (x) {
-    return x;
-  }
-  return 'default string';
-}
-
 app.use(
   '/graphql',
   cors(),

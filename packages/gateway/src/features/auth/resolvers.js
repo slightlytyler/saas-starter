@@ -11,7 +11,7 @@ export const isAuthenticatedResolver = baseResolver.createResolver(
   },
 );
 
-const selfResolver = isAuthenticatedResolver.createResolver((_, __, ___) =>
+const selfResolver = isAuthenticatedResolver.createResolver((_, __, ctx) =>
   ctx.models.user.findObject(ctx.auth.userId),
 );
 

@@ -23,22 +23,26 @@ if (DEV) {
   const fs = new MemoryFS();
 
   compiler.outputFileSystem = fs;
-  compiler.watch({}, (err, stats) => {
+  compiler.watch({ignored: '/node_modules/', poll: true}, (err, stats) => {
     if (err) {
       console.error(err.stack || err);
       if (err.details) console.error(err.details);
       return;
     }
 
-    const {default: app} = requireFromString(
-      fs.readFileSync(path.join(outputPath, 'main.js')).toString(),
-    );
-    const info = stats.toJson(config.stats);
+    try {
+      const {default: app} = requireFromString(
+        fs.readFileSync(path.join(outputPath, 'main.js')).toString(),
+      );
+      const info = stats.toJson(config.stats);
 
-    console.log(stats.toString(config.stats));
-    if (stats.hasErrors()) console.error(info.errors);
-    if (stats.hasWarnings()) console.warn(info.warnings);
-    start(app);
+      console.log(stats.toString(config.stats));
+      if (stats.hasErrors()) console.error(info.errors);
+      if (stats.hasWarnings()) console.warn(info.warnings);
+      start(app);
+    } catch (e) {
+      console.log(e);
+    }
   });
 } else {
   const {default: app} = require(path.join(outputPath, 'main.js'));

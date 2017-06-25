@@ -3,10 +3,23 @@
     ["env", {
       "modules": false,
       "targets": {
-        "node": "current"
-      }
+        "node": "current",
+      },
     }],
     "stage-0",
-    "flow",
   ],
+  "env": {
+    "development": {
+      "plugins": [
+        ["flow-runtime", {
+          "annotate": true,
+          "assert": true,
+        }],
+        "transform-flow-strip-types",
+      ],
+    },
+    "production": {
+      "plugins": ["transform-flow-strip-types"],
+    },
+  },
 }
