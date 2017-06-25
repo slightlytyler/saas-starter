@@ -1,3 +1,4 @@
+// @flow
 import React from 'react';
 import {
   ApolloClient,
@@ -31,7 +32,7 @@ const renderClient = () =>
     document.querySelector('#root'),
   );
 
-renderClient(Root);
+renderClient();
 
 if (module.hot) {
   module.hot.accept('./Root', () => {

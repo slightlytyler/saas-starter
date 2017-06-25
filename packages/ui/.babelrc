@@ -3,15 +3,26 @@
     ["env", {
       "modules": false,
       "targets": {
-        "browsers": ["last 2 versions"]
-      }
+        "browsers": ["last 2 versions"],
+      },
     }],
     "stage-0",
-    "react"
+    "react",
   ],
   "env": {
     "development": {
-      "plugins": ["react-hot-loader/babel"]
-    }
-  }
+      "plugins": [
+        ["flow-runtime", {
+          "annotate": true,
+          "assert": true,
+          "warn": true,
+        }],
+        "transform-flow-strip-types",
+        "react-hot-loader/babel",
+      ],
+    },
+    "production": {
+      "plugins": ["transform-flow-strip-types"],
+    },
+  },
 }

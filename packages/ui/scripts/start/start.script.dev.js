@@ -1,6 +1,7 @@
 const path = require('path');
 const colors = require('colors/safe');
 const express = require('express');
+const {assign, compose, map} = require('lodash/fp');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware-multi-compiler');
 const webpackHotMiddleware = require('webpack-hot-middleware');
@@ -17,7 +18,18 @@ const outputPath = clientConfig.output.path;
 const server = express();
 
 if (DEV) {
-  const multiCompiler = webpack([clientConfig, serverConfig]);
+  const applyWatchOptions = map(
+    assign({
+      watchOptions: {
+        ignored: '/node_modules/',
+        poll: 500,
+      },
+    }),
+  );
+  const multiCompiler = compose(webpack, applyWatchOptions)([
+    clientConfig,
+    serverConfig,
+  ]);
   const clientCompiler = multiCompiler.compilers[0];
 
   server.use(webpackDevMiddleware(multiCompiler, {publicPath}));

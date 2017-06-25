@@ -30,19 +30,15 @@ if (DEV) {
       return;
     }
 
-    try {
-      const {default: app} = requireFromString(
-        fs.readFileSync(path.join(outputPath, 'main.js')).toString(),
-      );
-      const info = stats.toJson(config.stats);
+    const {default: app} = requireFromString(
+      fs.readFileSync(path.join(outputPath, 'main.js')).toString(),
+    );
+    const info = stats.toJson(config.stats);
 
-      console.log(stats.toString(config.stats));
-      if (stats.hasErrors()) console.error(info.errors);
-      if (stats.hasWarnings()) console.warn(info.warnings);
-      start(app);
-    } catch (e) {
-      console.log(e);
-    }
+    console.log(stats.toString(config.stats));
+    if (stats.hasErrors()) console.error(info.errors);
+    if (stats.hasWarnings()) console.warn(info.warnings);
+    start(app);
   });
 } else {
   const {default: app} = require(path.join(outputPath, 'main.js'));

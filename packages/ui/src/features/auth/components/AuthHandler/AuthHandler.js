@@ -4,7 +4,13 @@ import React from 'react';
 import {gql, graphql} from 'react-apollo';
 import {lifecycle, setDisplayName, setPropTypes} from 'recompose';
 
-export const AuthHandler = () => <div>Logging you in now...</div>;
+type Props = {
+  code: string,
+};
+
+export const AuthHandler = (props: Props) => (
+  <div>Logging you in now with {props.code}...</div>
+);
 
 const authenticateMutation = gql`
   mutation SignIn($code: String!) {

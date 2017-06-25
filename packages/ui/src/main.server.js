@@ -1,3 +1,5 @@
+// @flow
+import type {$Request, $Response} from 'express';
 import {compose, get, replace} from 'lodash/fp';
 import React from 'react';
 import {
@@ -19,7 +21,10 @@ const client = new ApolloClient({
   ssrMode: true,
 });
 const stringifyWindowState = compose(replace(/</g, '\\u003c'), JSON.stringify);
-const renderServer = ({clientStats}) => (req, res) => {
+const renderServer = ({clientStats}: {clientStats: any}) => (
+  req: $Request,
+  res: $Response,
+) => {
   const chunkNames = flushChunkNames();
   const routerContext = {};
 
@@ -32,7 +37,7 @@ const renderServer = ({clientStats}) => (req, res) => {
   ).then(content => {
     if (routerContext.url) {
       res.writeHead(301, {
-        Location: context.url,
+        Location: routerContext.url,
       });
       res.end();
     } else {
@@ -57,7 +62,7 @@ const renderServer = ({clientStats}) => (req, res) => {
           <body>
             <div id="root">${content}</div>
             <script>window.env = ${stringifyWindowState(env)};</script>
-            ${js}
+            ${js.toString()}
           </body>
         </html>
       `,
