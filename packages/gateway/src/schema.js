@@ -1,6 +1,5 @@
-import {combineResolvers} from 'apollo-resolvers';
-import {makeExecutableSchema} from 'graphql-tools';
-import {merge} from 'lodash/fp';
+import { combineResolvers } from 'apollo-resolvers';
+import { makeExecutableSchema } from 'graphql-tools';
 import authResolvers from 'features/auth/resolvers';
 import postResolvers from 'features/post/resolvers';
 import userResolvers from 'features/user/resolvers';
@@ -27,24 +26,13 @@ const MutationTypeDef = `
   }
 `;
 
-const typeDefs = [
-  SchemaDef,
-  QueryTypeDef,
-  MutationTypeDef,
-  AuthSchema,
-  PostSchema,
-  UserSchema,
-];
+const typeDefs = [SchemaDef, QueryTypeDef, MutationTypeDef, AuthSchema, PostSchema, UserSchema];
 
-const resolvers = combineResolvers([
-  authResolvers,
-  postResolvers,
-  userResolvers,
-]);
+const resolvers = combineResolvers([authResolvers, postResolvers, userResolvers]);
 
 const executableSchema = makeExecutableSchema({
-  typeDefs,
-  resolvers,
+	typeDefs,
+	resolvers,
 });
 
 export default executableSchema;

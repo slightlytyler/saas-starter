@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "start": "yarn start:dev",
-    "start:dev": "NODE_ENV=development babel-watch scripts/start/start.script.dev.js",
+    "start:dev": "NODE_ENV=development babel-watch -L scripts/start/start.script.dev.js",
     "start:prod": "echo 'Write a start:prod script!'",
     "build": "yarn build:prod",
     "build:dev": "echo 'Write a build:dev script!'",
@@ -49,5 +49,6 @@
     "recompose": "^0.23.5",
     "reselect": "^3.0.1",
     "webpack-flush-chunks": "^1.0.10"
-  }
+  },
+  "eslintConfig": "config/eslint/eslint.config.js"
 }

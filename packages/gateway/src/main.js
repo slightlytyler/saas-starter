@@ -2,30 +2,30 @@
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
-import {graphiqlExpress, graphqlExpress} from 'graphql-server-express';
+import { graphiqlExpress, graphqlExpress } from 'graphql-server-express';
 import models from './models';
 import schema from './schema';
 
 const app = express();
 
 app.use(
-  '/graphql',
-  cors(),
-  bodyParser.json(),
-  graphqlExpress({
-    context: {
-      models,
-      user: {id: 'user1', email: 'slightlytyler@gmail.com', token: 'abc123'},
-    },
-    schema,
-  }),
+	'/graphql',
+	cors(),
+	bodyParser.json(),
+	graphqlExpress({
+		context: {
+			models,
+			user: { id: 'user1', email: 'slightlytyler@gmail.com', token: 'abc123' },
+		},
+		schema,
+	}),
 );
 
 app.use(
-  '/graphiql',
-  graphiqlExpress({
-    endpointURL: '/graphql',
-  }),
+	'/graphiql',
+	graphiqlExpress({
+		endpointURL: '/graphql',
+	}),
 );
 
 export default app;
