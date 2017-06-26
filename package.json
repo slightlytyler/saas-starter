@@ -4,10 +4,13 @@
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "configure": "echo 'I have not build configuration into the project yet, soz >:('",
-    "eject": "echo 'I have not built ejection into the project yet, soz >:('"
+    "eject": "echo 'I have not built ejection into the project yet, soz >:('",
+    "precommit": "lerna run lint"
   },
   "dependencies": {},
   "devDependencies": {
-    "lerna": "^2.0.0-rc.5"
-  }
+    "lerna": "^2.0.0-rc.5",
+    "pre-commit": "^1.2.2"
+  },
+  "pre-commit": ["precommit"]
 }

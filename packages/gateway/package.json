@@ -10,7 +10,8 @@
     "build:dev": "echo 'Write a build:dev script!'",
     "build:prod": "echo 'Write a build:prod script!'",
     "clean": "rimraf build",
-    "lint": "prettier-eslint \"src/**/*.js\""
+    "lint": "prettier-eslint --write \"src/**/*.js\"",
+    "precommit": "lint"
   },
   "dependencies": {
     "apollo-errors": "^1.4.0",
@@ -48,7 +49,6 @@
     "flow-runtime": "^0.12.0",
     "flow-status-webpack-plugin": "^0.1.7",
     "memory-fs": "^0.4.1",
-    "pre-commit": "^1.2.2",
     "prettier": "^1.4.4",
     "prettier-eslint": "^6.3.0",
     "prettier-eslint-cli": "^4.1.1",
@@ -56,8 +56,5 @@
     "rimraf": "^2.6.1",
     "webpack": "^2.6.1",
     "webpack-node-externals": "^1.6.0"
-  },
-  "pre-commit": [
-    "lint"
-  ]
+  }
 }
