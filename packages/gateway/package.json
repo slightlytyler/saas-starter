@@ -28,7 +28,7 @@
     "pg": "^6.2.4"
   },
   "devDependencies": {
-    "@saas-starter/eslint-config": "^0.0.1",
+    "@saas-starter/eslint-config": "file:../eslint-config",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
     "babel-eslint": "^7.2.3",
