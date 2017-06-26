@@ -1,6 +1,8 @@
 {
   "name": "@saas-starter/shared",
+  "version": "0.0.1",
   "license": "MIT",
   "scripts": {},
-  "version": "0.0.1"
+  "dependencies": {},
+  "peerDependencies": {}
 }

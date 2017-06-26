@@ -2,7 +2,7 @@
   "name": "saas-starter",
   "license": "MIT",
   "scripts": {
-    "bootstrap": "lerna init && lerna exec -- linklocal && lerna bootstrap --npm-client=yarn --mutex=network",
+    "bootstrap": "lerna exec -- linklocal && lerna bootstrap --npm-client=yarn --mutex=network",
     "configure": "echo 'I have not build configuration into the project yet, soz >:('",
     "eject": "echo 'I have not built ejection into the project yet, soz >:('",
     "precommit": "lerna run lint",
@@ -17,6 +17,7 @@
     "babel-plugin-flow-runtime": "^0.11.1",
     "babel-plugin-transform-flow-strip-types": "^6.22.0",
     "babel-preset-env": "^1.5.2",
+    "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "eslint": "^3.19.0",
     "eslint-config-airbnb-base": "^11.2.0",
@@ -28,6 +29,7 @@
     "flow-bin": "^0.48.0",
     "flow-runtime": "^0.12.0",
     "flow-status-webpack-plugin": "^0.1.7",
+    "html-webpack-plugin": "^2.29.0",
     "lerna": "^2.0.0-rc.5",
     "linklocal": "^2.8.0",
     "memory-fs": "^0.4.1",
@@ -35,7 +37,11 @@
     "prettier-eslint-cli": "^4.1.1",
     "require-from-string": "^1.2.1",
     "rimraf": "^2.6.1",
+    "start-server-webpack-plugin": "^2.2.0",
     "webpack": "^2.6.1",
+    "webpack-dev-middleware-multi-compiler": "^1.0.0",
+    "webpack-hot-middleware": "^2.18.0",
+    "webpack-hot-server-middleware": "^0.1.0",
     "webpack-node-externals": "^1.6.0"
   },
   "pre-commit": [

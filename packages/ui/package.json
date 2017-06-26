@@ -3,36 +3,13 @@
   "version": "0.0.1",
   "license": "MIT",
   "scripts": {
-    "start": "yarn start:dev",
-    "start:dev": "NODE_ENV=development babel-watch -L scripts/start/start.script.dev.js",
-    "start:prod": "echo 'Write a start:prod script!'",
     "build": "yarn build:prod",
     "build:dev": "echo 'Write a build:dev script!'",
     "build:prod": "echo 'Write a build:prod script!'",
+    "start": "yarn start:dev",
+    "start:dev": "NODE_ENV=development babel-watch -L scripts/start/start.script.dev.js",
+    "start:prod": "echo 'Write a start:prod script!'",
     "clean": "rimraf build"
-  },
-  "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.25.0",
-    "babel-loader": "^7.0.0",
-    "babel-plugin-flow-runtime": "^0.11.1",
-    "babel-plugin-transform-flow-strip-types": "^6.22.0",
-    "babel-preset-env": "^1.5.2",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-0": "^6.24.1",
-    "babel-watch": "^2.0.6",
-    "flow-bin": "^0.48.0",
-    "flow-runtime": "^0.12.0",
-    "flow-status-webpack-plugin": "^0.1.7",
-    "html-webpack-plugin": "^2.28.0",
-    "prop-types": "^15.5.10",
-    "rimraf": "^2.6.1",
-    "start-server-webpack-plugin": "^2.2.0",
-    "webpack": "^2.6.1",
-    "webpack-dev-middleware-multi-compiler": "^1.0.0",
-    "webpack-hot-middleware": "^2.18.0",
-    "webpack-hot-server-middleware": "^0.1.0",
-    "webpack-node-externals": "^1.6.0"
   },
   "dependencies": {
     "colors": "^1.1.2",
@@ -42,7 +19,6 @@
     "react": "15.6.1",
     "react-apollo": "^1.4.2",
     "react-dom": "15.6.1",
-    "react-hot-loader": "next",
     "react-router-dom": "^4.1.1",
     "react-tap-event-plugin": "^2.0.1",
     "react-universal-component": "^1.2.6",
@@ -50,5 +26,8 @@
     "reselect": "^3.0.1",
     "webpack-flush-chunks": "^1.0.10"
   },
-  "eslintConfig": "config/eslint/eslint.config.js"
+  "devDependencies": {
+    "babel-watch": "^2.0.6",
+    "react-hot-loader": "next"
+  }
 }
