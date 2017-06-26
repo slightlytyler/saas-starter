@@ -56,7 +56,6 @@
     "webpack": "^2.6.1",
     "webpack-node-externals": "^1.6.0"
   },
-  "eslintConfig": "config/eslint/eslint.config.js",
   "pre-commit": [
     "lint"
   ]
