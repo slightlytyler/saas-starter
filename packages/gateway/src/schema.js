@@ -26,13 +26,24 @@ const MutationTypeDef = `
   }
 `;
 
-const typeDefs = [SchemaDef, QueryTypeDef, MutationTypeDef, AuthSchema, PostSchema, UserSchema];
+const typeDefs = [
+  SchemaDef,
+  QueryTypeDef,
+  MutationTypeDef,
+  AuthSchema,
+  PostSchema,
+  UserSchema,
+];
 
-const resolvers = combineResolvers([authResolvers, postResolvers, userResolvers]);
+const resolvers = combineResolvers([
+  authResolvers,
+  postResolvers,
+  userResolvers,
+]);
 
 const executableSchema = makeExecutableSchema({
-	typeDefs,
-	resolvers,
+  typeDefs,
+  resolvers,
 });
 
 export default executableSchema;

@@ -9,23 +9,23 @@ import schema from './schema';
 const app = express();
 
 app.use(
-	'/graphql',
-	cors(),
-	bodyParser.json(),
-	graphqlExpress({
-		context: {
-			models,
-			user: { id: 'user1', email: 'slightlytyler@gmail.com', token: 'abc123' },
-		},
-		schema,
-	}),
+  '/graphql',
+  cors(),
+  bodyParser.json(),
+  graphqlExpress({
+    context: {
+      models,
+      user: { id: 'user1', email: 'slightlytyler@gmail.com', token: 'abc123' },
+    },
+    schema,
+  }),
 );
 
 app.use(
-	'/graphiql',
-	graphiqlExpress({
-		endpointURL: '/graphql',
-	}),
+  '/graphiql',
+  graphiqlExpress({
+    endpointURL: '/graphql',
+  }),
 );
 
 export default app;

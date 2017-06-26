@@ -6,8 +6,8 @@ services:
       dockerfile: ./packages/shared/docker/node.Dockerfile
     tty: true
     volumes:
-      - ./packages/ui/:/usr/src/app
-    working_dir: /usr/src/app/
+      - ./packages:/usr/src/packages
+    working_dir: /usr/src/packages/ui
     command: yarn start
     environment:
       - NODE_ENV=development
@@ -26,9 +26,8 @@ services:
       dockerfile: ./packages/shared/docker/node.Dockerfile
     tty: true
     volumes:
-      - ./packages/gateway/:/usr/src/app
-      - ./packages/shared/:/usr/src/shared
-    working_dir: /usr/src/app/
+      - ./packages:/usr/src/packages
+    working_dir: /usr/src/packages/gateway
     command: yarn start
     environment:
       - NODE_ENV=development

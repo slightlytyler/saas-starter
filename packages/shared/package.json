@@ -1,5 +1,5 @@
 {
-  "name": "shared",
+  "name": "@saas-starter/shared",
   "license": "MIT",
   "scripts": {},
   "version": "0.0.1"

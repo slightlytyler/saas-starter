@@ -1,0 +1,10 @@
+{
+  "name": "@saas-starter/eslint-config",
+  "license": "MIT",
+  "scripts": {},
+  "version": "0.0.1",
+  "dependencies": {
+    "eslint-config-prettier": "^2.2.0",
+    "eslint-plugin-prettier": "^2.1.2"
+  }
+}
