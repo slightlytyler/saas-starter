@@ -27,6 +27,7 @@ services:
     tty: true
     volumes:
       - ./packages/gateway/:/usr/src/app
+      - ./packages/shared/:/usr/src/shared
     working_dir: /usr/src/app/
     command: yarn start
     environment:

@@ -3,11 +3,10 @@ const __root = path.join(__dirname, '../../');
 
 module.exports = {
 	parser: 'babel-eslint',
-	extends: ['airbnb-base', 'prettier', 'prettier/flowtype'],
+	extends: require('shared/eslint/eslint.config.base.js').default,
 	env: {
 		node: true,
 	},
-	rules: {},
 	settings: {
 		'import/resolver': {
 			webpack: {
