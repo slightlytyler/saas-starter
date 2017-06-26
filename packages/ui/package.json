@@ -9,7 +9,9 @@
     "start": "yarn start:dev",
     "start:dev": "NODE_ENV=development babel-watch -L scripts/start/start.script.dev.js",
     "start:prod": "echo 'Write a start:prod script!'",
-    "clean": "rimraf build"
+    "clean": "rimraf build",
+    "lint": "echo 'Write a lint script!'",
+    "precommit": "yarn lint"
   },
   "dependencies": {
     "colors": "^1.1.2",

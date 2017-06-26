@@ -5,7 +5,7 @@
     "bootstrap": "lerna exec -- linklocal && lerna bootstrap --npm-client=yarn --mutex=network",
     "configure": "echo 'I have not build configuration into the project yet, soz >:('",
     "eject": "echo 'I have not built ejection into the project yet, soz >:('",
-    "precommit": "lerna run lint",
+    "precommit": "lerna run precommit",
     "postinstall": "linklocal"
   },
   "devDependencies": {

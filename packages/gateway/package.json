@@ -11,7 +11,7 @@
     "start": "yarn start:dev",
     "start:dev": "NODE_ENV=development babel-watch -L scripts/start/start.script.dev.js",
     "start:prod": "echo 'Write a start:prod script!'",
-    "precommit": "lint"
+    "precommit": "yarn lint"
   },
   "dependencies": {
     "apollo-errors": "^1.4.0",
