@@ -3,7 +3,6 @@ const path = require('path');
 const __root = path.join(__dirname, '../../');
 
 module.exports = {
-  parser: 'babel-eslint',
   extends: '@saas-starter/eslint-config/base',
   env: {
     node: true,
