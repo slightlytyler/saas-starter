@@ -6,12 +6,13 @@
     "build": "yarn build:prod",
     "build:dev": "echo 'Write a build:dev script!'",
     "build:prod": "echo 'Write a build:prod script!'",
+    "clean": "rimraf build",
+    "lint": "echo 'Write a lint script!'",
+    "precommit": "yarn lint && yarn test",
     "start": "yarn start:dev",
     "start:dev": "NODE_ENV=development babel-watch -L scripts/start/start.script.dev.js",
     "start:prod": "echo 'Write a start:prod script!'",
-    "clean": "rimraf build",
-    "lint": "echo 'Write a lint script!'",
-    "precommit": "yarn lint"
+    "test": "echo 'Write a test script!'"
   },
   "dependencies": {
     "colors": "^1.1.2",

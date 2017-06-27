@@ -2,7 +2,11 @@
   "name": "@saas-starter/eslint-config",
   "version": "0.0.1",
   "license": "MIT",
-  "scripts": {},
+  "scripts": {
+    "lint": "echo 'Write a lint script!'",
+    "precommit": "yarn lint && yarn test",
+    "test": "echo 'Write a test script!'"
+  },
   "dependencies": {},
   "peerDependencies": {}
 }

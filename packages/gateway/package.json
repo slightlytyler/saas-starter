@@ -8,10 +8,11 @@
     "build:prod": "echo 'Write a build:prod script!'",
     "clean": "rimraf build",
     "lint": "prettier-eslint --write \"src/**/*.js\"",
+    "precommit": "yarn lint && yarn test",
     "start": "yarn start:dev",
     "start:dev": "NODE_ENV=development babel-watch -L scripts/start/start.script.dev.js",
     "start:prod": "echo 'Write a start:prod script!'",
-    "precommit": "yarn lint"
+    "test": "echo 'Write a test script!'"
   },
   "dependencies": {
     "apollo-errors": "^1.4.0",
