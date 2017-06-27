@@ -5,7 +5,6 @@
     "bootstrap": "lerna exec -- linklocal && lerna bootstrap --npm-client=yarn --mutex=network",
     "configure": "echo 'I have not build configuration into the project yet, soz >:('",
     "eject": "echo 'I have not built ejection into the project yet, soz >:('",
-    "precommit": "lerna run precommit",
     "postinstall": "linklocal"
   },
   "devDependencies": {
@@ -30,10 +29,10 @@
     "flow-runtime": "^0.12.0",
     "flow-status-webpack-plugin": "^0.1.7",
     "html-webpack-plugin": "^2.29.0",
+    "husky": "^0.14.1",
     "lerna": "^2.0.0-rc.5",
     "linklocal": "^2.8.0",
     "memory-fs": "^0.4.1",
-    "pre-commit": "^1.2.2",
     "prettier-eslint-cli": "^4.1.1",
     "require-from-string": "^1.2.1",
     "rimraf": "^2.6.1",
@@ -43,8 +42,5 @@
     "webpack-hot-middleware": "^2.18.0",
     "webpack-hot-server-middleware": "^0.1.0",
     "webpack-node-externals": "^1.6.0"
-  },
-  "pre-commit": [
-    "precommit"
-  ]
+  }
 }
