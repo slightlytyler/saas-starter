@@ -1,6 +1,6 @@
-import {compose, replace} from 'lodash/fp';
+import { compose, replace } from 'lodash/fp';
 import qs from 'qs';
-import {createSelector} from 'reselect';
+import { createSelector } from 'reselect';
 import selectSearch from 'core/router/selectors/selectSearch';
 
 const withoutPrefix = replace('?', '');

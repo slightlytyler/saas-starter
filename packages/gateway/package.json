@@ -29,6 +29,7 @@
     "pg": "^6.2.4"
   },
   "devDependencies": {
-    "babel-watch": "^2.0.6"
+    "babel-watch": "^2.0.6",
+    "prettier-eslint-cli": "^4.1.1"
   }
 }

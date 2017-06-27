@@ -3,10 +3,7 @@ const path = require('path');
 const __root = path.join(__dirname, '../../');
 
 module.exports = {
-  extends: '@saas-starter/eslint-config/base',
-  env: {
-    node: true,
-  },
+  extends: '@saas-starter/eslint-config/graphql',
   settings: {
     'import/resolver': {
       webpack: {

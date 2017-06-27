@@ -1,3 +1,3 @@
-const config = require('./base.js');
+const nodeConfig = require("./node.js");
 
-module.exports = config;
+module.exports = nodeConfig;

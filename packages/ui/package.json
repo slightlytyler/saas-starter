@@ -7,7 +7,7 @@
     "build:dev": "echo 'Write a build:dev script!'",
     "build:prod": "echo 'Write a build:prod script!'",
     "clean": "rimraf build",
-    "lint": "echo 'Write a lint script!'",
+    "lint": "prettier-eslint --write \"src/**/*.js\"",
     "precommit": "yarn lint && yarn test",
     "start": "yarn start:dev",
     "start:dev": "NODE_ENV=development babel-watch -L scripts/start/start.script.dev.js",
@@ -18,10 +18,12 @@
     "colors": "^1.1.2",
     "express": "^4.15.3",
     "lodash": "^4.17.4",
+    "prop-types": "^15.5.10",
     "qs": "^6.4.0",
     "react": "15.6.1",
     "react-apollo": "^1.4.2",
     "react-dom": "15.6.1",
+    "react-hot-loader": "next",
     "react-router-dom": "^4.1.1",
     "react-tap-event-plugin": "^2.0.1",
     "react-universal-component": "^1.2.6",
@@ -31,6 +33,6 @@
   },
   "devDependencies": {
     "babel-watch": "^2.0.6",
-    "react-hot-loader": "next"
+    "prettier-eslint-cli": "^4.1.1"
   }
 }

@@ -7,7 +7,7 @@ import {
 } from 'react-apollo';
 import ReactDOM from 'react-dom';
 import AppContainer from 'react-hot-loader/lib/AppContainer';
-import {BrowserRouter} from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import Root from './Root';
 
@@ -19,8 +19,8 @@ const networkInterface = createNetworkInterface({
   },
   uri: window.env.API_URL,
 });
-const client = new ApolloClient({networkInterface});
-const renderClient = () =>
+const client = new ApolloClient({ networkInterface });
+const renderClient = () => {
   ReactDOM.render(
     <AppContainer>
       <ApolloProvider client={client}>
@@ -31,6 +31,7 @@ const renderClient = () =>
     </AppContainer>,
     document.querySelector('#root'),
   );
+};
 
 renderClient();
 

@@ -1,4 +1,4 @@
-import {get} from 'lodash/fp';
+import { get } from 'lodash/fp';
 
 const selectLocation = get('location');
 

@@ -1,16 +1,15 @@
-import {compose} from 'lodash/fp';
+import { compose } from 'lodash/fp';
 import PropTypes from 'prop-types';
 import React from 'react';
-import {gql, graphql} from 'react-apollo';
-import {lifecycle, setDisplayName, setPropTypes} from 'recompose';
+import { gql, graphql } from 'react-apollo';
+import { lifecycle, setDisplayName, setPropTypes } from 'recompose';
 
 type Props = {
   code: string,
 };
 
-export const AuthHandler = (props: Props) => (
-  <div>Logging you in now with {props.code}...</div>
-);
+export const AuthHandler = (props: Props) =>
+  <div>Logging you in now with {props.code}...</div>;
 
 const authenticateMutation = gql`
   mutation SignIn($code: String!) {
@@ -26,8 +25,8 @@ export const container = compose(
     code: PropTypes.string.isRequired,
   }),
   graphql(authenticateMutation, {
-    props: ({mutate, ownProps}) => ({
-      onAuthenticate: () => mutate({code: ownProps.code}),
+    props: ({ mutate, ownProps }) => ({
+      onAuthenticate: () => mutate({ code: ownProps.code }),
     }),
   }),
   lifecycle({

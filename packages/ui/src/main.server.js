@@ -1,6 +1,6 @@
 // @flow
-import type {$Request, $Response} from 'express';
-import {compose, get, replace} from 'lodash/fp';
+import type { $Request, $Response } from 'express';
+import { compose, replace } from 'lodash/fp';
 import React from 'react';
 import {
   ApolloClient,
@@ -8,8 +8,8 @@ import {
   createNetworkInterface,
   renderToStringWithData,
 } from 'react-apollo';
-import {StaticRouter} from 'react-router';
-import {flushChunkNames} from 'react-universal-component/server';
+import { StaticRouter } from 'react-router-dom';
+import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 import Root from './Root';
 
@@ -21,7 +21,7 @@ const client = new ApolloClient({
   ssrMode: true,
 });
 const stringifyWindowState = compose(replace(/</g, '\\u003c'), JSON.stringify);
-const renderServer = ({clientStats}: {clientStats: any}) => (
+const renderServer = ({ clientStats }: { clientStats: any }) => (
   req: $Request,
   res: $Response,
 ) => {
@@ -45,7 +45,7 @@ const renderServer = ({clientStats}: {clientStats: any}) => (
         API_URL: process.env.API_REMOTE_URL,
         APOLLO_STATE: client.getInitialState(),
       };
-      const {js} = flushChunks(clientStats, {
+      const { js } = flushChunks(clientStats, {
         chunkNames,
         before: ['bootstrap'],
         after: ['main'],

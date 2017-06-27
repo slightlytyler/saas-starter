@@ -1,5 +1,5 @@
-import {_} from 'lodash/fp';
-import {setDisplayName, wrapDisplayName} from 'recompose';
+import { _ } from 'lodash/fp';
+import { setDisplayName, wrapDisplayName } from 'recompose';
 
 const wrapAndSetDisplayName = wrapperName =>
   setDisplayName(wrapDisplayName(_, wrapperName));

@@ -6,8 +6,7 @@ const navigateToGithub = () => {
   location.href = `https://github.com/login/oauth/authorize?client_id=${githubClientId}`;
 };
 
-const AuthButton = props => (
-  <button onTouchTap={navigateToGithub}>Login with Github</button>
-);
+const AuthButton = () =>
+  <button onTouchTap={navigateToGithub}>Login with Github</button>;
 
 export default AuthButton;
