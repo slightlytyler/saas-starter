@@ -1,26 +1,3 @@
 {
-  "presets": [
-    ["env", {
-      "modules": false,
-      "targets": {
-        "node": "current",
-      },
-    }],
-    "stage-0",
-  ],
-  "env": {
-    "development": {
-      "plugins": [
-        ["flow-runtime", {
-          "annotate": true,
-          "assert": true,
-          "warn": true,
-        }],
-        "transform-flow-strip-types",
-      ],
-    },
-    "production": {
-      "plugins": ["transform-flow-strip-types"],
-    },
-  },
+  "presets": ["@saas-starter/babel-preset/graphql"],
 }

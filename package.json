@@ -9,6 +9,7 @@
     "postinstall": "linklocal"
   },
   "devDependencies": {
+    "@saas-starter/babel-preset": "file:./packages/babel-preset",
     "@saas-starter/eslint-config": "file:./packages/eslint-config",
     "babel-cli": "^6.24.1",
     "babel-core": "^6.25.0",
@@ -39,6 +40,7 @@
     "linklocal": "^2.8.0",
     "memory-fs": "^0.4.1",
     "prettier": "^1.4.4",
+    "react-hot-loader": "next",
     "require-from-string": "^1.2.1",
     "rimraf": "^2.6.1",
     "start-server-webpack-plugin": "^2.2.0",

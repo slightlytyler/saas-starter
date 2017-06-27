@@ -1,0 +1,8 @@
+{
+  "name": "@saas-starter/babel-preset",
+  "version": "0.0.1",
+  "license": "MIT",
+  "scripts": {},
+  "dependencies": {},
+  "devDependencies": {}
+}
